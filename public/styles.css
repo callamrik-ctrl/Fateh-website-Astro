@@ -490,3 +490,8 @@ a:hover { color: var(--accent); }
   body { padding-bottom: 82px; }
 }
 
+
+.footer-newsletter-stack { align-items: stretch; }
+.footer-newsletter-fields { display: grid; gap: 10px; flex: 1; }
+.footer-newsletter-fields input { width: 100%; }
+@media (min-width: 720px) { .footer-newsletter-stack { align-items: end; } }
