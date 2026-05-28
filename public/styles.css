@@ -491,7 +491,10 @@ a:hover { color: var(--accent); }
 }
 
 
-.footer-newsletter-stack { align-items: stretch; }
-.footer-newsletter-fields { display: grid; gap: 10px; flex: 1; }
+.footer-newsletter-stack { align-items: end; }
+.footer-newsletter-fields { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.35fr); gap: 10px; flex: 1; }
 .footer-newsletter-fields input { width: 100%; }
-@media (min-width: 720px) { .footer-newsletter-stack { align-items: end; } }
+@media (max-width: 720px) {
+  .footer-newsletter-stack,
+  .footer-newsletter-fields { grid-template-columns: 1fr; }
+}
