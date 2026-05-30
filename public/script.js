@@ -165,6 +165,16 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closeDesktopMegaMenus();
 });
 
+document.querySelectorAll(".mega-menu a").forEach((link) => {
+  link.addEventListener("click", () => {
+    const wrap = link.closest(".mega-wrap");
+    if (!wrap) return;
+    wrap.classList.remove("active", "mobile-open");
+    const trigger = wrap.querySelector(".mega-trigger");
+    if (trigger) trigger.setAttribute("aria-expanded", "false");
+  });
+});
+
 const form = document.querySelector(".contact-form");
 const inquiryList = document.querySelector(".inquiry-list");
 const storageKey = "fateh_quote_requests";
