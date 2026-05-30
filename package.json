@@ -2,7 +2,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "check:header-lock": "node scripts/check-header-lock.mjs"
   },
   "dependencies": {
     "astro": "^4.16.18"

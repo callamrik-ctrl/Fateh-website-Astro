@@ -104,6 +104,9 @@ if (footerNewsletterForm) {
 
 const menuButton = document.querySelector(".menu-toggle");
 const nav = document.querySelector("#site-nav");
+
+// LOCKED HEADER AREA: this block controls the screenshot header/menu behavior.
+// Keep it stable unless Amrik explicitly asks to redesign the header area.
 if (menuButton && nav) {
   menuButton.addEventListener("click", () => {
     const open = nav.classList.toggle("open");
