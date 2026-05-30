@@ -314,8 +314,9 @@ a:hover { color: var(--accent); }
   0% { transform: translateX(112vw) translateY(-50%) scale(.96); opacity: 0; }
   8% { opacity: .68; }
   48% { transform: translateX(36vw) translateY(-50%) scale(1); opacity: .72; }
-  78% { transform: translateX(-12vw) translateY(-50%) scale(.98); opacity: .64; }
-  92%, 100% { transform: translateX(-36vw) translateY(-50%) scale(.96); opacity: 0; }
+  78% { transform: translateX(-12vw) translateY(-50%) scale(.98); opacity: .68; }
+  92% { transform: translateX(-46vw) translateY(-50%) scale(.96); opacity: .68; }
+  92.1%, 100% { transform: translateX(-46vw) translateY(-50%) scale(.96); opacity: 0; }
 }
 @keyframes navVanRipple {
   0%, 31%, 39%, 100% { transform: translateX(0) rotate(0deg); }
