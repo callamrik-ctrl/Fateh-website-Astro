@@ -111,14 +111,58 @@ if (menuButton && nav) {
   });
 }
 
-document.querySelectorAll(".mega-trigger").forEach((trigger) => {
-  trigger.addEventListener("click", () => {
-    if (!window.matchMedia("(max-width: 980px)").matches) return;
-    const wrap = trigger.closest(".mega-wrap");
-    if (!wrap) return;
-    const open = wrap.classList.toggle("mobile-open");
+const desktopMegaQuery = window.matchMedia("(min-width: 981px)");
+const megaWraps = Array.from(document.querySelectorAll(".mega-wrap"));
+
+function closeDesktopMegaMenus(exceptWrap) {
+  megaWraps.forEach((wrap) => {
+    if (wrap === exceptWrap) return;
+    wrap.classList.remove("active");
+    const trigger = wrap.querySelector(".mega-trigger");
+    if (trigger) trigger.setAttribute("aria-expanded", "false");
+  });
+}
+
+function setMegaMenuTop(wrap) {
+  const menu = wrap.querySelector(".mega-menu");
+  const trigger = wrap.querySelector(".mega-trigger");
+  if (!menu || !trigger) return;
+  const triggerRect = trigger.getBoundingClientRect();
+  menu.style.setProperty("--mega-menu-top", Math.round(triggerRect.bottom + 22) + "px");
+}
+
+megaWraps.forEach((wrap) => {
+  const trigger = wrap.querySelector(".mega-trigger");
+  if (!trigger) return;
+
+  wrap.addEventListener("mouseenter", () => {
+    if (desktopMegaQuery.matches) setMegaMenuTop(wrap);
+  });
+
+  trigger.addEventListener("click", (event) => {
+    if (!desktopMegaQuery.matches) {
+      const open = wrap.classList.toggle("mobile-open");
+      trigger.setAttribute("aria-expanded", String(open));
+      return;
+    }
+
+    event.preventDefault();
+    setMegaMenuTop(wrap);
+    const open = !wrap.classList.contains("active");
+    closeDesktopMegaMenus(wrap);
+    wrap.classList.toggle("active", open);
     trigger.setAttribute("aria-expanded", String(open));
   });
+});
+
+document.addEventListener("click", (event) => {
+  if (!desktopMegaQuery.matches) return;
+  if (event.target.closest(".mega-wrap")) return;
+  closeDesktopMegaMenus();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeDesktopMegaMenus();
 });
 
 const form = document.querySelector(".contact-form");
@@ -184,4 +228,3 @@ if (form) {
     window.location.href = "mailto:info@fatehplumelec.com?subject=" + subject + "&body=" + body;
   });
 }
-
