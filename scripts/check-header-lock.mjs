@@ -35,7 +35,7 @@ expect(
 );
 expect(
   "header stylesheet cache bust",
-  layout.includes('/styles.css?v=20260530-logo-menu-close'),
+  layout.includes('/styles.css?v=20260531-brampton-hub'),
   "src/layouts/BaseLayout.astro should keep the cache-busted header stylesheet URL."
 );
 expect(
