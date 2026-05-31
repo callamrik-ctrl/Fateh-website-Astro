@@ -1,13 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const title = "Plumber in Brampton | Same-Day Emergency Plumbing | Fateh";
-const description = "Need a plumber in Brampton? Fateh Plumbing & Electric provides emergency plumbing, drain cleaning, leak repair, water heater repair, sewer service, and fixture repairs.";
-const canonical = "https://fatehplumelec.com/brampton-plumber.html";
+const title = "Electrician in Brampton | Licensed Electrical Service | Fateh";
+const description = "Need an electrician in Brampton? Fateh Plumbing & Electric provides electrical repair, emergency electrician service, panel upgrades, EV charger installation, lighting, wiring, and smart home setup.";
+const canonical = "https://fatehplumelec.com/brampton-electrician.html";
 
-const plumberSchema = {
+const electricianSchema = {
   "@context": "https://schema.org",
-  "@type": "Plumber",
+  "@type": "Electrician",
   name: "Fateh Plumbing & Electric",
   url: canonical,
   telephone: "647-980-9211",
@@ -47,14 +47,14 @@ const plumberSchema = {
     "https://www.instagram.com/fateh_plumbing_electric",
   ],
   serviceType: [
-    "Emergency plumbing",
-    "Drain cleaning",
-    "Water heater repair",
-    "Leak detection",
-    "Pipe repair",
-    "Sewer line repair",
-    "Toilet and faucet repair",
-    "Sump pump repair",
+    "Emergency electrical service",
+    "Electrical troubleshooting",
+    "Panel upgrades",
+    "EV charger installation",
+    "Lighting installation",
+    "Wiring repair",
+    "Smart home setup",
+    "Electrical safety checks",
   ],
 };
 
@@ -64,50 +64,50 @@ const faqSchema = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "Do you provide same-day plumbing service in Brampton?",
+      name: "Do you provide electrician service in Brampton?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Fateh Plumbing & Electric provides same-day plumbing service in Brampton when scheduling allows. Active leaks, sewer backups, burst pipes, and no-hot-water situations are treated as urgent calls.",
+        text: "Yes. Fateh Plumbing & Electric provides electrician service in Brampton for homes, rental properties, restaurants, retail units, small businesses, and property managers.",
       },
     },
     {
       "@type": "Question",
-      name: "Do you offer 24/7 emergency plumbing in Brampton?",
+      name: "Do you offer emergency electrician service in Brampton?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. Call 647-980-9211 for urgent plumbing problems such as burst pipes, sewer backups, active leaks, overflowing toilets, and emergency shutoff support.",
+        text: "Yes. Call 647-980-9211 for urgent electrical issues such as sparks, burning smells, repeated breaker trips, partial power loss, damaged wiring, and unsafe outlets or switches.",
       },
     },
     {
       "@type": "Question",
-      name: "What plumbing services do you provide in Brampton?",
+      name: "What electrical services do you provide in Brampton?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Services include emergency plumbing, drain cleaning, leak detection, pipe repair, sewer line repair, water heater repair, toilet repair, faucet repair, sump pump repair, and fixture service.",
+        text: "Services include electrical troubleshooting, panel upgrades, breaker repairs, outlet and switch repair, wiring repair, lighting installation, EV charger installation, smart home setup, and safety checks.",
       },
     },
     {
       "@type": "Question",
-      name: "Can you fix clogged drains and toilets?",
+      name: "Can you help with panel upgrades?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. Fateh Plumbing & Electric helps with clogged sinks, clogged toilets, slow tubs, floor drains, kitchen drains, recurring blockages, and main drain concerns.",
+        text: "Yes. Fateh helps with electrical panel upgrade planning, breaker issues, capacity concerns, and service improvements for renovations, appliances, EV chargers, and safer power distribution.",
       },
     },
     {
       "@type": "Question",
-      name: "Do you repair water heaters in Brampton?",
+      name: "Do you install EV chargers in Brampton?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. We help with no hot water, leaking tanks, pilot or ignition issues, replacement planning, and related plumbing connections.",
+        text: "Yes. Fateh installs EV charging circuits and chargers for Brampton homes, including load considerations, breaker work, wiring, and clean installation planning.",
       },
     },
     {
       "@type": "Question",
-      name: "Should I shut off the water before calling a plumber?",
+      name: "What should I do if I smell burning or see sparks?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "If water is actively leaking, shut off the nearest fixture valve or the main water shutoff if it is safe to do so. Then call for help and describe what is happening.",
+        text: "Stop using the affected outlet, switch, breaker, appliance, or fixture. If it is safe, turn off the related breaker and call for electrical help. Do not touch wet or damaged electrical equipment.",
       },
     },
     {
@@ -120,10 +120,10 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      name: "Do you handle residential and commercial plumbing?",
+      name: "Do you help residential and commercial electrical customers?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. We help homeowners, landlords, restaurants, retail units, property managers, and small businesses with plumbing repairs and service calls.",
+        text: "Yes. Fateh helps homeowners, landlords, restaurants, retail units, offices, small businesses, and property managers with electrical repairs, upgrades, installations, and urgent service calls.",
       },
     },
   ],
@@ -131,7 +131,7 @@ const faqSchema = {
 ---
 
 <BaseLayout title={title} description={description} canonical={canonical}>
-  <script type="application/ld+json" set:html={JSON.stringify(plumberSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(electricianSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
   <div class="top-bar">
@@ -226,11 +226,11 @@ const faqSchema = {
     <a class="call-link" href="tel:+16479809211">Call 647-980-9211</a>
   </header>
 
-  <main class="page-hero brampton-plumber-hero">
+  <main class="page-hero brampton-electrician-hero">
     <div>
-      <p class="eyebrow">Brampton plumber • Same-day service • 24/7 emergency help</p>
-      <h1>Plumber in Brampton</h1>
-      <p>Need a local plumber in Brampton? Fateh Plumbing & Electric helps homeowners, landlords, restaurants, property managers, and small businesses with urgent plumbing repairs and everyday service calls across Brampton and nearby GTA communities.</p>
+      <p class="eyebrow">Brampton electrician • Licensed electrical service • Emergency help</p>
+      <h1>Electrician in Brampton</h1>
+      <p>Need a local electrician in Brampton? Fateh Plumbing & Electric helps homeowners, landlords, restaurants, property managers, and small businesses with electrical repairs, upgrades, wiring, lighting, EV chargers, and urgent electrical service across Brampton and nearby GTA communities.</p>
       <div class="hero-actions">
         <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
         <a class="button secondary" href="contact.html">Request service</a>
@@ -242,138 +242,138 @@ const faqSchema = {
       </div>
     </div>
     <div class="hero-service-card">
-      <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&w=1400&q=80" alt="Professional plumber repairing residential plumbing pipework" width="760" height="520">
+      <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1400&q=80" alt="Licensed electrician working on a residential electrical panel" width="760" height="520">
     </div>
   </main>
 
   <section class="content plumber-intro">
     <div>
-      <p class="eyebrow">Local plumbing service</p>
-      <h2>Reliable plumbing service for Brampton homes and businesses</h2>
-      <p>When plumbing fails, you need a local plumber who can understand the problem quickly and explain the next step clearly. Fateh Plumbing & Electric helps with active leaks, clogged drains, toilet and faucet repairs, sewer line concerns, sump pump issues, pipe repairs, water heater problems, and commercial plumbing service calls.</p>
-      <p>Whether the issue is urgent or something you have been meaning to fix for weeks, our goal is to protect the property, find the cause, and complete a repair that makes sense for the home or business. You can call for emergency plumbing, drain cleaning, leak repair, water heater service, fixture repair, and general plumbing work across Brampton.</p>
-      <p>Tell us what you are seeing: water on the floor, slow drains, sewage smell, no hot water, a running toilet, a leaking faucet, low pressure, or a sump pump that will not start. From there, we help you choose the right service path.</p>
+      <p class="eyebrow">Local electrical service</p>
+      <h2>Licensed electrical help for Brampton homes and businesses</h2>
+      <p>When an electrical problem shows up, you need someone who can take it seriously, explain the risk clearly, and complete the work properly. Fateh Plumbing & Electric helps with electrical repairs, breaker issues, outlets and switches, lighting, wiring, panel upgrades, EV charger installation, smart home setup, and emergency electrician calls in Brampton.</p>
+      <p>Some electrical work is planned, such as adding lighting, installing a charger, upgrading a panel, or preparing a renovation. Other calls are urgent, especially when there are sparks, burning smells, flickering lights, repeated breaker trips, partial power loss, or water near electrical equipment.</p>
+      <p>Tell us what you are seeing: which room is affected, whether a breaker trips, whether anything smells hot, whether lights are flickering, or whether an outlet, switch, appliance, or panel feels unsafe. From there, we help you choose the right service path.</p>
     </div>
     <aside class="quick-card booking-card">
       <p class="eyebrow">Need help now?</p>
-      <h2>Call Fateh for a Brampton plumber</h2>
-      <p>Tell us what is happening, where you are located, and whether water is actively leaking, backing up, or shut off.</p>
+      <h2>Call Fateh for a Brampton electrician</h2>
+      <p>Tell us what is happening, where you are located, and whether the issue is urgent, planned, or related to a repair, panel, outlet, lighting, wiring, or EV charger.</p>
       <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
       <a class="button secondary" href="contact.html">Request service online</a>
       <ul class="mini-links">
-        <li>Emergency plumbing</li>
-        <li>Drain and sewer problems</li>
-        <li>Water heater and fixture repairs</li>
+        <li>Emergency electrical service</li>
+        <li>Panel, breaker and wiring work</li>
+        <li>Lighting, EV charger and smart home setup</li>
       </ul>
     </aside>
   </section>
 
-  <section class="band service-hub-band">
+  <section class="band service-hub-band electrical-hub-band">
     <div class="section-heading">
-      <p class="eyebrow">Plumbing services in Brampton</p>
+      <p class="eyebrow">Electrical services in Brampton</p>
       <h2>Our most requested services</h2>
     </div>
     <div class="service-hub-grid">
       <article>
         <span class="hub-icon emergency-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M12 3v10"></path><path d="M7 9l5-6 5 6"></path><path d="M5 21h14"></path><path d="M8 17h8"></path></svg>
+          <svg viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 9-13h-6z"></path></svg>
         </span>
-        <h3><a href="emergency-plumber.html">Emergency Plumber Brampton</a></h3>
-        <p>For burst pipes, sewer backups, overflowing toilets, active leaks, no-water situations, and urgent plumbing problems that cannot wait.</p>
-        <a class="text-link" href="emergency-plumber.html">View emergency plumbing</a>
+        <h3><a href="emergency-electrician.html">Emergency Electrician Brampton</a></h3>
+        <p>For sparks, burning smells, power loss, unsafe outlets, repeated breaker trips, damaged wiring, and electrical issues that should not wait.</p>
+        <a class="text-link" href="emergency-electrician.html">View emergency electrical</a>
       </article>
       <article>
         <span class="hub-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M5 5v6a5 5 0 0 0 5 5h1"></path><path d="M19 19v-6a5 5 0 0 0-5-5h-1"></path><path d="M8 19h8"></path><path d="M8 5h8"></path></svg>
+          <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 7h6"></path><path d="M9 11h2"></path><path d="M13 11h2"></path><path d="M9 15h2"></path><path d="M13 15h2"></path></svg>
         </span>
-        <h3><a href="drain-cleaning.html">Drain Cleaning Brampton</a></h3>
-        <p>For clogged sinks, blocked toilets, slow tubs, floor drains, kitchen drains, recurring backups, and main drain concerns.</p>
-        <a class="text-link" href="drain-cleaning.html">View drain cleaning</a>
+        <h3><a href="panel-upgrade.html">Electrical Panel Upgrade</a></h3>
+        <p>For older panels, breaker issues, added capacity, renovations, heavy appliances, EV chargers, and safer power distribution.</p>
+        <a class="text-link" href="panel-upgrade.html">View panel upgrades</a>
       </article>
       <article>
         <span class="hub-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"></rect><path d="M10 7h4"></path><path d="M12 12c1.4 1.5 2 2.5 2 3.7a2 2 0 0 1-4 0c0-1.2.6-2.2 2-3.7z"></path></svg>
+          <svg viewBox="0 0 24 24"><path d="M7 2v8"></path><path d="M17 2v8"></path><path d="M5 10h14"></path><path d="M8 22h8a3 3 0 0 0 3-3v-5H5v5a3 3 0 0 0 3 3z"></path></svg>
         </span>
-        <h3><a href="water-heater-repair.html">Water Heater Repair Brampton</a></h3>
-        <p>For no hot water, leaking tanks, inconsistent temperature, pilot or ignition issues, and water heater replacement planning.</p>
-        <a class="text-link" href="water-heater-repair.html">View water heaters</a>
+        <h3><a href="ev-charger-installation.html">EV Charger Installation</a></h3>
+        <p>For home EV charger wiring, breaker sizing, garage charging setup, clean installation planning, and load considerations.</p>
+        <a class="text-link" href="ev-charger-installation.html">View EV chargers</a>
       </article>
       <article>
         <span class="hub-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M12 3s6 6 6 10a6 6 0 0 1-12 0c0-4 6-10 6-10z"></path><circle cx="16.5" cy="16.5" r="3"></circle><path d="m19 19 2 2"></path></svg>
+          <svg viewBox="0 0 24 24"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 0-4 12c1 1 1 2 1 4h6c0-2 0-3 1-4a7 7 0 0 0-4-12z"></path></svg>
         </span>
-        <h3><a href="leak-detection.html">Leak Detection Brampton</a></h3>
-        <p>For hidden leaks, ceiling stains, damp walls, water meter movement, wet cabinets, and leaks behind finished surfaces.</p>
-        <a class="text-link" href="leak-detection.html">View leak detection</a>
+        <h3><a href="lighting-smart-home.html">Lighting Installation</a></h3>
+        <p>For pot lights, fixture replacement, exterior lighting, smart switches, dimmers, under-cabinet lighting, and layout upgrades.</p>
+        <a class="text-link" href="lighting-smart-home.html">View lighting service</a>
       </article>
       <article>
         <span class="hub-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M4 16h7"></path><path d="M13 16h7"></path><path d="M11 13h2v6h-2z"></path><path d="M7 8l3 3"></path><path d="M10 5 5 10"></path></svg>
+          <svg viewBox="0 0 24 24"><path d="M6 12h12"></path><path d="M12 6v12"></path><circle cx="12" cy="12" r="9"></circle><path d="M8 8l8 8"></path></svg>
         </span>
-        <h3><a href="pipe-repair.html">Pipe Repair Brampton</a></h3>
-        <p>For burst pipes, corroded lines, frozen pipe damage, low pressure, damaged supply piping, and water line repairs.</p>
-        <a class="text-link" href="pipe-repair.html">View pipe repair</a>
+        <h3><a href="electrical-services.html">Electrical Repairs</a></h3>
+        <p>For outlets that stop working, switches that fail, flickering lights, buzzing fixtures, hot plates, and troubleshooting calls.</p>
+        <a class="text-link" href="electrical-services.html">View electrical repairs</a>
       </article>
       <article>
         <span class="hub-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M3 10h18"></path><path d="M3 14h18"></path><path d="M7 10v4"></path><path d="M17 10v4"></path><path d="M10 18c1.4-1 2.8-1 4.2 0"></path></svg>
+          <svg viewBox="0 0 24 24"><path d="M4 12h4l2-6 4 12 2-6h4"></path><path d="M4 19h16"></path><path d="M4 5h16"></path></svg>
         </span>
-        <h3><a href="sewer-line-repair.html">Sewer Line Repair Brampton</a></h3>
-        <p>For sewage smells, basement backups, slow whole-home drainage, sewer line damage, and recurring main line blockages.</p>
-        <a class="text-link" href="sewer-line-repair.html">View sewer service</a>
+        <h3><a href="electrical-services.html">Wiring and Circuit Work</a></h3>
+        <p>For new circuits, damaged wiring, renovation wiring, dedicated appliance circuits, basement wiring, and safe corrections.</p>
+        <a class="text-link" href="electrical-services.html">View wiring service</a>
       </article>
       <article>
         <span class="hub-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M5 7h10"></path><path d="M10 7v12"></path><path d="M7 19h10"></path><path d="M15 10h2a3 3 0 0 1 0 6h-2"></path></svg>
+          <svg viewBox="0 0 24 24"><path d="M8 10a4 4 0 1 1 8 0v4H8z"></path><path d="M6 14h12v6H6z"></path><path d="M10 18h4"></path></svg>
         </span>
-        <h3><a href="toilet-faucet-repair.html">Toilet and Faucet Repair</a></h3>
-        <p>For running toilets, weak flushes, leaking faucets, loose fixtures, dripping taps, and fixture replacement planning.</p>
-        <a class="text-link" href="toilet-faucet-repair.html">View fixture repair</a>
+        <h3><a href="electrical-services.html">Electrical Safety Checks</a></h3>
+        <p>For safety concerns, older wiring, rental property checks, renovation planning, overloaded circuits, and visible damage.</p>
+        <a class="text-link" href="electrical-services.html">View safety checks</a>
       </article>
       <article>
         <span class="hub-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M7 20h10"></path><path d="M9 20V9a3 3 0 0 1 6 0v11"></path><path d="M12 5V2"></path><path d="M5 14c1-1 2-1 3 0s2 1 3 0 2-1 3 0"></path></svg>
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="M12 5v14"></path><path d="M7 7l10 10"></path><path d="M17 7 7 17"></path></svg>
         </span>
-        <h3><a href="sump-pump-repair.html">Sump Pump Repair Brampton</a></h3>
-        <p>For failed pumps, noisy pumps, float switch problems, battery backup planning, and basement flood prevention.</p>
-        <a class="text-link" href="sump-pump-repair.html">View sump pumps</a>
+        <h3><a href="lighting-smart-home.html">Smart Home Setup</a></h3>
+        <p>For smart switches, smart dimmers, lighting controls, connected devices, and clean setup that works with your home.</p>
+        <a class="text-link" href="lighting-smart-home.html">View smart home setup</a>
       </article>
     </div>
   </section>
 
   <section class="content">
     <div>
-      <p class="eyebrow">Emergency plumbing</p>
-      <h2>When a Brampton plumbing problem needs urgent help</h2>
-      <p>Some plumbing problems can be scheduled. Others need fast action because water damage gets expensive quickly. Call immediately if you have a burst pipe, sewage backing up into the basement, water near electrical equipment, a toilet that will not stop overflowing, a water heater leaking from the tank, or a fixture that cannot be isolated with a shutoff valve.</p>
-      <p>If it is safe, shut off the nearest valve or the main water supply before calling. Take a quick photo or video of the issue if you can do it safely. That helps explain the situation clearly and lets the technician prepare for the type of repair: leak repair, pipe replacement, drain clearing, sewer inspection, water heater isolation, or fixture shutoff work.</p>
+      <p class="eyebrow">Emergency electrical service</p>
+      <h2>When an electrical issue needs urgent help</h2>
+      <p>Some electrical jobs can be scheduled. Others need fast attention because they can create shock, fire, or equipment damage risk. Call immediately if you notice sparks, smoke, a burning smell, a breaker that will not reset, partial power loss, buzzing from the panel, damaged wiring, or water near an outlet, switch, appliance, or panel.</p>
+      <p>If it is safe, stop using the affected device and turn off the related breaker. Do not touch wet electrical equipment, exposed wiring, or a panel that smells hot. A quick photo or short description can help explain the issue, but safety comes first.</p>
     </div>
     <aside class="quick-card urgent-card">
       <h2>Emergency signs</h2>
       <ul class="check-list">
-        <li>Water actively leaking or spreading</li>
-        <li>Sewage backup or strong drain odor</li>
-        <li>No working toilet in the home</li>
-        <li>No hot water for essential needs</li>
-        <li>Basement water near valuables or panels</li>
+        <li>Sparks, smoke or burning smell</li>
+        <li>Breaker trips again and again</li>
+        <li>Partial power loss in the home</li>
+        <li>Hot outlet, switch, plug or panel</li>
+        <li>Water near outlets or electrical panels</li>
       </ul>
     </aside>
   </section>
 
   <section class="photo-feature-section">
     <div class="photo-feature-copy">
-      <p class="eyebrow">Prepared for real plumbing calls</p>
-      <h2>Repairs, replacements and urgent plumbing help without the guesswork</h2>
-      <p>From a leaking water heater to a clogged kitchen sink, a plumbing call should feel clear from the first conversation. Fateh helps confirm what is urgent, what can be scheduled, and what information will help the technician arrive prepared.</p>
+      <p class="eyebrow">Prepared for real electrical calls</p>
+      <h2>Repairs, upgrades and installations handled with clear next steps</h2>
+      <p>From a tripping breaker to a planned EV charger, an electrical call should feel organized from the first conversation. Fateh helps confirm what is urgent, what can be scheduled, and what information will help the technician arrive prepared.</p>
       <ul class="check-list">
-        <li>Drain, toilet, faucet and fixture repairs</li>
-        <li>Water heater leaks, no-hot-water calls and replacement planning</li>
-        <li>Leak checks, pipe repairs, sewer concerns and sump pump issues</li>
+        <li>Panel upgrades, breaker work and power troubleshooting</li>
+        <li>Outlet, switch, lighting, wiring and smart home repairs</li>
+        <li>EV charger installations and dedicated circuit planning</li>
       </ul>
       <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
     </div>
     <div class="photo-feature-media">
-      <img src="https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=1400&q=80" alt="Professional plumber preparing tools for a residential service call" width="760" height="560">
+      <img src="https://images.unsplash.com/photo-1610056494052-6a4f83a8368c?auto=format&fit=crop&w=1400&q=80" alt="Electrician installing and checking residential wiring" width="760" height="560">
     </div>
   </section>
 
@@ -381,12 +381,12 @@ const faqSchema = {
     <div>
       <p class="eyebrow">Why choose Fateh</p>
       <h2>Why work with us</h2>
-      <p>Plumbing problems are stressful enough. Fateh keeps the service call simple: clear communication, practical repair options, and local help for Brampton homes, rental properties, restaurants, retail units, and small businesses.</p>
+      <p>Electrical work should be handled carefully and explained clearly. Fateh keeps the service call simple: practical options, respectful communication, and local help for Brampton homes, rental properties, restaurants, retail units, and small businesses.</p>
     </div>
     <div class="proof-grid">
       <article><strong>Brampton based</strong><span>Local service for Brampton neighbourhoods and nearby GTA communities.</span></article>
-      <article><strong>Ready for urgent calls</strong><span>Emergency support for leaks, backups, burst pipes, and plumbing problems that cannot wait.</span></article>
-      <article><strong>Clear repair options</strong><span>We explain what is happening and help you choose a practical next step.</span></article>
+      <article><strong>Ready for urgent calls</strong><span>Emergency support for sparks, power loss, breaker trouble, and unsafe electrical issues.</span></article>
+      <article><strong>Clear service options</strong><span>We explain what is happening and help you choose a practical next step.</span></article>
     </div>
   </section>
 
@@ -394,7 +394,7 @@ const faqSchema = {
     <div class="review-showcase-head">
       <div>
         <p class="eyebrow">Customer feedback</p>
-        <h2 id="review-showcase-title">What people are saying about Fateh Plumbing</h2>
+        <h2 id="review-showcase-title">What people are saying about Fateh</h2>
       </div>
       <div class="review-score-card" aria-label="Google Business Profile rating">
         <span class="review-source">Google Business Profile</span>
@@ -410,44 +410,44 @@ const faqSchema = {
           <article class="review-card">
             <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Kulvinder S</strong></div>
             <div class="stars" aria-hidden="true">★★★★★</div>
-            <p>Mika and his apprentice worked through a difficult kitchen sink blockage, explained the extra work clearly, and left the sink draining properly.</p>
-            <small>Kitchen sink drain service</small>
+            <p>The customer appreciated clear communication, careful work, and a professional service visit from start to finish.</p>
+            <small>Professional home service</small>
           </article>
           <article class="review-card">
             <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Massagical C</strong></div>
             <div class="stars" aria-hidden="true">★★★★★</div>
-            <p>They fit the job into a busy schedule, cleared the kitchen sink drain, helped with a faucet, and gave detailed answers.</p>
-            <small>Drain cleaning and faucet help</small>
+            <p>Fateh fit the job into a busy schedule, answered questions in detail, and helped the customer understand the next step.</p>
+            <small>Electrical troubleshooting help</small>
           </article>
           <article class="review-card">
             <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Jennifer M</strong></div>
             <div class="stars" aria-hidden="true">★★★★★</div>
-            <p>Late-night faucet trouble was handled quickly and professionally, giving the homeowner timely help when the repair felt stressful.</p>
-            <small>Emergency faucet repair</small>
+            <p>A late-night issue was handled quickly and professionally, giving the homeowner timely help when the repair felt stressful.</p>
+            <small>Emergency service</small>
           </article>
           <article class="review-card">
             <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Dipesh S</strong></div>
             <div class="stars" aria-hidden="true">★★★★★</div>
-            <p>The plumber arrived on time, explained the installation process, finished carefully, and left the workspace clean.</p>
-            <small>Faucet installation</small>
+            <p>The technician arrived on time, explained the installation process, finished carefully, and left the workspace clean.</p>
+            <small>Installation service</small>
           </article>
           <article class="review-card">
             <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Ama A</strong></div>
             <div class="stars" aria-hidden="true">★★★★★</div>
-            <p>After a kitchen countertop upgrade, Fateh connected and tested the sink and faucet quickly so the kitchen could be used again.</p>
-            <small>Kitchen sink connection</small>
+            <p>The work was completed cleanly and tested before the customer used the space again.</p>
+            <small>Home service call</small>
           </article>
           <article class="review-card">
             <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Nav</strong></div>
             <div class="stars" aria-hidden="true">★★★★★</div>
-            <p>The plumber arrived fast, completed the work cleanly, and the customer felt the price was reasonable.</p>
-            <small>Fast plumbing repair</small>
+            <p>The technician arrived fast, completed the work cleanly, and the customer felt the price was reasonable.</p>
+            <small>Fast repair visit</small>
           </article>
           <article class="review-card">
             <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Mellad A</strong></div>
             <div class="stars" aria-hidden="true">★★★★★</div>
-            <p>An emergency water leak received a quick response, honest service, and a repair the customer described as perfectly fixed.</p>
-            <small>Emergency water leak</small>
+            <p>An urgent service call received a quick response, honest communication, and a repair the customer described positively.</p>
+            <small>Urgent service call</small>
           </article>
         </div>
       </div>
@@ -462,18 +462,18 @@ const faqSchema = {
       <h2>From first call to finished repair</h2>
     </div>
     <div class="process-steps">
-      <article><span>1</span><h3>Describe the issue</h3><p>Call or request service and explain the symptom: leak, clog, backup, no hot water, running toilet, low pressure, or sump pump trouble.</p></article>
-      <article><span>2</span><h3>Confirm urgency</h3><p>We help identify whether it needs emergency attention or can be scheduled for the next available service window.</p></article>
-      <article><span>3</span><h3>Inspect and explain</h3><p>The technician checks the fixture, drain, pipe, water heater, pump, or sewer concern and explains the likely repair path.</p></article>
-      <article><span>4</span><h3>Repair and prevent</h3><p>After the repair, you get practical advice to reduce repeat clogs, leaks, backups, water damage, or fixture failure.</p></article>
+      <article><span>1</span><h3>Describe the issue</h3><p>Call or request service and explain the symptom: breaker trips, sparks, power loss, outlet trouble, lighting issue, panel concern, or EV charger need.</p></article>
+      <article><span>2</span><h3>Confirm safety</h3><p>We help identify whether it needs emergency attention or can be scheduled for the next available service window.</p></article>
+      <article><span>3</span><h3>Inspect and explain</h3><p>The technician checks the panel, circuit, wiring, outlet, switch, fixture, charger, or device and explains the likely service path.</p></article>
+      <article><span>4</span><h3>Repair and test</h3><p>After the work, the electrical repair or installation is checked so you know what was done and what to watch for next.</p></article>
     </div>
   </section>
 
   <section class="content neighbourhood-section">
     <div>
       <p class="eyebrow">Brampton service areas</p>
-      <h2>Plumbing help across Brampton neighbourhoods</h2>
-      <p>Fateh Plumbing & Electric operates from Brampton and helps customers across nearby neighbourhoods. If you are dealing with a leak, clog, backup, no hot water, or a fixture problem, tell us your area and what is happening so we can guide the next step.</p>
+      <h2>Electrical help across Brampton neighbourhoods</h2>
+      <p>Fateh Plumbing & Electric operates from Brampton and helps customers across nearby neighbourhoods. If you are dealing with a power issue, outlet problem, panel concern, lighting upgrade, EV charger plan, or urgent electrical situation, tell us your area and what is happening so we can guide the next step.</p>
       <p>We serve homes, rental units, restaurants, retail spaces, small businesses, and managed properties across Brampton and nearby GTA communities.</p>
     </div>
     <aside class="quick-card area-card">
@@ -494,17 +494,17 @@ const faqSchema = {
 
   <section class="band faq">
     <div class="section-heading">
-      <p class="eyebrow">Plumber in Brampton FAQ</p>
-      <h2>Common questions before calling a Brampton plumber</h2>
+      <p class="eyebrow">Electrician in Brampton FAQ</p>
+      <h2>Common questions before calling a Brampton electrician</h2>
     </div>
-    <details><summary>Do you provide same-day plumbing service in Brampton?</summary><p>Same-day service depends on schedule and urgency. Active leaks, sewer backups, burst pipes, and major fixture failures are treated as priority calls. For non-emergency work, call or request service and we will help choose the next available appointment.</p></details>
-    <details><summary>Do you offer 24/7 emergency plumbing in Brampton?</summary><p>Yes. Call 647-980-9211 for urgent plumbing problems such as burst pipes, sewer backups, overflowing toilets, active leaks, and emergency shutoff support.</p></details>
-    <details><summary>What plumbing services do you provide?</summary><p>Fateh helps with emergency plumbing, drain cleaning, clogged toilets, leak detection, pipe repair, sewer line repair, water heater repair, toilet repair, faucet repair, sump pump repair, kitchen plumbing, and commercial plumbing calls.</p></details>
-    <details><summary>Can you fix clogged drains and clogged toilets?</summary><p>Yes. We help with clogged sinks, blocked toilets, slow tubs, kitchen drains, floor drains, recurring clogs, and main drain concerns. If the issue keeps returning, a camera inspection or sewer line service may be recommended.</p></details>
-    <details><summary>Do you repair water heaters in Brampton?</summary><p>Yes. We help with no hot water, leaking tanks, inconsistent temperature, pilot or ignition issues, replacement planning, and plumbing connections around the water heater.</p></details>
-    <details><summary>Should I shut off the water before calling?</summary><p>If water is actively leaking, shut off the nearest fixture valve or the main water shutoff if it is safe to do so. If water is near electrical equipment, avoid touching the area and call for help right away.</p></details>
+    <details><summary>Do you provide electrician service in Brampton?</summary><p>Yes. Fateh Plumbing & Electric helps Brampton homeowners, landlords, restaurants, retail units, offices, small businesses, and property managers with electrical repairs, upgrades, installations, and urgent service calls.</p></details>
+    <details><summary>Do you offer emergency electrician service?</summary><p>Yes. Call 647-980-9211 for urgent electrical issues such as sparks, burning smells, power loss, repeated breaker trips, damaged wiring, unsafe outlets, and water near electrical equipment.</p></details>
+    <details><summary>What electrical services do you provide?</summary><p>Fateh helps with electrical troubleshooting, panel upgrades, breaker repairs, outlet and switch repair, wiring repair, lighting installation, EV charger installation, smart home setup, and safety checks.</p></details>
+    <details><summary>Can you help with panel upgrades?</summary><p>Yes. We help with panel upgrade planning, breaker concerns, extra capacity for renovations, EV chargers, large appliances, and safer power distribution.</p></details>
+    <details><summary>Do you install EV chargers in Brampton?</summary><p>Yes. Fateh installs EV charging circuits and chargers for Brampton homes, including breaker work, wiring, charger placement, and clean installation planning.</p></details>
+    <details><summary>What should I do if I smell burning or see sparks?</summary><p>Stop using the affected outlet, switch, breaker, appliance, or fixture. If it is safe, turn off the related breaker and call for electrical help. Do not touch wet or damaged electrical equipment.</p></details>
     <details><summary>Which Brampton neighbourhoods do you serve?</summary><p>Fateh serves Brampton areas including Bramalea, Springdale, Castlemore, Mount Pleasant, Heart Lake, Fletcher's Meadow, Credit Valley, Peel Village, Downtown Brampton, and nearby communities.</p></details>
-    <details><summary>Do you handle residential and commercial plumbing?</summary><p>Yes. Fateh helps homeowners, landlords, restaurants, retail units, property managers, and small businesses with plumbing repairs, emergency calls, maintenance issues, and service planning.</p></details>
+    <details><summary>Do you help residential and commercial electrical customers?</summary><p>Yes. Fateh helps homeowners, landlords, restaurants, retail units, property managers, and small businesses with electrical repairs, emergency calls, upgrades, installations, and maintenance issues.</p></details>
   </section>
 
   <footer class="site-footer">

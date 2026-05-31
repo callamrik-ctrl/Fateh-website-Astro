@@ -275,9 +275,19 @@ a:hover { color: var(--accent); }
     linear-gradient(115deg, rgba(0, 114, 206, 0.1), rgba(240, 6, 18, 0.055) 54%, rgba(255, 210, 26, 0.14)),
     #ffffff;
 }
+.brampton-electrician-hero {
+  background:
+    linear-gradient(115deg, rgba(240, 6, 18, 0.09), rgba(255, 210, 26, 0.13) 54%, rgba(0, 114, 206, 0.08)),
+    #ffffff;
+}
 .theme-dark .brampton-plumber-hero {
   background:
     linear-gradient(115deg, rgba(74, 163, 255, 0.16), rgba(255, 59, 68, 0.09) 54%, rgba(255, 210, 26, 0.07)),
+    #0b1220;
+}
+.theme-dark .brampton-electrician-hero {
+  background:
+    linear-gradient(115deg, rgba(255, 59, 68, 0.12), rgba(255, 210, 26, 0.08) 54%, rgba(74, 163, 255, 0.12)),
     #0b1220;
 }
 .hero-proof-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
@@ -303,6 +313,7 @@ a:hover { color: var(--accent); }
 .theme-dark .service-hub-band { background: #0b1220; }
 .service-hub-band .section-heading { max-width: none; text-align: center; margin-left: auto; margin-right: auto; margin-bottom: 30px; }
 .service-hub-band .section-heading .eyebrow { color: var(--brand); }
+.electrical-hub-band .section-heading .eyebrow { color: var(--accent); }
 .service-hub-band .section-heading h2 {
   margin: 0 auto; max-width: 980px; color: #4a4d52; text-transform: uppercase; font-size: clamp(1.75rem, 3vw, 2.55rem); font-weight: 950;
 }
@@ -321,6 +332,7 @@ a:hover { color: var(--accent); }
   display: inline-grid; place-items: center; width: 66px; height: 66px; border-radius: 50%;
   background: #2d43ad; color: white; font-weight: 950;
 }
+.electrical-hub-band .hub-icon { background: #ef233c; }
 .hub-icon svg { width: 34px; height: 34px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .service-hub-grid h3 { margin: 2px 0 0; line-height: 1.18; font-size: 1.05rem; text-transform: uppercase; }
 .service-hub-grid h3 a { color: #4b4d52; text-decoration: none; font-weight: 950; }
@@ -560,7 +572,7 @@ a:hover { color: var(--accent); }
 }
 .footer-logo { width: 166px; height: auto; display: block; margin-bottom: 26px; background: white; border-radius: 10px; padding: 8px; }
 .site-footer h2 { color: white; font-size: .95rem; text-transform: uppercase; letter-spacing: .06em; }
-.site-footer a { color: #d2dbea; text-decoration: none; font-weight: 500; }
+.site-footer a { color: white; text-decoration: none; font-weight: 500; }
 .site-footer a:hover { color: white; }
 .site-footer p { color: #aeb8c8; }
 .footer-brand-block p { max-width: 260px; }
@@ -573,12 +585,12 @@ a:hover { color: var(--accent); }
 .social-links a:hover { transform: translateY(-3px); background: #24406a; color: white; }
 .social-links svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .footer-links { display: grid; gap: 14px; padding-left: 0; margin: 22px 0 0; list-style: none; }
-.footer-links li { color: #d2dbea; }
-.footer-accent { color: #d2dbea !important; }
-.footer-area-links a:not(.footer-link-strong) { color: #d2dbea; font-weight: 500; }
+.footer-links li { color: white; }
+.footer-accent { color: white !important; }
+.footer-area-links a:not(.footer-link-strong) { color: white; font-weight: 500; }
 .footer-contact-list { display: grid; gap: 14px; margin-top: 22px; }
-.footer-contact-row { display: flex; align-items: center; gap: 14px; color: #d2dbea !important; }
-.footer-contact-row strong { display: block; color: #d2dbea; }
+.footer-contact-row { display: flex; align-items: center; gap: 14px; color: white !important; }
+.footer-contact-row strong { display: block; color: white; }
 .footer-contact-row small { display: block; margin-top: 5px; color: #aeb8c8; text-transform: uppercase; letter-spacing: .04em; }
 .footer-contact-icon { display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 16px; background: #1b2638; color: white; font-size: 1.2rem; }
 .footer-newsletter-block { align-self: start; min-width: 0; }
