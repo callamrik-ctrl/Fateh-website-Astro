@@ -560,8 +560,8 @@ a:hover { color: var(--accent); }
 }
 .footer-logo { width: 166px; height: auto; display: block; margin-bottom: 26px; background: white; border-radius: 10px; padding: 8px; }
 .site-footer h2 { color: white; font-size: .95rem; text-transform: uppercase; letter-spacing: .06em; }
-.site-footer a { color: #0d74d9; text-decoration: none; font-weight: 500; }
-.site-footer a:hover { color: #5eb5ff; }
+.site-footer a { color: #d2dbea; text-decoration: none; font-weight: 500; }
+.site-footer a:hover { color: white; }
 .site-footer p { color: #aeb8c8; }
 .footer-brand-block p { max-width: 260px; }
 .footer-link-strong { font-weight: 900 !important; }
@@ -573,12 +573,12 @@ a:hover { color: var(--accent); }
 .social-links a:hover { transform: translateY(-3px); background: #24406a; color: white; }
 .social-links svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .footer-links { display: grid; gap: 14px; padding-left: 0; margin: 22px 0 0; list-style: none; }
-.footer-links li { color: #0d74d9; }
-.footer-accent { color: #ff0b18 !important; }
-.footer-area-links a:not(.footer-link-strong) { color: #aeb8c8; font-weight: 500; }
+.footer-links li { color: #d2dbea; }
+.footer-accent { color: #d2dbea !important; }
+.footer-area-links a:not(.footer-link-strong) { color: #d2dbea; font-weight: 500; }
 .footer-contact-list { display: grid; gap: 14px; margin-top: 22px; }
-.footer-contact-row { display: flex; align-items: center; gap: 14px; color: #0d74d9 !important; }
-.footer-contact-row strong { display: block; color: #0d74d9; }
+.footer-contact-row { display: flex; align-items: center; gap: 14px; color: #d2dbea !important; }
+.footer-contact-row strong { display: block; color: #d2dbea; }
 .footer-contact-row small { display: block; margin-top: 5px; color: #aeb8c8; text-transform: uppercase; letter-spacing: .04em; }
 .footer-contact-icon { display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 16px; background: #1b2638; color: white; font-size: 1.2rem; }
 .footer-newsletter-block { align-self: start; min-width: 0; }
