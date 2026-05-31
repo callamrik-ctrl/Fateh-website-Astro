@@ -30,12 +30,12 @@ expect(
 );
 expect(
   "header script cache bust",
-  layout.includes('/script.js?v=20260530-logo-menu-close'),
+  layout.includes('/script.js?v=20260531-brampton-reviews'),
   "src/layouts/BaseLayout.astro should keep the cache-busted header script URL."
 );
 expect(
   "header stylesheet cache bust",
-  layout.includes('/styles.css?v=20260531-brampton-hub'),
+  layout.includes('/styles.css?v=20260531-footer-services'),
   "src/layouts/BaseLayout.astro should keep the cache-busted header stylesheet URL."
 );
 expect(

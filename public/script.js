@@ -178,6 +178,72 @@ document.querySelectorAll(".mega-menu a").forEach((link) => {
   });
 });
 
+document.querySelectorAll("[data-review-carousel]").forEach((carousel) => {
+  const track = carousel.querySelector(".review-track");
+  const cards = Array.from(carousel.querySelectorAll(".review-card"));
+  const prev = carousel.querySelector("[data-review-prev]");
+  const next = carousel.querySelector("[data-review-next]");
+  const dots = carousel.querySelector(".review-dots");
+  if (!track || !cards.length || !prev || !next || !dots) return;
+
+  let index = 0;
+  let timer;
+
+  function visibleCards() {
+    if (window.matchMedia("(max-width: 620px)").matches) return 1;
+    if (window.matchMedia("(max-width: 980px)").matches) return 2;
+    return 3;
+  }
+
+  function maxIndex() {
+    return Math.max(0, cards.length - visibleCards());
+  }
+
+  function renderDots() {
+    const count = maxIndex() + 1;
+    dots.innerHTML = Array.from({ length: count }, (_, dotIndex) => (
+      '<button class="review-dot" type="button" aria-label="Show review set ' + (dotIndex + 1) + '"></button>'
+    )).join("");
+    Array.from(dots.children).forEach((dot, dotIndex) => {
+      dot.addEventListener("click", () => show(dotIndex));
+    });
+  }
+
+  function show(nextIndex) {
+    index = Math.max(0, Math.min(nextIndex, maxIndex()));
+    track.style.transform = "translateX(-" + cards[index].offsetLeft + "px)";
+    Array.from(dots.children).forEach((dot, dotIndex) => {
+      dot.classList.toggle("active", dotIndex === index);
+    });
+  }
+
+  function start() {
+    window.clearInterval(timer);
+    timer = window.setInterval(() => {
+      show(index >= maxIndex() ? 0 : index + 1);
+    }, 5200);
+  }
+
+  prev.addEventListener("click", () => {
+    show(index <= 0 ? maxIndex() : index - 1);
+    start();
+  });
+  next.addEventListener("click", () => {
+    show(index >= maxIndex() ? 0 : index + 1);
+    start();
+  });
+  carousel.addEventListener("mouseenter", () => window.clearInterval(timer));
+  carousel.addEventListener("mouseleave", start);
+  window.addEventListener("resize", () => {
+    renderDots();
+    show(index);
+  });
+
+  renderDots();
+  show(0);
+  start();
+});
+
 const form = document.querySelector(".contact-form");
 const inquiryList = document.querySelector(".inquiry-list");
 const storageKey = "fateh_quote_requests";
