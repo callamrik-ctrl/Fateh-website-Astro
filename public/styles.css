@@ -396,6 +396,140 @@ a:hover { color: var(--accent); }
 .service-hub-grid .text-link { margin-top: auto; color: #2d43ad; font-size: .95rem; text-decoration: none; font-weight: 850; }
 .urgent-card { border-color: rgba(240, 6, 18, .22); background: linear-gradient(145deg, #fff 0%, #fff4f3 100%); }
 .theme-dark .urgent-card { background: linear-gradient(145deg, #24131a 0%, #0b1220 100%); }
+.plumber-trust-banner {
+  border-top: 0;
+  background: #f6f8fb;
+}
+.theme-dark .plumber-trust-banner { background: #111827; }
+/* LOCKED ELECTRICAL PAGE RED ACCENTS
+   Electrical pages should keep red visual accents so they feel distinct from
+   plumbing pages. Use these classes for future electrical pages:
+   electrical-hub-band, electrical-trust-banner, electrical-problem-band,
+   electrical-cta-band, and electrical-process-band. */
+.electrical-trust-banner {
+  border-top: 0;
+  background: #fff5f3;
+}
+.electrical-trust-banner .trust-feature-icon {
+  background: #ef233c;
+  box-shadow: 0 12px 28px rgba(239, 35, 60, .18);
+}
+.theme-dark .electrical-trust-banner { background: #16111a; }
+.problem-band {
+  background:
+    radial-gradient(circle at left top, rgba(0, 114, 206, .08), transparent 30%),
+    #f7fbff;
+}
+.theme-dark .problem-band {
+  background:
+    radial-gradient(circle at left top, rgba(74, 163, 255, .12), transparent 30%),
+    #0b1220;
+}
+.electrical-problem-band {
+  background:
+    radial-gradient(circle at left top, rgba(239, 35, 60, .12), transparent 30%),
+    #fff8f7;
+}
+.theme-dark .electrical-problem-band {
+  background:
+    radial-gradient(circle at left top, rgba(255, 59, 68, .14), transparent 30%),
+    #0b1220;
+}
+.problem-band .section-heading {
+  max-width: 900px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.problem-grid article {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 210px;
+  padding: 24px;
+  border: 1px solid rgba(15, 67, 132, .14);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(23, 33, 43, .06);
+}
+.theme-dark .problem-grid article {
+  border-color: var(--line);
+  background: linear-gradient(145deg, #111d31 0%, #0b1220 100%);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .32);
+}
+.problem-grid strong {
+  color: var(--ink);
+  font-size: 1.08rem;
+  line-height: 1.22;
+}
+.problem-grid p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.problem-grid a {
+  align-self: end;
+  margin-top: auto;
+  color: var(--brand-dark);
+  font-weight: 850;
+  text-decoration: none;
+}
+.problem-grid a::after {
+  content: "→";
+  margin-left: 8px;
+}
+.theme-dark .problem-grid a { color: #8ec7ff; }
+.electrical-problem-band .problem-grid article {
+  border-color: rgba(239, 35, 60, .18);
+}
+.electrical-problem-band .problem-grid a {
+  color: #b80009;
+}
+.electrical-problem-band .problem-grid a:hover {
+  color: #ef233c;
+}
+.theme-dark .electrical-problem-band .problem-grid a { color: #ff9aa1; }
+.brampton-cta-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 22px;
+  align-items: center;
+  margin: 0 clamp(18px, 5vw, 72px) 0;
+  padding: clamp(28px, 4vw, 42px);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at right top, rgba(255, 210, 26, .18), transparent 32%),
+    linear-gradient(135deg, #0d2342, #102d6d);
+  color: white;
+  box-shadow: 0 20px 46px rgba(23, 33, 43, .12);
+}
+.brampton-cta-band h2 {
+  margin: 0 0 10px;
+  color: white;
+  font-size: clamp(1.65rem, 3vw, 2.45rem);
+  line-height: 1.12;
+}
+.brampton-cta-band p {
+  max-width: 900px;
+  margin: 0;
+  color: #d7e1f0;
+}
+.brampton-cta-band .eyebrow { color: #ffd21a; }
+.brampton-cta-band .button {
+  white-space: nowrap;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, .2);
+}
+.electrical-cta-band {
+  background:
+    radial-gradient(circle at right top, rgba(255, 210, 26, .18), transparent 32%),
+    linear-gradient(135deg, #3a0a12, #a81220);
+}
+.electrical-cta-band .eyebrow { color: #ffd21a; }
 .photo-feature-section {
   display: grid; grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr); align-items: center; gap: clamp(28px, 5vw, 68px);
   padding: 72px clamp(18px, 5vw, 72px); background: #ffffff;
@@ -493,6 +627,10 @@ a:hover { color: var(--accent); }
 .process-steps span {
   display: inline-grid; place-items: center; width: 48px; height: 48px; margin-bottom: 18px;
   border-radius: 50%; background: #2d43ad; color: white; font-weight: 950; font-size: 1.08rem;
+}
+.electrical-process-band .process-steps span {
+  background: #ef233c;
+  box-shadow: 0 12px 24px rgba(239, 35, 60, .16);
 }
 .process-steps h3 { margin: 0 0 8px; line-height: 1.2; }
 .process-steps p { margin: 0; color: var(--muted); }
@@ -722,7 +860,7 @@ a:hover { color: var(--accent); }
   .mega-menu h2 { margin: 8px 0 6px; padding: 0; border: 0; font-size: .76rem; }
   .mega-menu a { padding: 7px 0; margin: 0; font-size: .95rem; font-weight: 400; }
   .mega-cta { display: none; }
-  .hero, .page-hero, .content, .resources, .site-footer, .split-services, .home-photo-strip, .local-proof, .trust-strip, .home-trust-banner, .service-hub-grid, .proof-band, .proof-grid, .review-style-grid, .process-steps, .photo-feature-section, .review-showcase-head, .home-path-grid { grid-template-columns: 1fr; }
+  .hero, .page-hero, .content, .resources, .site-footer, .split-services, .home-photo-strip, .local-proof, .trust-strip, .home-trust-banner, .service-hub-grid, .problem-grid, .brampton-cta-band, .proof-band, .proof-grid, .review-style-grid, .process-steps, .photo-feature-section, .review-showcase-head, .home-path-grid { grid-template-columns: 1fr; }
   .local-actions { justify-content: flex-start; }
   .hero { min-height: auto; padding-top: 34px; padding-bottom: 36px; }
   .hero-service-card, .hero-service-card img { min-height: 330px; }
@@ -785,7 +923,10 @@ a:hover { color: var(--accent); }
   .hero p, .page-hero p { font-size: 1rem; }
   .hero-proof-row span { width: 100%; justify-content: center; }
   .hero-service-card, .hero-service-card img { min-height: 280px; }
-  .trust-strip div, .service-hub-grid article, .proof-grid article, .review-style-grid article, .process-steps article { padding: 18px; }
+  .trust-strip div, .service-hub-grid article, .problem-grid article, .proof-grid article, .review-style-grid article, .process-steps article { padding: 18px; }
+  .problem-grid article { min-height: auto; }
+  .brampton-cta-band { margin-left: 16px; margin-right: 16px; }
+  .brampton-cta-band .button { width: 100%; }
   .service-hub-band .section-heading h2 { font-size: 1.8rem; }
   .hub-icon { width: 58px; height: 58px; }
   .hub-icon svg { width: 30px; height: 30px; }
