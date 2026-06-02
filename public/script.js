@@ -30,6 +30,20 @@ const newsletterStorageKey = "fateh_newsletter_subscribers";
 const newsletterNextShowKey = "fateh_newsletter_next_show";
 const newsletterWaitDays = 30;
 
+document.querySelectorAll(".site-footer").forEach((footer) => {
+  if (footer.querySelector('a[href="disclaimer.html"]')) return;
+  const mainLinks = footer.querySelector(".footer-links");
+  if (mainLinks) {
+    const item = document.createElement("li");
+    item.innerHTML = '<a href="disclaimer.html">Disclaimer</a>';
+    mainLinks.appendChild(item);
+  }
+  const fineprint = footer.querySelector(".footer-fineprint");
+  if (fineprint) {
+    fineprint.insertAdjacentHTML("beforeend", ' <a href="disclaimer.html">Disclaimer</a>');
+  }
+});
+
 function scheduleNewsletterReminder() {
   const nextShow = Date.now() + newsletterWaitDays * 24 * 60 * 60 * 1000;
   localStorage.setItem(newsletterNextShowKey, String(nextShow));

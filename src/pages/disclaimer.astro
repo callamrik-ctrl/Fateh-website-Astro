@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+const title = "Disclaimer | Fateh Plumbing & Electric";
+const description = "Read the Fateh Plumbing & Electric website disclaimer, information notice, and electrical service licensing notice for Ontario customers.";
+const canonical = "https://fatehplumelec.com/disclaimer.html";
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <SiteHeader />
+
+  <main class="page-hero simple-page-hero">
+    <div>
+      <p class="eyebrow">Website notice</p>
+      <h1>Disclaimer</h1>
+      <p>This page explains how to use the information on the Fateh Plumbing & Electric website and how electrical service requests are handled.</p>
+    </div>
+  </main>
+
+  <section class="content legal-content">
+    <div>
+      <h2>Website information</h2>
+      <p>The information on this website is provided for general customer guidance only. We try to keep service information clear and useful, but website content may not always reflect every property condition, code requirement, product requirement, price, availability, or emergency situation.</p>
+      <p>Before making a repair, installation, safety, permit, insurance, or purchasing decision, please confirm the details directly with Fateh Plumbing & Electric and, where needed, the proper licensed trade professional, authority, manufacturer, insurer, or local regulator. We do not guarantee that every website detail is complete, current, or error-free.</p>
+
+      <h2>Electrical service notice</h2>
+      <p>Electrical work in Ontario must be completed by properly qualified and authorized professionals. When an electrical job requires a licensed electrical contractor, Fateh Plumbing & Electric coordinates customer communication and helps connect the request with an ESA/ECRA licensed electrical contractor or other properly qualified electrical professional as required for the work.</p>
+      <p>Customers should verify licensing, permit, inspection, warranty, and scope details before approving electrical work. Do not touch unsafe wiring, sparking devices, exposed conductors, or damaged electrical equipment. For urgent hazards, stay clear of the area and call for professional help.</p>
+
+      <h2>Service availability</h2>
+      <p>Same-day, emergency, plumbing, electrical, commercial, and service-area availability depends on schedule, location, job scope, materials, access, weather, safety conditions, and contractor availability. Calling is the fastest way to confirm current availability.</p>
+    </div>
+    <aside class="quick-card">
+      <h2>Need clarification?</h2>
+      <p>Call before booking if you want to confirm service details, electrical contractor requirements, or emergency availability.</p>
+      <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
+      <a class="button secondary" href="contact.html">Contact us</a>
+    </aside>
+  </section>
+
+  <SiteFooter />
+</BaseLayout>
