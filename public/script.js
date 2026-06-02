@@ -30,6 +30,8 @@ const newsletterStorageKey = "fateh_newsletter_subscribers";
 const newsletterNextShowKey = "fateh_newsletter_next_show";
 const newsletterWaitDays = 30;
 const fatehFormEndpoint = String(window.FATEH_FORM_ENDPOINT || "").trim();
+const newsletterThankYouText = "Thanks. You are subscribed for maintenance tips.";
+const contactThankYouText = "Thanks. Your request has been sent. Fateh Plumbing & Electric will contact you soon.";
 
 function storeLocal(collectionKey, item, limit) {
   try {
@@ -96,6 +98,7 @@ document.querySelectorAll("[data-newsletter-close]").forEach((button) => {
 });
 
 if (newsletterForm) {
+  if (newsletterSuccess) newsletterSuccess.textContent = newsletterThankYouText;
   newsletterForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(newsletterForm);
@@ -117,6 +120,7 @@ if (newsletterForm) {
 }
 
 if (footerNewsletterForm) {
+  if (footerNewsletterSuccess) footerNewsletterSuccess.textContent = newsletterThankYouText;
   footerNewsletterForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(footerNewsletterForm);
@@ -316,6 +320,8 @@ function renderRequests() {
 renderRequests();
 
 if (form) {
+  const success = form.querySelector(".success-message");
+  if (success) success.textContent = contactThankYouText;
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(form);
@@ -332,7 +338,6 @@ if (form) {
     saveRequest(request);
     let synced = false;
     try { synced = await submitWebsiteLead(request); } catch (error) { console.warn("Contact sync failed", error); }
-    const success = form.querySelector(".success-message");
     if (success) success.hidden = false;
     if (synced) {
       form.reset();

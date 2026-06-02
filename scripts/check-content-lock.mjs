@@ -2,19 +2,19 @@ import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 
 const lockedFiles = {
-  "src/pages/index.astro": "37e1aab3df7208bb0106dcdb07d2107b850b6a228cedd7140d4854035d219a86",
-  "src/pages/brampton-plumber.astro": "cee36816d03214339233c73544680054f6a27a35489716357f3b22297adfc53f",
-  "src/pages/brampton-electrician.astro": "8bc2e92927d9fa34eabe09510a06de35735dfb9c38618f2d0c5350d80cb6af62",
-  "src/pages/emergency-plumber.astro": "00b82fc57aaf9c9e4d6015017821c8c29aa5ea2ffac136d7dcd95ef120e882f2",
-  "src/pages/emergency-electrician.astro": "ee29a4b099848f7d2f365a8d2b193cf2255fec89b047eda36924a5558b2b97b0",
-  "src/pages/panel-upgrade.astro": "6bfcb39bcee7b3c174c09d07ea9a056fcb55d302e499b6c37d58a3db3bfe1af2",
-  "src/pages/ev-charger-installation.astro": "3f615624337abe9c3e6d54daf8d14a163920f43f884f9bb23281fad00a7f89fb",
-  "src/pages/lighting-smart-home.astro": "cde33063f715c5935d2e4fd5ebff2c22a0d4bdd6e47f9f65beef462f50440d60",
+  "src/pages/index.astro": "7b961188666f156a69381ab2df86921db122d2c7ff9de9d709560c7a8445f34f",
+  "src/pages/brampton-plumber.astro": "3708a488c7aa51bd4387dea885256707c8ab2ebb5eab29099db156c258d6d231",
+  "src/pages/brampton-electrician.astro": "c4deeb1fefa86863d376743cb356c603f9134ce1b1dc3877ec694b3e62970290",
+  "src/pages/emergency-plumber.astro": "e6f4a12217777099956d1622a1e25220eeffbf09e0f5e9ad48a0e8fdb0e67fa8",
+  "src/pages/emergency-electrician.astro": "5e30fc2a2a0d8162fec72cb9e388b54ebdf40570177b91482578b254c6d3076a",
+  "src/pages/panel-upgrade.astro": "195549aa79ab34b9cf2b73223bda448f8f9461b266c9351d27e3e218c70a0955",
+  "src/pages/ev-charger-installation.astro": "c537492d820a23ea63ca61be70678987a6ced88ef882441dd6cfcb6c3e97e8a4",
+  "src/pages/lighting-smart-home.astro": "f06646a18afc96827c92a49eea93859c6f0ddde6ef96aa8e6a80a0db55613c56",
   "src/pages/disclaimer.astro": "6f489e0b7414c95077a7521e6019b0d823cfbcd9ee0ff34a53a0924bd4701a5f",
   "src/components/SiteHeader.astro": "649897bc46af762963c3127da05157abfee2f620abd59b2260d1cdf97026d66b",
-  "src/components/SiteFooter.astro": "d7c94312249ed4754aecd9dec4166ff2754c6c20675494338d3aa79c6f53ef10",
+  "src/components/SiteFooter.astro": "4600d7877003a2d6b4fd6e8ba9e9102fc8ab6b1bac22f6f778aebc9712e5d69e",
   "src/components/ElectricalServicePage.astro": "fccb1e35e40d0e74cead450fd09bb83feabdf92a070a0f01db2805d94d595d87",
-  "public/styles.css": "6375455c185923b5b839ecca471c31bd55f80c65c86ce6e2735d8a06117f8236",
+  "public/styles.css": "049b3b78c9f7e2ba81d1fcaaa94b8f028bf4464ef3bea9d581a9f74b8cb3690c",
 };
 
 const changed = [];
