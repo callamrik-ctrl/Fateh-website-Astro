@@ -3,7 +3,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check:header-lock": "node scripts/check-header-lock.mjs"
+    "check:header-lock": "node scripts/check-header-lock.mjs",
+    "check:content-lock": "node scripts/check-content-lock.mjs"
   },
   "dependencies": {
     "astro": "^4.16.18"

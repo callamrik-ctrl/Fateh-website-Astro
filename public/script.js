@@ -29,6 +29,31 @@ const footerNewsletterSuccess = document.querySelector(".footer-newsletter-succe
 const newsletterStorageKey = "fateh_newsletter_subscribers";
 const newsletterNextShowKey = "fateh_newsletter_next_show";
 const newsletterWaitDays = 30;
+const fatehFormEndpoint = String(window.FATEH_FORM_ENDPOINT || "").trim();
+
+function storeLocal(collectionKey, item, limit) {
+  try {
+    const existing = JSON.parse(localStorage.getItem(collectionKey) || "[]");
+    localStorage.setItem(collectionKey, JSON.stringify([item, ...existing].slice(0, limit)));
+  } catch (error) {
+    localStorage.setItem(collectionKey, JSON.stringify([item]));
+  }
+}
+
+async function submitWebsiteLead(payload) {
+  if (!fatehFormEndpoint) return false;
+  await fetch(fatehFormEndpoint, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({
+      ...payload,
+      pageUrl: window.location.href,
+      userAgent: window.navigator.userAgent,
+    }),
+  });
+  return true;
+}
 
 document.querySelectorAll(".site-footer").forEach((footer) => {
   if (footer.querySelector('a[href="disclaimer.html"]')) return;
@@ -71,21 +96,18 @@ document.querySelectorAll("[data-newsletter-close]").forEach((button) => {
 });
 
 if (newsletterForm) {
-  newsletterForm.addEventListener("submit", (event) => {
+  newsletterForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(newsletterForm);
     const signup = {
+      sourceForm: "Newsletter Signup",
       name: String(data.get("name") || "").trim(),
       email: String(data.get("email") || "").trim(),
       consent: "Express consent for seasonal plumbing and electrical tips plus promotional emails under CASL wording shown on form.",
       submittedAt: new Date().toLocaleString(),
     };
-    try {
-      const existing = JSON.parse(localStorage.getItem(newsletterStorageKey) || "[]");
-      localStorage.setItem(newsletterStorageKey, JSON.stringify([signup, ...existing].slice(0, 100)));
-    } catch (error) {
-      localStorage.setItem(newsletterStorageKey, JSON.stringify([signup]));
-    }
+    storeLocal(newsletterStorageKey, signup, 100);
+    try { await submitWebsiteLead(signup); } catch (error) { console.warn("Newsletter sync failed", error); }
     scheduleNewsletterReminder();
     if (newsletterSuccess) newsletterSuccess.hidden = false;
     window.setTimeout(() => {
@@ -95,21 +117,18 @@ if (newsletterForm) {
 }
 
 if (footerNewsletterForm) {
-  footerNewsletterForm.addEventListener("submit", (event) => {
+  footerNewsletterForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(footerNewsletterForm);
     const signup = {
-      name: "",
+      sourceForm: "Newsletter Signup",
+      name: String(data.get("name") || "").trim(),
       email: String(data.get("email") || "").trim(),
       consent: "Footer signup consent for promotional emails under CASL wording shown on form.",
       submittedAt: new Date().toLocaleString(),
     };
-    try {
-      const existing = JSON.parse(localStorage.getItem(newsletterStorageKey) || "[]");
-      localStorage.setItem(newsletterStorageKey, JSON.stringify([signup, ...existing].slice(0, 100)));
-    } catch (error) {
-      localStorage.setItem(newsletterStorageKey, JSON.stringify([signup]));
-    }
+    storeLocal(newsletterStorageKey, signup, 100);
+    try { await submitWebsiteLead(signup); } catch (error) { console.warn("Newsletter sync failed", error); }
     scheduleNewsletterReminder();
     if (footerNewsletterSuccess) footerNewsletterSuccess.hidden = false;
     footerNewsletterForm.reset();
@@ -297,19 +316,28 @@ function renderRequests() {
 renderRequests();
 
 if (form) {
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(form);
     const request = {
+      sourceForm: "Contact Form",
       name: String(data.get("name") || "").trim(),
       phone: String(data.get("phone") || "").trim(),
+      email: String(data.get("email") || "").trim(),
       service: String(data.get("service") || "").trim(),
       message: String(data.get("message") || "").trim(),
+      consent: "Requested service contact through website form.",
       submittedAt: new Date().toLocaleString(),
     };
     saveRequest(request);
+    let synced = false;
+    try { synced = await submitWebsiteLead(request); } catch (error) { console.warn("Contact sync failed", error); }
     const success = form.querySelector(".success-message");
     if (success) success.hidden = false;
+    if (synced) {
+      form.reset();
+      return;
+    }
     const subject = encodeURIComponent("Plumbing service request");
     const body = encodeURIComponent(
       "Name: " + request.name + "\n" +

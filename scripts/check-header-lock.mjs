@@ -30,7 +30,7 @@ expect(
 );
 expect(
   "header script cache bust",
-  layout.includes('/script.js?v=20260602-disclaimer'),
+  layout.includes('/script.js?v=20260602-leads'),
   "src/layouts/BaseLayout.astro should keep the cache-busted header script URL."
 );
 expect(

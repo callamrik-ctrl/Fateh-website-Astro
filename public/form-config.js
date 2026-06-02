@@ -1,0 +1,1 @@
+window.FATEH_FORM_ENDPOINT = "";
