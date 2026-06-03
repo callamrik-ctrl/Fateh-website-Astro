@@ -30,13 +30,23 @@ expect(
 );
 expect(
   "header script cache bust",
-  layout.includes('/script.js?v=20260603-mobile-search-overflow'),
+  layout.includes('/script.js?v=20260603-sticky-header'),
   "src/layouts/BaseLayout.astro should keep the cache-busted header script URL."
 );
 expect(
   "header stylesheet cache bust",
-  layout.includes('/styles.css?v=20260603-mobile-search-overflow'),
+  layout.includes('/styles.css?v=20260603-sticky-header'),
   "src/layouts/BaseLayout.astro should keep the cache-busted header stylesheet URL."
+);
+expect(
+  "header stays sticky",
+  styles.includes(".site-header {\n  position: sticky; top: 0; z-index: 120;"),
+  "public/styles.css should keep the logo/menu header sticky at the top on all screen sizes."
+);
+expect(
+  "mobile overflow does not break sticky",
+  styles.includes("html, body { width: 100%; max-width: 100%; overflow-x: clip; }") && styles.includes("body { overflow-x: clip; }"),
+  "public/styles.css should clip horizontal overflow without breaking sticky header behavior."
 );
 expect(
   "mega menu closes on link click",
