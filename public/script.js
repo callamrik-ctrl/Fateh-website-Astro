@@ -66,32 +66,22 @@ const siteSearchPages = [
   { title: "Blog", url: "blog.html", type: "Help", terms: "blog plumbing electrical tips homeowner repair maintenance" },
 ];
 
-function setupSiteSearch() {
-  const header = document.querySelector(".site-header");
-  if (!header || header.querySelector(".site-search")) return;
-
+function createSiteSearch(searchId, className) {
   const search = document.createElement("form");
-  search.className = "site-search";
+  search.className = "site-search " + className;
   search.setAttribute("role", "search");
   search.innerHTML = [
-    '<label class="sr-only" for="site-search-input">Search services</label>',
+    '<label class="sr-only" for="' + searchId + '">Search services</label>',
     '<div class="site-search-box">',
       '<span class="site-search-icon" aria-hidden="true">⌕</span>',
-      '<input id="site-search-input" type="search" autocomplete="off" placeholder="Search service">',
+      '<input id="' + searchId + '" type="search" autocomplete="off" placeholder="Search service">',
     '</div>',
     '<div class="site-search-results" role="listbox" hidden></div>',
   ].join("");
 
-  const callLink = header.querySelector(".call-link");
-  if (callLink) {
-    header.insertBefore(search, callLink);
-  } else {
-    header.appendChild(search);
-  }
-
   const input = search.querySelector("input");
   const results = search.querySelector(".site-search-results");
-  if (!input || !results) return;
+  if (!input || !results) return search;
 
   function scorePage(page, query) {
     const haystack = (page.title + " " + page.type + " " + page.terms).toLowerCase();
@@ -147,6 +137,32 @@ function setupSiteSearch() {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") results.hidden = true;
   });
+
+  return search;
+}
+
+function setupSiteSearch() {
+  const header = document.querySelector(".site-header");
+  const topBarInner = document.querySelector(".top-bar-inner");
+  const nav = document.querySelector("#site-nav");
+  if (!header || header.querySelector(".site-search")) return;
+
+  if (topBarInner && !topBarInner.querySelector(".site-search-desktop")) {
+    const emergencyPill = topBarInner.querySelector(".emergency-pill");
+    const desktopSearch = createSiteSearch("site-search-desktop-input", "site-search-desktop");
+    if (desktopSearch) {
+      if (emergencyPill) {
+        topBarInner.insertBefore(desktopSearch, emergencyPill);
+      } else {
+        topBarInner.appendChild(desktopSearch);
+      }
+    }
+  }
+
+  if (nav && !nav.querySelector(".site-search-mobile")) {
+    const mobileSearch = createSiteSearch("site-search-mobile-input", "site-search-mobile");
+    if (mobileSearch) nav.insertBefore(mobileSearch, nav.firstChild);
+  }
 }
 
 setupSiteSearch();
