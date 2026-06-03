@@ -33,6 +33,124 @@ const fatehFormEndpoint = String(window.FATEH_FORM_ENDPOINT || "").trim();
 const newsletterThankYouText = "Thanks. You are subscribed for maintenance tips.";
 const contactThankYouText = "Thanks. Your request has been sent. Fateh Plumbing & Electric will contact you soon.";
 
+const siteSearchPages = [
+  { title: "Emergency Plumber", url: "emergency-plumber.html", type: "Plumbing", terms: "24/7 urgent burst pipe leak sewer backup drain clogged water emergency plumber brampton" },
+  { title: "Brampton Plumber", url: "brampton-plumber.html", type: "Plumbing Area", terms: "plumber in brampton plumbing service local drain leak water heater sewer toilet faucet sump pump" },
+  { title: "Drain Cleaning", url: "drain-cleaning.html", type: "Plumbing", terms: "clogged drain sink toilet tub floor drain main drain sewer backup cleaning" },
+  { title: "Leak Detection", url: "leak-detection.html", type: "Plumbing", terms: "hidden leak water stain ceiling leak pipe leak running meter damp wall" },
+  { title: "Water Heater Repair", url: "water-heater-repair.html", type: "Plumbing", terms: "no hot water tank leak water heater repair replacement installation" },
+  { title: "Sewer Line Repair", url: "sewer-line-repair.html", type: "Plumbing", terms: "sewer line backup main drain smell camera inspection underground pipe" },
+  { title: "Pipe Repair", url: "pipe-repair.html", type: "Plumbing", terms: "burst pipe frozen pipe copper pex water line pipe replacement repair" },
+  { title: "Toilet & Faucet Repair", url: "toilet-faucet-repair.html", type: "Plumbing", terms: "toilet running clogged faucet tap sink shower bathroom kitchen fixture" },
+  { title: "Sump Pump Repair", url: "sump-pump-repair.html", type: "Plumbing", terms: "basement flood sump pump pit discharge backup pump repair" },
+  { title: "Garbage Disposal Repair", url: "garbage-disposal-repair.html", type: "Plumbing", terms: "garburator garbage disposal kitchen sink jam leak repair" },
+  { title: "Plumbing Services", url: "services.html", type: "Services", terms: "all plumbing services emergency drain water heater sewer leak pipe toilet faucet sump pump" },
+  { title: "Emergency Electrician", url: "emergency-electrician.html", type: "Electrical", terms: "24/7 emergency electrician sparks breaker power loss burning smell unsafe wiring" },
+  { title: "Brampton Electrician", url: "brampton-electrician.html", type: "Electrical Area", terms: "electrician in brampton electrical service repair panel lighting outlet switch ev charger" },
+  { title: "Electrical Services", url: "electrical-services.html", type: "Electrical", terms: "electrical service repair outlet switch wiring lighting panel ev charger" },
+  { title: "Panel Upgrade", url: "panel-upgrade.html", type: "Electrical", terms: "electrical panel upgrade breaker fuse box service upgrade" },
+  { title: "EV Charger Installation", url: "ev-charger-installation.html", type: "Electrical", terms: "ev charger electric vehicle charging station tesla home charger installation" },
+  { title: "Lighting & Smart Home", url: "lighting-smart-home.html", type: "Electrical", terms: "lighting pot lights smart switch dimmer fixture smart home" },
+  { title: "Commercial Services", url: "commercial.html", type: "Commercial", terms: "commercial plumbing electrical restaurant retail property manager business maintenance" },
+  { title: "Commercial Emergency", url: "commercial-emergency.html", type: "Commercial", terms: "commercial emergency plumbing electrical restaurant leak drain power business urgent" },
+  { title: "Restaurant Plumbing", url: "restaurant-plumbing.html", type: "Commercial", terms: "restaurant plumbing food service kitchen drain grease trap commercial" },
+  { title: "Commercial Kitchen Plumbing", url: "commercial-kitchen-plumbing.html", type: "Commercial", terms: "commercial kitchen plumbing sink drain restaurant food prep" },
+  { title: "Grease Trap Cleaning", url: "grease-trap-cleaning.html", type: "Commercial", terms: "grease trap cleaning restaurant kitchen clogged grease interceptor" },
+  { title: "Grease Trap Installation", url: "grease-trap-installation.html", type: "Commercial", terms: "grease trap installation restaurant kitchen compliance interceptor" },
+  { title: "Backflow Prevention", url: "backflow-prevention.html", type: "Commercial", terms: "backflow prevention valve testing annual inspection commercial plumbing" },
+  { title: "Maintenance Contracts", url: "maintenance-contracts.html", type: "Commercial", terms: "maintenance contract property manager recurring service commercial plumbing electrical" },
+  { title: "Property Management Plumbing", url: "property-management-plumbing.html", type: "Commercial", terms: "property management plumbing rental condo tenant maintenance leak drain" },
+  { title: "Sewer Camera Inspection", url: "sewer-camera-inspection.html", type: "Commercial", terms: "camera inspection sewer video drain scope pipe inspection" },
+  { title: "Contact Fateh", url: "contact.html", type: "Contact", terms: "contact phone quote request service email call" },
+  { title: "About Fateh", url: "about.html", type: "Company", terms: "about company fateh plumbing electric brampton" },
+  { title: "Blog", url: "blog.html", type: "Help", terms: "blog plumbing electrical tips homeowner repair maintenance" },
+];
+
+function setupSiteSearch() {
+  const header = document.querySelector(".site-header");
+  if (!header || header.querySelector(".site-search")) return;
+
+  const search = document.createElement("form");
+  search.className = "site-search";
+  search.setAttribute("role", "search");
+  search.innerHTML = [
+    '<label class="sr-only" for="site-search-input">Search services</label>',
+    '<div class="site-search-box">',
+      '<span class="site-search-icon" aria-hidden="true">⌕</span>',
+      '<input id="site-search-input" type="search" autocomplete="off" placeholder="Search service">',
+    '</div>',
+    '<div class="site-search-results" role="listbox" hidden></div>',
+  ].join("");
+
+  const callLink = header.querySelector(".call-link");
+  if (callLink) {
+    header.insertBefore(search, callLink);
+  } else {
+    header.appendChild(search);
+  }
+
+  const input = search.querySelector("input");
+  const results = search.querySelector(".site-search-results");
+  if (!input || !results) return;
+
+  function scorePage(page, query) {
+    const haystack = (page.title + " " + page.type + " " + page.terms).toLowerCase();
+    const words = query.split(/\s+/).filter(Boolean);
+    let score = 0;
+    words.forEach((word) => {
+      if (page.title.toLowerCase().includes(word)) score += 6;
+      if (page.type.toLowerCase().includes(word)) score += 3;
+      if (haystack.includes(word)) score += 1;
+    });
+    return score;
+  }
+
+  function renderSearch() {
+    const query = input.value.trim().toLowerCase();
+    if (!query) {
+      results.hidden = true;
+      results.innerHTML = "";
+      return;
+    }
+
+    const matches = siteSearchPages
+      .map((page) => ({ ...page, score: scorePage(page, query) }))
+      .filter((page) => page.score > 0)
+      .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
+      .slice(0, 7);
+
+    if (!matches.length) {
+      results.hidden = false;
+      results.innerHTML = '<p class="site-search-empty">No match. Try drain, leak, panel, EV, or emergency.</p>';
+      return;
+    }
+
+    results.hidden = false;
+    results.innerHTML = matches.map((page) => (
+      '<a href="' + page.url + '" role="option">' +
+        '<strong>' + page.title + '</strong>' +
+        '<span>' + page.type + '</span>' +
+      '</a>'
+    )).join("");
+  }
+
+  search.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const firstResult = results.querySelector("a");
+    if (firstResult) window.location.href = firstResult.getAttribute("href");
+  });
+  input.addEventListener("input", renderSearch);
+  input.addEventListener("focus", renderSearch);
+  document.addEventListener("click", (event) => {
+    if (!search.contains(event.target)) results.hidden = true;
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") results.hidden = true;
+  });
+}
+
+setupSiteSearch();
+
 function storeLocal(collectionKey, item, limit) {
   try {
     const existing = JSON.parse(localStorage.getItem(collectionKey) || "[]");

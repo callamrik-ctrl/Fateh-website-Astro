@@ -9,11 +9,11 @@ const { title, description, canonical } = Astro.props;
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
-  <link rel="stylesheet" href="/styles.css?v=20260601-electrical-red-lock" />
+  <link rel="stylesheet" href="/styles.css?v=20260602-site-search" />
 </head>
 <body>
   <slot />
   <script is:inline src="/form-config.js?v=20260602-leads"></script>
-  <script is:inline src="/script.js?v=20260602-leads"></script>
+  <script is:inline src="/script.js?v=20260602-site-search"></script>
 </body>
 </html>

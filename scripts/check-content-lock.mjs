@@ -14,7 +14,7 @@ const lockedFiles = {
   "src/components/SiteHeader.astro": "649897bc46af762963c3127da05157abfee2f620abd59b2260d1cdf97026d66b",
   "src/components/SiteFooter.astro": "4600d7877003a2d6b4fd6e8ba9e9102fc8ab6b1bac22f6f778aebc9712e5d69e",
   "src/components/ElectricalServicePage.astro": "fccb1e35e40d0e74cead450fd09bb83feabdf92a070a0f01db2805d94d595d87",
-  "public/styles.css": "049b3b78c9f7e2ba81d1fcaaa94b8f028bf4464ef3bea9d581a9f74b8cb3690c",
+  "public/styles.css": "e40fa889bc1427b687810834b554fcd84ce266052e275b05673634ff7a9d8ba4",
 };
 
 const changed = [];
