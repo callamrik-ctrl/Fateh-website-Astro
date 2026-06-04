@@ -40,13 +40,23 @@ const siteSearchPages = [
   { title: "Kitchen Sink Installation", url: "kitchen-sink-installation.html", type: "Plumbing", terms: "kitchen sink installation brampton sink installation undermount drop in plumber replace kitchen sink faucet drain hookup" },
   { title: "Clogged Kitchen Sink", url: "clogged-kitchen-sink.html", type: "Plumbing", terms: "clogged kitchen sink brampton kitchen sink drain cleaning slow kitchen sink grease clogged kitchen drain not draining" },
   { title: "Faucet Repair", url: "faucet-repair.html", type: "Plumbing", terms: "faucet repair brampton kitchen faucet repair leaky faucet tap repair faucet replacement dripping tap" },
+  { title: "Bathroom Plumbing", url: "bathroom-plumbing.html", type: "Plumbing", terms: "bathroom plumbing brampton bathroom plumber toilet sink shower tub faucet fixture leak repair" },
+  { title: "Toilet Repair", url: "toilet-repair.html", type: "Plumbing", terms: "toilet repair brampton running toilet leaking toilet weak flush toilet replacement installation wax ring loose toilet" },
+  { title: "Clogged Toilet", url: "clogged-toilet.html", type: "Plumbing", terms: "clogged toilet brampton blocked toilet toilet overflow toilet not flushing toilet backup gurgling" },
+  { title: "Clogged Sink", url: "clogged-sink.html", type: "Plumbing", terms: "clogged sink brampton bathroom sink clogged vanity sink drain slow sink drain pop up stopper trap" },
   { title: "Leak Detection", url: "leak-detection.html", type: "Plumbing", terms: "hidden leak water stain ceiling leak pipe leak running meter damp wall" },
-  { title: "Water Heater Repair", url: "water-heater-repair.html", type: "Plumbing", terms: "no hot water tank leak water heater repair replacement installation" },
-  { title: "Reverse Osmosis System", url: "reverse-osmosis-system.html", type: "Plumbing", terms: "ro system reverse osmosis water filter filtration under sink drinking water kitchen faucet installation brampton" },
-  { title: "Sewer Line Repair", url: "sewer-line-repair.html", type: "Plumbing", terms: "sewer line backup main drain smell camera inspection underground pipe" },
+  { title: "Water Heater Repair", url: "water-heater-repair.html", type: "Plumbing", terms: "water heater repair brampton water heater repair near me hot water heater repair no hot water leaking tank replacement installation" },
+  { title: "Tankless Water Heater", url: "tankless-water-heater.html", type: "Plumbing", terms: "tankless water heater brampton on demand water heater tankless installation repair continuous instant water heater" },
+  { title: "Reverse Osmosis System", url: "reverse-osmosis-system.html", type: "Plumbing", terms: "ro system installation reverse osmosis water filter filtration under sink drinking water kitchen faucet installation brampton" },
+  { title: "Sewer Line Repair", url: "sewer-line-repair.html", type: "Plumbing", terms: "sewer line repair brampton sewer repair near me sewer line replacement trenchless sewer line repair trenchless pipe repair sewer pipe replacement cost main sewer line backup" },
+  { title: "Sewer Camera Inspection", url: "sewer-camera-inspection.html", type: "Plumbing", terms: "sewer camera inspection brampton sewer camera drain camera plumbing camera inspection sewer line inspection sewer scope inspection pipe camera recurring backup" },
+  { title: "Backwater Valve", url: "backwater-valve.html", type: "Plumbing", terms: "backwater valve brampton backwater valve installation sewer backup prevention basement flood prevention backwater valve service" },
+  { title: "Basement Plumbing", url: "basement-plumbing.html", type: "Plumbing", terms: "basement plumbing brampton basement bathroom plumbing rough in plumbing basement water leak repair foundation leak repair basement drain sump pump repair" },
   { title: "Pipe Repair", url: "pipe-repair.html", type: "Plumbing", terms: "burst pipe frozen pipe copper pex water line pipe replacement repair" },
   { title: "Toilet & Faucet Repair", url: "toilet-faucet-repair.html", type: "Plumbing", terms: "toilet running clogged bathroom faucet tap sink shower bathroom fixture" },
-  { title: "Sump Pump Repair", url: "sump-pump-repair.html", type: "Plumbing", terms: "basement flood sump pump pit discharge backup pump repair" },
+  { title: "Sump Pump Repair", url: "sump-pump-repair.html", type: "Plumbing", terms: "sump pump repair brampton basement flood sump pump pit float switch discharge backup pump repair" },
+  { title: "Water Softener", url: "water-softener.html", type: "Plumbing", terms: "water softener brampton water softener system water conditioning system hard water scale softener installation" },
+  { title: "Water Service Upgrade", url: "water-service-upgrade.html", type: "Plumbing", terms: "water service upgrade brampton main water line upgrade low water pressure water supply service line" },
   { title: "Garbage Disposal Repair", url: "garbage-disposal-repair.html", type: "Plumbing", terms: "garbage disposal repair brampton garburator repair garbage disposal installation kitchen disposal leaking humming not working" },
   { title: "Plumbing Services", url: "services.html", type: "Services", terms: "all plumbing services emergency drain water heater sewer leak pipe toilet faucet sump pump" },
   { title: "Emergency Electrician", url: "emergency-electrician.html", type: "Electrical", terms: "24/7 emergency electrician sparks breaker power loss burning smell unsafe wiring" },
@@ -64,7 +74,6 @@ const siteSearchPages = [
   { title: "Backflow Prevention", url: "backflow-prevention.html", type: "Commercial", terms: "backflow prevention valve testing annual inspection commercial plumbing" },
   { title: "Maintenance Contracts", url: "maintenance-contracts.html", type: "Commercial", terms: "maintenance contract property manager recurring service commercial plumbing electrical" },
   { title: "Property Management Plumbing", url: "property-management-plumbing.html", type: "Commercial", terms: "property management plumbing rental condo tenant maintenance leak drain" },
-  { title: "Sewer Camera Inspection", url: "sewer-camera-inspection.html", type: "Commercial", terms: "camera inspection sewer video drain scope pipe inspection" },
   { title: "Contact Fateh", url: "contact.html", type: "Contact", terms: "contact phone quote request service email call" },
   { title: "About Fateh", url: "about.html", type: "Company", terms: "about company fateh plumbing electric brampton" },
   { title: "Blog", url: "blog.html", type: "Help", terms: "blog plumbing electrical tips homeowner repair maintenance" },
@@ -179,26 +188,26 @@ const plumbingMegaMenuHtml = [
     '<a href="garbage-disposal-repair.html">Garbage Disposal Repair</a>',
   '</div>',
   '<div><h2><span class="menu-icon">♧</span> Bathroom & Fixtures</h2>',
-    '<a class="menu-needs-work" href="bathroom-plumbing.html">Bathroom Plumbing</a>',
-    '<a class="menu-needs-work" href="toilet-faucet-repair.html">Toilet Repair</a>',
+    '<a href="bathroom-plumbing.html">Bathroom Plumbing</a>',
+    '<a href="toilet-repair.html">Toilet Repair</a>',
     '<a href="faucet-repair.html">Faucet Repair</a>',
-    '<a class="menu-needs-work" href="toilet-faucet-repair.html">Clogged Sink & Toilet</a>',
-    '<a class="menu-needs-work" href="shower-tub-repair.html">Shower & Tub Repair</a>',
+    '<a href="clogged-toilet.html">Clogged Toilet</a>',
+    '<a href="clogged-sink.html">Clogged Sink</a>',
   '</div>',
   '<div><h2><span class="menu-icon">♢</span> Drains & Sewers</h2>',
     '<a href="drain-cleaning.html">Drain Cleaning</a>',
-    '<a class="menu-needs-work" href="sewer-line-repair.html">Sewer Line Repair</a>',
-    '<a class="menu-needs-work" href="sewer-camera-inspection.html">Sewer Camera Inspection</a>',
-    '<a class="menu-needs-work" href="backwater-valve.html">Backwater Valve</a>',
-    '<a class="menu-needs-work" href="pipe-repair.html">Basement Plumbing</a>',
+    '<a href="sewer-line-repair.html">Sewer Line Repair</a>',
+    '<a href="sewer-camera-inspection.html">Sewer Camera Inspection</a>',
+    '<a href="backwater-valve.html">Backwater Valve</a>',
+    '<a href="basement-plumbing.html">Basement Plumbing</a>',
   '</div>',
   '<div><h2><span class="menu-icon">♢</span> Water & Systems</h2>',
-    '<a class="menu-needs-work" href="water-heater-repair.html">Water Heater Repair</a>',
-    '<a class="menu-needs-work" href="tankless-water-heater.html">Tankless Water Heater</a>',
+    '<a href="water-heater-repair.html">Water Heater Repair</a>',
+    '<a href="tankless-water-heater.html">Tankless Water Heater</a>',
     '<a href="reverse-osmosis-system.html">RO System Installation</a>',
-    '<a class="menu-needs-work" href="sump-pump-repair.html">Sump Pump Repair</a>',
-    '<a class="menu-needs-work" href="water-softener.html">Water Softener</a>',
-    '<a class="menu-needs-work" href="water-service-upgrade.html">Water Service Upgrade</a>',
+    '<a href="sump-pump-repair.html">Sump Pump Repair</a>',
+    '<a href="water-softener.html">Water Softener</a>',
+    '<a href="water-service-upgrade.html">Water Service Upgrade</a>',
   '</div>',
   '<div><h2><span class="menu-icon danger-icon">△</span> Emergencies</h2>',
     '<a href="emergency-plumber.html">24/7 Emergency Plumbing</a>',
@@ -337,6 +346,13 @@ if (menuButton && nav) {
   menuButton.addEventListener("click", () => {
     const open = nav.classList.toggle("open");
     menuButton.setAttribute("aria-expanded", String(open));
+    if (!open) {
+      megaWraps.forEach((wrap) => {
+        wrap.classList.remove("mobile-open");
+        const trigger = wrap.querySelector(".mega-trigger");
+        if (trigger) trigger.setAttribute("aria-expanded", "false");
+      });
+    }
   });
 }
 
@@ -368,12 +384,19 @@ megaWraps.forEach((wrap) => {
     if (desktopMegaQuery.matches) setMegaMenuTop(wrap);
   });
 
-  trigger.addEventListener("click", (event) => {
-    if (!desktopMegaQuery.matches) {
-      const open = wrap.classList.toggle("mobile-open");
-      trigger.setAttribute("aria-expanded", String(open));
-      return;
-    }
+    trigger.addEventListener("click", (event) => {
+      if (!desktopMegaQuery.matches) {
+        event.preventDefault();
+        megaWraps.forEach((otherWrap) => {
+          if (otherWrap === wrap) return;
+          otherWrap.classList.remove("mobile-open");
+          const otherTrigger = otherWrap.querySelector(".mega-trigger");
+          if (otherTrigger) otherTrigger.setAttribute("aria-expanded", "false");
+        });
+        const open = wrap.classList.toggle("mobile-open");
+        trigger.setAttribute("aria-expanded", String(open));
+        return;
+      }
 
     event.preventDefault();
     setMegaMenuTop(wrap);

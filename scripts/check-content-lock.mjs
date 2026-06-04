@@ -11,10 +11,10 @@ const lockedFiles = {
   "src/pages/ev-charger-installation.astro": "c537492d820a23ea63ca61be70678987a6ced88ef882441dd6cfcb6c3e97e8a4",
   "src/pages/lighting-smart-home.astro": "f06646a18afc96827c92a49eea93859c6f0ddde6ef96aa8e6a80a0db55613c56",
   "src/pages/disclaimer.astro": "6f489e0b7414c95077a7521e6019b0d823cfbcd9ee0ff34a53a0924bd4701a5f",
-  "src/components/SiteHeader.astro": "649897bc46af762963c3127da05157abfee2f620abd59b2260d1cdf97026d66b",
+  "src/components/SiteHeader.astro": "1d5ab2c40913161181cbe31dbb7b722d809ee1f256849af5cc6e604772ebae2c",
   "src/components/SiteFooter.astro": "4600d7877003a2d6b4fd6e8ba9e9102fc8ab6b1bac22f6f778aebc9712e5d69e",
   "src/components/ElectricalServicePage.astro": "fccb1e35e40d0e74cead450fd09bb83feabdf92a070a0f01db2805d94d595d87",
-  "public/styles.css": "d2a66e9d3a41fb00cc7bcb751739fc5925bfffc96005bea3cb49c4f0962b41ef",
+  "public/styles.css": "ebeeefc505948016652d917ad4f17e509b0a1c1c952d4fe5f5206f5de18e8c7d",
 };
 
 const changed = [];

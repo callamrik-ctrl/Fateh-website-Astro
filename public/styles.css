@@ -595,6 +595,63 @@ a:hover { color: var(--accent); }
   white-space: nowrap;
   box-shadow: 0 14px 28px rgba(0, 0, 0, .2);
 }
+.bathroom-coverage-band {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr);
+  gap: clamp(24px, 4vw, 58px);
+  align-items: center;
+  padding: clamp(44px, 6vw, 72px) clamp(18px, 5vw, 72px);
+  background:
+    radial-gradient(circle at 84% 18%, rgba(45, 67, 173, .42), transparent 28%),
+    linear-gradient(135deg, #07111f 0%, #0d1b31 58%, #142a54 100%);
+  color: white;
+}
+.bathroom-coverage-band h2 {
+  max-width: 780px;
+  margin: 0 0 14px;
+  color: white;
+  font-size: clamp(1.85rem, 3.2vw, 3rem);
+  line-height: 1.08;
+}
+.bathroom-coverage-band p {
+  max-width: 840px;
+  color: #d8e2f3;
+  font-size: 1.05rem;
+}
+.bathroom-coverage-band .eyebrow { color: #ffd21a; }
+.bathroom-coverage-band ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.bathroom-coverage-band li {
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 999px;
+  padding: 8px 14px;
+  color: #f7fbff;
+  font-weight: 850;
+  background: rgba(255, 255, 255, .08);
+}
+.coverage-map-card {
+  position: relative;
+  min-height: 360px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), 0 24px 54px rgba(0,0,0,.24);
+}
+.coverage-map-card iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  border: 0;
+  filter: saturate(1.05) contrast(1.02);
+}
 .electrical-cta-band {
   background:
     radial-gradient(circle at right top, rgba(255, 210, 26, .18), transparent 32%),
@@ -959,11 +1016,14 @@ a:hover { color: var(--accent); }
   .mega-wrap { width: 100%; position: static; }
   .mega-menu { display: none !important; position: static; width: 100%; transform: none; grid-template-columns: 1fr; opacity: 1; pointer-events: auto; translate: 0; box-shadow: none; margin: 0; padding: 0 0 10px 14px; border: 0; border-bottom: 1px solid var(--line); background: var(--white); }
   .mega-wrap.mobile-open .mega-menu { display: grid !important; }
+  .mega-menu.plumbing-menu, .mega-menu.electrical-menu, .mega-menu.commercial-menu { grid-template-columns: minmax(0, 1fr); max-width: 100%; }
   .mega-menu > div:not(.mega-cta) { border-right: 0; border-bottom: 0; padding: 6px 0; }
+  .mega-menu.plumbing-menu > div:not(.mega-footer), .mega-menu.electrical-menu > div:not(.mega-cta), .mega-menu.commercial-menu > div:not(.mega-cta) { border-right: 0; padding: 6px 0; }
+  .mega-menu .mega-footer { display: none; }
   .mega-menu h2 { margin: 8px 0 6px; padding: 0; border: 0; font-size: .76rem; }
   .mega-menu a { padding: 7px 0; margin: 0; font-size: .95rem; font-weight: 400; }
   .mega-cta { display: none; }
-  .hero, .page-hero, .content, .resources, .site-footer, .split-services, .home-photo-strip, .local-proof, .trust-strip, .home-trust-banner, .service-hub-grid, .problem-grid, .brampton-cta-band, .proof-band, .proof-grid, .review-style-grid, .process-steps, .photo-feature-section, .review-showcase-head, .home-path-grid { grid-template-columns: 1fr; }
+  .hero, .page-hero, .content, .resources, .site-footer, .split-services, .home-photo-strip, .local-proof, .trust-strip, .home-trust-banner, .service-hub-grid, .problem-grid, .brampton-cta-band, .bathroom-coverage-band, .proof-band, .proof-grid, .review-style-grid, .process-steps, .photo-feature-section, .review-showcase-head, .home-path-grid { grid-template-columns: 1fr; }
   .local-actions { justify-content: flex-start; }
   .hero { min-height: auto; padding-top: 34px; padding-bottom: 36px; }
   .hero-service-card, .hero-service-card img { min-height: 330px; }
@@ -1019,7 +1079,7 @@ a:hover { color: var(--accent); }
   .menu-toggle { justify-self: end; }
   .site-search { grid-column: 1 / -1; }
   .site-nav { grid-column: 1 / -1; }
-  .hero, .page-hero, .content, .band, .resources, .site-footer, .split-services, .home-photo-strip, .local-proof, .trust-strip, .home-trust-banner, .proof-band, .review-style-band, .photo-feature-section, .review-showcase, .home-pathways { padding-left: 16px; padding-right: 16px; }
+  .hero, .page-hero, .content, .band, .resources, .site-footer, .split-services, .home-photo-strip, .local-proof, .trust-strip, .home-trust-banner, .bathroom-coverage-band, .proof-band, .review-style-band, .photo-feature-section, .review-showcase, .home-pathways { padding-left: 16px; padding-right: 16px; }
   .home-photo-strip { display: none; }
   .home-pathways { padding-top: 42px; padding-bottom: 32px; }
   .home-path-card { min-height: auto; padding: 22px; }
@@ -1031,6 +1091,7 @@ a:hover { color: var(--accent); }
   .problem-grid article { min-height: auto; }
   .brampton-cta-band { margin-left: 16px; margin-right: 16px; }
   .brampton-cta-band .button { width: 100%; }
+  .coverage-map-card, .coverage-map-card iframe { min-height: 300px; }
   .service-hub-band .section-heading h2 { font-size: 1.8rem; }
   .hub-icon { width: 58px; height: 58px; }
   .hub-icon svg { width: 30px; height: 30px; }

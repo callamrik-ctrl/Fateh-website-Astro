@@ -30,12 +30,12 @@ expect(
 );
 expect(
   "header script cache bust",
-  layout.includes('/script.js?v=20260604-kitchen-pages'),
+  layout.includes('/script.js?v=20260604-bathroom-pages-v2'),
   "src/layouts/BaseLayout.astro should keep the cache-busted header script URL."
 );
 expect(
   "header stylesheet cache bust",
-  layout.includes('/styles.css?v=20260604-kitchen-pages'),
+  layout.includes('/styles.css?v=20260604-bathroom-pages-v2'),
   "src/layouts/BaseLayout.astro should keep the cache-busted header stylesheet URL."
 );
 expect(
@@ -52,6 +52,31 @@ expect(
   "mega menu closes on link click",
   script.includes('document.querySelectorAll(".mega-menu a")'),
   "public/script.js should close mega menus when a menu link is selected."
+);
+expect(
+  "plumbing menu uses approved bathroom links",
+  script.includes('<a href="bathroom-plumbing.html">Bathroom Plumbing</a>') &&
+    script.includes('<a href="toilet-repair.html">Toilet Repair</a>') &&
+    script.includes('<a href="clogged-toilet.html">Clogged Toilet</a>') &&
+    script.includes('<a href="clogged-sink.html">Clogged Sink</a>') &&
+    !script.includes("shower-tub-repair.html"),
+  "The plumbing mega menu should keep the approved bathroom links and not restore the removed shower/tub page."
+);
+expect(
+  "plumbing menu uses approved drains and sewer links",
+  script.includes('<a href="sewer-line-repair.html">Sewer Line Repair</a>') &&
+    script.includes('<a href="sewer-camera-inspection.html">Sewer Camera Inspection</a>') &&
+    script.includes('<a href="backwater-valve.html">Backwater Valve</a>') &&
+    script.includes('<a href="basement-plumbing.html">Basement Plumbing</a>') &&
+    !script.includes('href="pipe-repair.html">Basement Plumbing</a>'),
+  "The plumbing mega menu should keep the approved drains and sewer links and not restore basement plumbing to pipe repair."
+);
+expect(
+  "mobile mega menu opens as single column",
+  styles.includes(".mega-wrap.mobile-open .mega-menu { display: grid !important; }") &&
+    styles.includes(".mega-menu.plumbing-menu, .mega-menu.electrical-menu, .mega-menu.commercial-menu { grid-template-columns: minmax(0, 1fr); max-width: 100%; }") &&
+    styles.includes(".mega-menu .mega-footer { display: none; }"),
+  "Mobile mega menus should open as a single-column menu without the desktop footer panel."
 );
 expect(
   "electrical red lock marker",
