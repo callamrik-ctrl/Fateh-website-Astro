@@ -37,13 +37,17 @@ const siteSearchPages = [
   { title: "Emergency Plumber", url: "emergency-plumber.html", type: "Plumbing", terms: "24/7 urgent burst pipe leak sewer backup drain clogged water emergency plumber brampton" },
   { title: "Brampton Plumber", url: "brampton-plumber.html", type: "Plumbing Area", terms: "plumber in brampton plumbing service local drain leak water heater sewer toilet faucet sump pump" },
   { title: "Drain Cleaning", url: "drain-cleaning.html", type: "Plumbing", terms: "clogged drain sink toilet tub floor drain main drain sewer backup cleaning" },
+  { title: "Kitchen Sink Installation", url: "kitchen-sink-installation.html", type: "Plumbing", terms: "kitchen sink installation brampton sink installation undermount drop in plumber replace kitchen sink faucet drain hookup" },
+  { title: "Clogged Kitchen Sink", url: "clogged-kitchen-sink.html", type: "Plumbing", terms: "clogged kitchen sink brampton kitchen sink drain cleaning slow kitchen sink grease clogged kitchen drain not draining" },
+  { title: "Faucet Repair", url: "faucet-repair.html", type: "Plumbing", terms: "faucet repair brampton kitchen faucet repair leaky faucet tap repair faucet replacement dripping tap" },
   { title: "Leak Detection", url: "leak-detection.html", type: "Plumbing", terms: "hidden leak water stain ceiling leak pipe leak running meter damp wall" },
   { title: "Water Heater Repair", url: "water-heater-repair.html", type: "Plumbing", terms: "no hot water tank leak water heater repair replacement installation" },
+  { title: "Reverse Osmosis System", url: "reverse-osmosis-system.html", type: "Plumbing", terms: "ro system reverse osmosis water filter filtration under sink drinking water kitchen faucet installation brampton" },
   { title: "Sewer Line Repair", url: "sewer-line-repair.html", type: "Plumbing", terms: "sewer line backup main drain smell camera inspection underground pipe" },
   { title: "Pipe Repair", url: "pipe-repair.html", type: "Plumbing", terms: "burst pipe frozen pipe copper pex water line pipe replacement repair" },
-  { title: "Toilet & Faucet Repair", url: "toilet-faucet-repair.html", type: "Plumbing", terms: "toilet running clogged faucet tap sink shower bathroom kitchen fixture" },
+  { title: "Toilet & Faucet Repair", url: "toilet-faucet-repair.html", type: "Plumbing", terms: "toilet running clogged bathroom faucet tap sink shower bathroom fixture" },
   { title: "Sump Pump Repair", url: "sump-pump-repair.html", type: "Plumbing", terms: "basement flood sump pump pit discharge backup pump repair" },
-  { title: "Garbage Disposal Repair", url: "garbage-disposal-repair.html", type: "Plumbing", terms: "garburator garbage disposal kitchen sink jam leak repair" },
+  { title: "Garbage Disposal Repair", url: "garbage-disposal-repair.html", type: "Plumbing", terms: "garbage disposal repair brampton garburator repair garbage disposal installation kitchen disposal leaking humming not working" },
   { title: "Plumbing Services", url: "services.html", type: "Services", terms: "all plumbing services emergency drain water heater sewer leak pipe toilet faucet sump pump" },
   { title: "Emergency Electrician", url: "emergency-electrician.html", type: "Electrical", terms: "24/7 emergency electrician sparks breaker power loss burning smell unsafe wiring" },
   { title: "Brampton Electrician", url: "brampton-electrician.html", type: "Electrical Area", terms: "electrician in brampton electrical service repair panel lighting outlet switch ev charger" },
@@ -166,6 +170,57 @@ function setupSiteSearch() {
 }
 
 setupSiteSearch();
+
+const plumbingMegaMenuHtml = [
+  '<div><h2><span class="menu-icon">♨</span> Kitchen</h2>',
+    '<a href="kitchen-sink-installation.html">Kitchen Sink Installation</a>',
+    '<a href="clogged-kitchen-sink.html">Clogged Kitchen Sink</a>',
+    '<a href="faucet-repair.html">Kitchen Faucet Repair</a>',
+    '<a href="garbage-disposal-repair.html">Garbage Disposal Repair</a>',
+  '</div>',
+  '<div><h2><span class="menu-icon">♧</span> Bathroom & Fixtures</h2>',
+    '<a class="menu-needs-work" href="bathroom-plumbing.html">Bathroom Plumbing</a>',
+    '<a class="menu-needs-work" href="toilet-faucet-repair.html">Toilet Repair</a>',
+    '<a href="faucet-repair.html">Faucet Repair</a>',
+    '<a class="menu-needs-work" href="toilet-faucet-repair.html">Clogged Sink & Toilet</a>',
+    '<a class="menu-needs-work" href="shower-tub-repair.html">Shower & Tub Repair</a>',
+  '</div>',
+  '<div><h2><span class="menu-icon">♢</span> Drains & Sewers</h2>',
+    '<a href="drain-cleaning.html">Drain Cleaning</a>',
+    '<a class="menu-needs-work" href="sewer-line-repair.html">Sewer Line Repair</a>',
+    '<a class="menu-needs-work" href="sewer-camera-inspection.html">Sewer Camera Inspection</a>',
+    '<a class="menu-needs-work" href="backwater-valve.html">Backwater Valve</a>',
+    '<a class="menu-needs-work" href="pipe-repair.html">Basement Plumbing</a>',
+  '</div>',
+  '<div><h2><span class="menu-icon">♢</span> Water & Systems</h2>',
+    '<a class="menu-needs-work" href="water-heater-repair.html">Water Heater Repair</a>',
+    '<a class="menu-needs-work" href="tankless-water-heater.html">Tankless Water Heater</a>',
+    '<a href="reverse-osmosis-system.html">RO System Installation</a>',
+    '<a class="menu-needs-work" href="sump-pump-repair.html">Sump Pump Repair</a>',
+    '<a class="menu-needs-work" href="water-softener.html">Water Softener</a>',
+    '<a class="menu-needs-work" href="water-service-upgrade.html">Water Service Upgrade</a>',
+  '</div>',
+  '<div><h2><span class="menu-icon danger-icon">△</span> Emergencies</h2>',
+    '<a href="emergency-plumber.html">24/7 Emergency Plumbing</a>',
+    '<a href="leak-detection.html">Leak Detection</a>',
+    '<a class="menu-needs-work" href="pipe-repair.html">Pipe Repair</a>',
+    '<a class="menu-needs-work" href="emergency-plumber.html">Burst / Frozen Pipe</a>',
+    '<a class="menu-needs-work" href="pipe-repair.html">Water Line Repair</a>',
+    '<a class="menu-needs-work" href="drain-cleaning.html">Main Drain Backup</a>',
+  '</div>',
+  '<div class="mega-footer">',
+    '<p>Burst pipe, blocked drain, leak, or no hot water? Fateh Plumbing & Electric serves Brampton and nearby GTA communities.</p>',
+    '<a class="button" href="tel:+16479809211">Call 647-980-9211</a>',
+  '</div>',
+].join("");
+
+function setupPlumbingMegaMenu() {
+  document.querySelectorAll(".plumbing-menu").forEach((menu) => {
+    menu.innerHTML = plumbingMegaMenuHtml;
+  });
+}
+
+setupPlumbingMegaMenu();
 
 function storeLocal(collectionKey, item, limit) {
   try {

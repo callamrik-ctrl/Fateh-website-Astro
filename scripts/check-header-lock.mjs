@@ -30,12 +30,12 @@ expect(
 );
 expect(
   "header script cache bust",
-  layout.includes('/script.js?v=20260603-sticky-header'),
+  layout.includes('/script.js?v=20260604-kitchen-pages'),
   "src/layouts/BaseLayout.astro should keep the cache-busted header script URL."
 );
 expect(
   "header stylesheet cache bust",
-  layout.includes('/styles.css?v=20260603-sticky-header'),
+  layout.includes('/styles.css?v=20260604-kitchen-pages'),
   "src/layouts/BaseLayout.astro should keep the cache-busted header stylesheet URL."
 );
 expect(
