@@ -57,6 +57,8 @@ expect(
   "plumbing menu uses approved bathroom links",
   script.includes('<a href="bathroom-plumbing.html">Bathroom Plumbing</a>') &&
     script.includes('<a href="toilet-repair.html">Toilet Repair</a>') &&
+    script.includes('<a href="bidet-installation.html">Bidet Installation</a>') &&
+    script.includes('<a href="laundry-tub-installation.html">Laundry Tub Installation</a>') &&
     script.includes('<a href="clogged-toilet.html">Clogged Toilet</a>') &&
     script.includes('<a href="clogged-sink.html">Clogged Sink</a>') &&
     !script.includes("shower-tub-repair.html"),
@@ -70,6 +72,20 @@ expect(
     script.includes('<a href="basement-plumbing.html">Basement Plumbing</a>') &&
     !script.includes('href="pipe-repair.html">Basement Plumbing</a>'),
   "The plumbing mega menu should keep the approved drains and sewer links and not restore basement plumbing to pipe repair."
+);
+expect(
+  "plumbing menu uses approved emergency repair links",
+    script.includes('<a href="emergency-plumber.html">Emergency Plumber</a>') &&
+    script.includes('<a href="leak-detection.html">Leak Detection</a>') &&
+    script.includes('<a href="pipe-repair.html">Pipe Repair</a>') &&
+    script.includes('<a href="burst-pipe-repair.html">Burst Pipe Repair</a>') &&
+    script.includes('<a href="main-drain-backup.html">Main Drain Backup</a>') &&
+    !script.includes('class="menu-needs-work" href="pipe-repair.html">Pipe Repair</a>') &&
+    !script.includes('class="menu-needs-work" href="emergency-plumber.html">Burst / Frozen Pipe</a>') &&
+    !script.includes('<a href="burst-frozen-pipe.html">Burst / Frozen Pipe</a>') &&
+    !script.includes('<a href="water-line-repair.html">Water Line Repair</a>') &&
+    !script.includes('class="menu-needs-work" href="drain-cleaning.html">Main Drain Backup</a>'),
+  "The plumbing mega menu should keep the approved emergency links and not restore placeholder routes."
 );
 expect(
   "mobile mega menu opens as single column",
