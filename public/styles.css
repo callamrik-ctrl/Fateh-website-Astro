@@ -1123,6 +1123,14 @@ a:hover { color: var(--accent); }
   .newsletter-modal { padding: 14px; align-items: end; }
   .newsletter-card { max-height: calc(100vh - 28px); overflow-y: auto; }
   .motion-home-panel { min-height: 310px; }
+  .home-hero .motion-home-panel {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    max-height: 260px;
+  }
+  .home-hero .hero-photo {
+    object-fit: contain;
+  }
   .home-trust-banner { padding-top: 24px; padding-bottom: 24px; gap: 18px; }
   .trust-feature { grid-template-columns: 54px minmax(0, 1fr); gap: 14px; }
   .trust-feature-icon { width: 54px; height: 54px; }
