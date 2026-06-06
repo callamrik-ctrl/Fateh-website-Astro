@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 
 const lockedFiles = {
-  "src/pages/index.astro": "7b961188666f156a69381ab2df86921db122d2c7ff9de9d709560c7a8445f34f",
+  "src/pages/index.astro": "45237112e4bc43aa3c311f047e63a8b574d3688939c5631de9ee7bed702498c6",
   "src/pages/brampton-plumber.astro": "3708a488c7aa51bd4387dea885256707c8ab2ebb5eab29099db156c258d6d231",
   "src/pages/brampton-electrician.astro": "c4deeb1fefa86863d376743cb356c603f9134ce1b1dc3877ec694b3e62970290",
   "src/pages/emergency-plumber.astro": "7ee64a11c51b6f45a413a1bc76fd268902b913f8bf2c3d96026c8bc916f06b25",
@@ -21,7 +21,7 @@ const lockedFiles = {
   "src/components/SiteHeader.astro": "4c8f88e214da3ead0f70e7f71107cf33e72508b861228fa65883184c49919db3",
   "src/components/SiteFooter.astro": "e182f4b0ba86d5133a87ae0f11cca09f78572ad567c11bcd1abce9e9d2b65c94",
   "src/components/ElectricalServicePage.astro": "fccb1e35e40d0e74cead450fd09bb83feabdf92a070a0f01db2805d94d595d87",
-  "public/styles.css": "ebeeefc505948016652d917ad4f17e509b0a1c1c952d4fe5f5206f5de18e8c7d",
+  "public/styles.css": "7788a292c250b6b57f2fcd303c16997c1ecf811a176c30fc812a7ca55cb64fe7",
 };
 
 const changed = [];

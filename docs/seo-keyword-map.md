@@ -5,6 +5,11 @@ https://docs.google.com/spreadsheets/d/1wWmQTcLoIIInkbqJlJ1AB5UeH7KOErM_tfop0oCY
 
 Use this sheet as the project keyword and page roadmap.
 
+Local fallback tracker:
+`docs/keyword-map.csv`
+
+If the Google Drive/Sheets connector is signed out or unavailable, update `docs/keyword-map.csv` first, then copy/import those rows into the Google Sheet after reconnecting.
+
 ## Update Rules
 
 - Give every page one primary keyword only.
