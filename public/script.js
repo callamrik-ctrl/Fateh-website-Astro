@@ -185,17 +185,17 @@ function setupSiteSearch() {
 setupSiteSearch();
 
 const plumbingMegaMenuHtml = [
-  '<div><h2><span class="menu-icon">♨</span> Kitchen</h2>',
+  '<div><h2><span class="menu-icon">♨</span> Kitchen & Laundry</h2>',
     '<a href="kitchen-sink-installation.html">Kitchen Sink Installation</a>',
     '<a href="clogged-kitchen-sink.html">Clogged Kitchen Sink</a>',
     '<a href="faucet-repair.html">Kitchen Faucet Repair</a>',
     '<a href="garbage-disposal-repair.html">Garbage Disposal Repair</a>',
+    '<a href="laundry-tub-installation.html">Laundry Tub Installation</a>',
   '</div>',
   '<div><h2><span class="menu-icon">♧</span> Bathroom & Fixtures</h2>',
     '<a href="bathroom-plumbing.html">Bathroom Plumbing</a>',
     '<a href="toilet-repair.html">Toilet Repair</a>',
     '<a href="bidet-installation.html">Bidet Installation</a>',
-    '<a href="laundry-tub-installation.html">Laundry Tub Installation</a>',
     '<a href="faucet-repair.html">Faucet Repair</a>',
     '<a href="clogged-toilet.html">Clogged Toilet</a>',
     '<a href="clogged-sink.html">Clogged Sink</a>',
