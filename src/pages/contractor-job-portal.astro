@@ -28,9 +28,9 @@ const jobTypes = [
     <title>{title}</title>
     <meta name="description" content={description}>
     <link rel="canonical" href={canonical}>
-    <link rel="stylesheet" href="/worker-checkin.css?v=20260607-contractor-portal">
-    <script is:inline src="/worker-checkin-config.js?v=20260607-contractor-portal"></script>
-    <script is:inline src="/worker-checkin.js?v=20260607-contractor-portal" defer></script>
+    <link rel="stylesheet" href="/worker-checkin.css?v=20260607-confirmation">
+    <script is:inline src="/worker-checkin-config.js?v=20260607-confirmation"></script>
+    <script is:inline src="/worker-checkin.js?v=20260607-confirmation" defer></script>
   </head>
   <body class="worker-checkin-page">
     <main class="worker-checkin-shell">
@@ -124,6 +124,8 @@ const jobTypes = [
             <button class="button" type="submit" disabled>Submit Job Entry</button>
             <p class="worker-checkin-status" data-worker-status aria-live="polite">Enter your PIN to unlock the form.</p>
           </div>
+
+          <div class="worker-confirmation" data-worker-confirmation hidden aria-live="polite"></div>
         </form>
       </section>
     </main>

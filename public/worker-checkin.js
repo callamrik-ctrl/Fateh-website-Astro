@@ -8,6 +8,7 @@
 
   const clock = document.querySelector("[data-worker-clock]");
   const status = document.querySelector("[data-worker-status]");
+  const confirmation = document.querySelector("[data-worker-confirmation]");
   const pinInput = form.querySelector('[name="pin"]');
   const workerNameInput = form.querySelector('[name="workerName"]');
   const submitButton = form.querySelector('button[type="submit"]');
@@ -18,6 +19,74 @@
     if (!status) return;
     status.textContent = message;
     status.dataset.state = state;
+  }
+
+  function escapeHtml(value) {
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function generateConfirmationNumber() {
+    const bytes = new Uint8Array(5);
+    if (window.crypto && window.crypto.getRandomValues) {
+      window.crypto.getRandomValues(bytes);
+    } else {
+      for (let i = 0; i < bytes.length; i += 1) bytes[i] = Math.floor(Math.random() * 256);
+    }
+
+    return `FJ-${Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("").toUpperCase()}`;
+  }
+
+  function formatMoney(value) {
+    const number = Number(String(value || "").replace(/[^0-9.-]/g, ""));
+    if (!Number.isFinite(number)) return "$0.00";
+    return new Intl.NumberFormat("en-CA", {
+      style: "currency",
+      currency: "CAD",
+    }).format(number);
+  }
+
+  function showConfirmation(payload) {
+    if (!confirmation) return;
+
+    const submittedAt = new Intl.DateTimeFormat("en-CA", {
+      dateStyle: "medium",
+      timeStyle: "short",
+      timeZone: "America/Toronto",
+    }).format(new Date());
+
+    confirmation.hidden = false;
+    confirmation.innerHTML = `
+      <p class="worker-confirmation-label">Submission Saved</p>
+      <h2>${escapeHtml(payload.confirmationNumber)}</h2>
+      <dl>
+        <div>
+          <dt>Contractor</dt>
+          <dd>${escapeHtml(payload.workerName)}</dd>
+        </div>
+        <div>
+          <dt>Job</dt>
+          <dd>${escapeHtml(payload.jobType)}</dd>
+        </div>
+        <div>
+          <dt>Address</dt>
+          <dd>${escapeHtml(payload.jobAddress)}</dd>
+        </div>
+        <div>
+          <dt>Payment</dt>
+          <dd>${formatMoney(payload.paymentReceived)} ${escapeHtml(payload.paymentType)}</dd>
+        </div>
+        <div>
+          <dt>Submitted</dt>
+          <dd>${escapeHtml(submittedAt)}</dd>
+        </div>
+      </dl>
+      <p class="worker-confirmation-note">Please take a screenshot for your records.</p>
+    `;
   }
 
   function updateClock() {
@@ -168,6 +237,7 @@
     const data = new FormData(form);
     return {
       sourceForm: "Contractor Job Portal",
+      confirmationNumber: generateConfirmationNumber(),
       submittedAtLocal: new Date().toISOString(),
       pin: String(data.get("pin") || "").trim(),
       workerName: workerNameInput.value.trim(),
@@ -218,6 +288,7 @@
 
     submitButton.disabled = true;
     setStatus("Submitting job entry...");
+    if (confirmation) confirmation.hidden = true;
 
     try {
       await submitPayload(payload);
@@ -228,7 +299,8 @@
       workerNameInput.value = currentWorkerName;
       form.querySelector('[name="paymentType"]').value = "Cash";
       setWorker(currentWorkerName);
-      setStatus(endpoint ? "Saved. Thank you, your job entry was submitted." : "Saved in this preview. Connect Google Apps Script to sync the sheet.", "success");
+      showConfirmation(payload);
+      setStatus(endpoint ? "Saved. Screenshot your confirmation below." : "Saved in this preview. Screenshot your confirmation below.", "success");
     } catch (error) {
       submitButton.disabled = false;
       setStatus("Submission failed. Please check connection and try again.", "error");

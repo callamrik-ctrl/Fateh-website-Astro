@@ -13,6 +13,8 @@ const SPREADSHEET_ID = "1Q-zhxZojqNEzfYXQQpEUtTAQ-YAwF8PH1d57rTEAmCI";
 const NOTIFICATION_EMAIL = "info@fatehplumelec.com";
 const CHECKINS_SHEET = "Contractor Job Entries";
 const WORKERS_SHEET = "Contractors";
+const SUMMARY_SHEET = "Contractor Summary";
+const CONTRACTOR_SHEET_PREFIX = "Contractor - ";
 
 const CHECKIN_HEADERS = [
   "Timestamp",
@@ -28,7 +30,8 @@ const CHECKIN_HEADERS = [
   "Page URL",
   "User Agent",
   "Status",
-  "Admin Notes"
+  "Admin Notes",
+  "Confirmation Number"
 ];
 
 const WORKER_HEADERS = [
@@ -38,10 +41,31 @@ const WORKER_HEADERS = [
   "Notes"
 ];
 
+const SUMMARY_HEADERS = [
+  "Contractor Name",
+  "Total Jobs",
+  "Total Payment Received",
+  "Total Contractor Amount",
+  "Cash Received",
+  "Transfer Received",
+  "Machine Received",
+  "Last Entry"
+];
+
 function setupContractorJobPortalSheets() {
   const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
-  ensureSheet_(spreadsheet, CHECKINS_SHEET, CHECKIN_HEADERS);
+  const checkinsSheet = ensureSheet_(spreadsheet, CHECKINS_SHEET, CHECKIN_HEADERS);
   ensureSheet_(spreadsheet, WORKERS_SHEET, WORKER_HEADERS);
+  const summarySheet = ensureSheet_(spreadsheet, SUMMARY_SHEET, SUMMARY_HEADERS);
+  formatCheckinMoneyColumns_(checkinsSheet);
+  formatSummaryMoneyColumns_(summarySheet);
+
+  spreadsheet.getSheets().forEach((sheet) => {
+    if (sheet.getName().indexOf(CONTRACTOR_SHEET_PREFIX) === 0) {
+      ensureSheet_(spreadsheet, sheet.getName(), CHECKIN_HEADERS);
+      formatCheckinMoneyColumns_(sheet);
+    }
+  });
 }
 
 function setupWorkerCheckinSheets() {
@@ -72,36 +96,49 @@ function doPost(event) {
 
   const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ensureSheet_(spreadsheet, CHECKINS_SHEET, CHECKIN_HEADERS);
+  const contractorSheet = ensureSheet_(spreadsheet, contractorSheetName_(worker.workerName), CHECKIN_HEADERS);
   const submittedAt = new Date();
-
-  sheet.appendRow([
+  const confirmationNumber = String(payload.confirmationNumber || generateConfirmationNumber_()).trim();
+  const paymentReceived = parseMoney_(payload.paymentReceived);
+  const contractorAmount = payload.workerJobCost === "" || payload.workerJobCost == null
+    ? ""
+    : parseMoney_(payload.workerJobCost);
+  const row = [
     submittedAt,
     worker.workerName,
     payload.pin || "",
     payload.customerName || "",
     payload.jobAddress || "",
     payload.jobType || "",
-    payload.paymentReceived || "",
+    paymentReceived,
     payload.paymentType || "Cash",
-    payload.workerJobCost || "",
+    contractorAmount,
     payload.notes || "",
     payload.pageUrl || "",
     payload.userAgent || "",
     "New",
-    ""
-  ]);
+    "",
+    confirmationNumber
+  ];
 
-  const subject = "New contractor job entry";
+  sheet.appendRow(row);
+  contractorSheet.appendRow(row);
+  formatCheckinMoneyColumns_(sheet);
+  formatCheckinMoneyColumns_(contractorSheet);
+  updateContractorSummary_(spreadsheet);
+
+  const subject = "New contractor job entry " + confirmationNumber;
   const body = [
     "A contractor submitted a job entry.",
     "",
+    "Confirmation: " + confirmationNumber,
     "Contractor: " + worker.workerName,
     "Customer name: " + (payload.customerName || ""),
     "Job address: " + (payload.jobAddress || ""),
     "Job type: " + (payload.jobType || ""),
-    "Payment received: " + (payload.paymentReceived || ""),
+    "Payment received: " + formatMoneyText_(paymentReceived),
     "Payment type: " + (payload.paymentType || "Cash"),
-    "Contractor amount: " + (payload.workerJobCost || ""),
+    "Contractor amount: " + (contractorAmount === "" ? "" : formatMoneyText_(contractorAmount)),
     "",
     "Notes:",
     payload.notes || "",
@@ -112,7 +149,11 @@ function doPost(event) {
 
   MailApp.sendEmail(NOTIFICATION_EMAIL, subject, body);
 
-  return json_({ ok: true });
+  return json_({
+    ok: true,
+    confirmationNumber: confirmationNumber,
+    workerName: worker.workerName
+  });
 }
 
 function findWorkerByPin_(pin) {
@@ -145,9 +186,105 @@ function ensureSheet_(spreadsheet, sheetName, headers) {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(headers);
     sheet.setFrozenRows(1);
+  } else {
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    sheet.setFrozenRows(1);
   }
 
   return sheet;
+}
+
+function updateContractorSummary_(spreadsheet) {
+  const entriesSheet = ensureSheet_(spreadsheet, CHECKINS_SHEET, CHECKIN_HEADERS);
+  const summarySheet = ensureSheet_(spreadsheet, SUMMARY_SHEET, SUMMARY_HEADERS);
+  const rows = entriesSheet.getDataRange().getValues();
+  const summary = {};
+
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    const contractorName = String(row[1] || "").trim();
+    if (!contractorName) continue;
+
+    if (!summary[contractorName]) {
+      summary[contractorName] = {
+        jobs: 0,
+        paymentReceived: 0,
+        contractorAmount: 0,
+        cash: 0,
+        transfer: 0,
+        machine: 0,
+        lastEntry: row[0] || ""
+      };
+    }
+
+    const item = summary[contractorName];
+    const payment = parseMoney_(row[6]);
+    const contractorAmount = parseMoney_(row[8]);
+    const paymentType = String(row[7] || "").toLowerCase();
+
+    item.jobs += 1;
+    item.paymentReceived += payment;
+    item.contractorAmount += contractorAmount;
+    if (paymentType.indexOf("transfer") !== -1) item.transfer += payment;
+    else if (paymentType.indexOf("machine") !== -1 || paymentType.indexOf("interac") !== -1) item.machine += payment;
+    else item.cash += payment;
+    item.lastEntry = row[0] || item.lastEntry;
+  }
+
+  const names = Object.keys(summary).sort();
+  const values = names.map((name) => [
+    name,
+    summary[name].jobs,
+    summary[name].paymentReceived,
+    summary[name].contractorAmount,
+    summary[name].cash,
+    summary[name].transfer,
+    summary[name].machine,
+    summary[name].lastEntry
+  ]);
+
+  if (summarySheet.getLastRow() > 1) {
+    summarySheet.getRange(2, 1, summarySheet.getLastRow() - 1, SUMMARY_HEADERS.length).clearContent();
+  }
+
+  if (values.length) {
+    summarySheet.getRange(2, 1, values.length, SUMMARY_HEADERS.length).setValues(values);
+    formatSummaryMoneyColumns_(summarySheet);
+  }
+}
+
+function formatCheckinMoneyColumns_(sheet) {
+  const rows = Math.max(sheet.getMaxRows() - 1, 1);
+  sheet.getRange(2, 7, rows, 1).setNumberFormat("$#,##0.00");
+  sheet.getRange(2, 9, rows, 1).setNumberFormat("$#,##0.00");
+}
+
+function formatSummaryMoneyColumns_(sheet) {
+  const rows = Math.max(sheet.getMaxRows() - 1, 1);
+  sheet.getRange(2, 3, rows, 5).setNumberFormat("$#,##0.00");
+}
+
+function generateConfirmationNumber_() {
+  return "FJ-" + Utilities.getUuid().replace(/-/g, "").slice(0, 8).toUpperCase();
+}
+
+function formatMoneyText_(value) {
+  const number = parseMoney_(value);
+  return "$" + number.toFixed(2);
+}
+
+function contractorSheetName_(contractorName) {
+  const cleanName = String(contractorName || "Unknown")
+    .replace(/[\\/?*\[\]:]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 70);
+  return (CONTRACTOR_SHEET_PREFIX + (cleanName || "Unknown")).slice(0, 95);
+}
+
+function parseMoney_(value) {
+  const number = Number(String(value || "").replace(/[^0-9.-]/g, ""));
+  return Number.isFinite(number) ? number : 0;
 }
 
 function safeCallback_(callback) {
