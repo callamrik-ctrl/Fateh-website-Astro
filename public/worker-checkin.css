@@ -1,0 +1,245 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.worker-checkin-page {
+  min-height: 100vh;
+  margin: 0;
+  color: #e8f0ff;
+  background:
+    radial-gradient(circle at top left, rgba(36, 99, 241, .26), transparent 34rem),
+    radial-gradient(circle at bottom right, rgba(255, 193, 7, .16), transparent 32rem),
+    #07111f;
+}
+
+.worker-checkin-shell {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 26px 0 44px;
+}
+
+.worker-checkin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.worker-checkin-brand {
+  display: inline-flex;
+  align-items: center;
+  width: 190px;
+  max-width: 46vw;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .22);
+}
+
+.worker-checkin-brand img {
+  width: 100%;
+  height: auto;
+}
+
+.worker-checkin-time {
+  min-width: min(430px, 100%);
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 8px;
+  background: rgba(12, 27, 49, .82);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .24);
+}
+
+.worker-checkin-time span {
+  display: block;
+  margin-bottom: 4px;
+  color: #9fb2d0;
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.worker-checkin-time strong {
+  display: block;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.worker-checkin-card {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 8px;
+  background: #fff;
+  color: #151922;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .34);
+}
+
+.worker-checkin-intro {
+  padding: 34px clamp(20px, 5vw, 48px) 24px;
+  border-bottom: 1px solid #d8e2f0;
+  background: linear-gradient(135deg, #f7fbff 0%, #fff7f2 100%);
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #fa0712;
+  font-size: .82rem;
+  font-weight: 950;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.worker-checkin-intro h1 {
+  max-width: 720px;
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.04;
+}
+
+.worker-checkin-intro p:last-child {
+  max-width: 780px;
+  margin: 0;
+  color: #5d6878;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.worker-checkin-form {
+  display: grid;
+  gap: 18px;
+  padding: clamp(20px, 5vw, 48px);
+}
+
+.worker-checkin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.worker-checkin-money-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.worker-checkin-form label {
+  display: grid;
+  gap: 8px;
+  color: #151922;
+  font-weight: 950;
+}
+
+.worker-checkin-form input,
+.worker-checkin-form select,
+.worker-checkin-form textarea {
+  width: 100%;
+  min-height: 54px;
+  padding: 12px 14px;
+  border: 1px solid #cbd9ea;
+  border-radius: 8px;
+  background: #f8fbff;
+  color: #151922;
+  font: inherit;
+  font-weight: 750;
+  outline: none;
+}
+
+.worker-checkin-form textarea {
+  min-height: 138px;
+  resize: vertical;
+}
+
+.worker-checkin-form input:focus,
+.worker-checkin-form select:focus,
+.worker-checkin-form textarea:focus {
+  border-color: #2463f1;
+  box-shadow: 0 0 0 4px rgba(36, 99, 241, .14);
+}
+
+.worker-checkin-form input[readonly] {
+  background: #edf5ff;
+  color: #00336f;
+}
+
+.worker-checkin-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  background: #fa0712;
+  box-shadow: 0 14px 28px rgba(250, 7, 18, .22);
+  font: inherit;
+  font-weight: 950;
+}
+
+.worker-checkin-actions .button {
+  min-width: 210px;
+}
+
+.worker-checkin-actions .button:disabled {
+  cursor: not-allowed;
+  opacity: .52;
+}
+
+.worker-checkin-status {
+  margin: 0;
+  color: #5d6878;
+  font-weight: 900;
+}
+
+.worker-checkin-status[data-state="success"] {
+  color: #087443;
+}
+
+.worker-checkin-status[data-state="error"] {
+  color: #d31322;
+}
+
+@media (max-width: 780px) {
+  .worker-checkin-shell {
+    width: min(100% - 24px, 680px);
+    padding-top: 16px;
+  }
+
+  .worker-checkin-header,
+  .worker-checkin-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .worker-checkin-brand {
+    width: 160px;
+    max-width: 62vw;
+  }
+
+  .worker-checkin-time {
+    min-width: 0;
+  }
+
+  .worker-checkin-grid,
+  .worker-checkin-money-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .worker-checkin-actions .button {
+    width: 100%;
+  }
+}

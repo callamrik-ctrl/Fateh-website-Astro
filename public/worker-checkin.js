@@ -1,0 +1,183 @@
+(() => {
+  const endpoint = String(window.FATEH_WORKER_CHECKIN_ENDPOINT || "").trim();
+  const fallbackPins = window.FATEH_WORKER_FALLBACK_PINS || {};
+  const form = document.querySelector("[data-worker-checkin-form]");
+
+  if (!form) return;
+
+  const clock = document.querySelector("[data-worker-clock]");
+  const status = document.querySelector("[data-worker-status]");
+  const pinInput = form.querySelector('[name="pin"]');
+  const workerNameInput = form.querySelector('[name="workerName"]');
+  const submitButton = form.querySelector('button[type="submit"]');
+  let activeWorker = null;
+  let lookupTimer = null;
+
+  function setStatus(message, state = "neutral") {
+    if (!status) return;
+    status.textContent = message;
+    status.dataset.state = state;
+  }
+
+  function updateClock() {
+    if (!clock) return;
+    const formatter = new Intl.DateTimeFormat("en-CA", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      second: "2-digit",
+      timeZone: "America/Toronto",
+    });
+    clock.textContent = formatter.format(new Date());
+  }
+
+  function setWorker(workerName) {
+    activeWorker = workerName ? { workerName } : null;
+    workerNameInput.value = workerName || "";
+    submitButton.disabled = !activeWorker;
+  }
+
+  function jsonpWorkerLookup(pin) {
+    return new Promise((resolve, reject) => {
+      if (!endpoint) {
+        resolve(null);
+        return;
+      }
+
+      const callbackName = `__fatehWorkerLookup${Date.now()}${Math.floor(Math.random() * 10000)}`;
+      const script = document.createElement("script");
+      const url = new URL(endpoint);
+      url.searchParams.set("action", "worker");
+      url.searchParams.set("pin", pin);
+      url.searchParams.set("callback", callbackName);
+
+      function cleanup() {
+        delete window[callbackName];
+        script.remove();
+      }
+
+      window[callbackName] = (data) => {
+        cleanup();
+        resolve(data);
+      };
+
+      script.onerror = () => {
+        cleanup();
+        reject(new Error("Worker lookup failed"));
+      };
+
+      script.src = url.toString();
+      document.body.appendChild(script);
+    });
+  }
+
+  async function lookupPin() {
+    const pin = pinInput.value.trim();
+    setWorker("");
+
+    if (!pin) {
+      setStatus("Enter your PIN to unlock the form.");
+      return;
+    }
+
+    if (fallbackPins[pin]) {
+      setWorker(fallbackPins[pin]);
+      setStatus(`Worker found: ${fallbackPins[pin]}`, "success");
+      return;
+    }
+
+    try {
+      setStatus("Checking PIN...");
+      const result = await jsonpWorkerLookup(pin);
+      if (result && result.ok && result.workerName) {
+        setWorker(result.workerName);
+        setStatus(`Worker found: ${result.workerName}`, "success");
+        return;
+      }
+      setStatus(endpoint ? "PIN not found or inactive." : "PIN not found. Add workers in the config or connect Google Apps Script.", "error");
+    } catch (error) {
+      setStatus("PIN lookup failed. Please try again.", "error");
+    }
+  }
+
+  function debounceLookup() {
+    window.clearTimeout(lookupTimer);
+    lookupTimer = window.setTimeout(lookupPin, 250);
+  }
+
+  function getPayload() {
+    const data = new FormData(form);
+    return {
+      sourceForm: "Worker Check-In",
+      submittedAtLocal: new Date().toISOString(),
+      pin: String(data.get("pin") || "").trim(),
+      workerName: workerNameInput.value.trim(),
+      jobAddress: String(data.get("jobAddress") || "").trim(),
+      jobType: String(data.get("jobType") || "").trim(),
+      paymentReceived: String(data.get("paymentReceived") || "").trim(),
+      paymentType: String(data.get("paymentType") || "Cash").trim(),
+      workerJobCost: String(data.get("workerJobCost") || "").trim(),
+      notes: String(data.get("notes") || "").trim(),
+      pageUrl: window.location.href,
+      userAgent: navigator.userAgent,
+    };
+  }
+
+  async function submitPayload(payload) {
+    if (!endpoint) {
+      const saved = JSON.parse(localStorage.getItem("fatehWorkerPreviewEntries") || "[]");
+      saved.push(payload);
+      localStorage.setItem("fatehWorkerPreviewEntries", JSON.stringify(saved));
+      return;
+    }
+
+    await fetch(endpoint, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+    });
+  }
+
+  pinInput.addEventListener("input", debounceLookup);
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!activeWorker) {
+      setStatus("Please enter a valid worker PIN first.", "error");
+      pinInput.focus();
+      return;
+    }
+
+    const payload = getPayload();
+    if (!payload.jobAddress || !payload.jobType || !payload.paymentReceived) {
+      setStatus("Please complete address, job type, and payment received.", "error");
+      return;
+    }
+
+    submitButton.disabled = true;
+    setStatus("Submitting job entry...");
+
+    try {
+      await submitPayload(payload);
+      const currentPin = pinInput.value;
+      const currentWorkerName = workerNameInput.value;
+      form.reset();
+      pinInput.value = currentPin;
+      workerNameInput.value = currentWorkerName;
+      form.querySelector('[name="paymentType"]').value = "Cash";
+      setWorker(currentWorkerName);
+      setStatus(endpoint ? "Saved. Thank you, your job entry was submitted." : "Saved in this preview. Connect Google Apps Script to sync the sheet.", "success");
+    } catch (error) {
+      submitButton.disabled = false;
+      setStatus("Submission failed. Please check connection and try again.", "error");
+    }
+  });
+
+  updateClock();
+  window.setInterval(updateClock, 1000);
+})();

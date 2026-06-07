@@ -1,0 +1,162 @@
+---
+const title = "Worker Check-In | Fateh Plumbing & Electric";
+const description = "Private job check-in page for approved Fateh Plumbing & Electric workers.";
+const canonical = "https://fatehplumelec.com/worker-check-in.html";
+
+const addressSuggestions = [
+  "Main St N, Brampton, ON",
+  "Main St S, Brampton, ON",
+  "Queen St E, Brampton, ON",
+  "Queen St W, Brampton, ON",
+  "Bovaird Dr E, Brampton, ON",
+  "Bovaird Dr W, Brampton, ON",
+  "Steeles Ave E, Brampton, ON",
+  "Steeles Ave W, Brampton, ON",
+  "Hurontario St, Brampton, ON",
+  "Dixie Rd, Brampton, ON",
+  "Bramalea Rd, Brampton, ON",
+  "Torbram Rd, Brampton, ON",
+  "Airport Rd, Brampton, ON",
+  "McLaughlin Rd N, Brampton, ON",
+  "Chinguacousy Rd, Brampton, ON",
+  "Mississauga Rd, Brampton, ON",
+  "Kennedy Rd N, Brampton, ON",
+  "Williams Pkwy, Brampton, ON",
+  "Sandalwood Pkwy E, Brampton, ON",
+  "Sandalwood Pkwy W, Brampton, ON",
+  "Ray Lawson Blvd, Brampton, ON",
+  "Mayfield Rd, Brampton, ON",
+  "The Gore Rd, Brampton, ON",
+  "Cottrelle Blvd, Brampton, ON",
+  "Financial Dr, Brampton, ON",
+  "Countryside Dr, Brampton, ON",
+  "Peter Robertson Blvd, Brampton, ON",
+  "Clark Blvd, Brampton, ON",
+  "Castlemore Rd, Brampton, ON",
+  "Wanless Dr, Brampton, ON",
+  "Rutherford Rd N, Brampton, ON",
+  "Vodden St E, Brampton, ON",
+  "Brampton, ON",
+  "Mississauga, ON",
+  "Vaughan, ON",
+  "Etobicoke, ON",
+  "Caledon, ON",
+];
+
+const jobTypes = [
+  "Kitchen Sink",
+  "Clogged Drain",
+  "Toilet Repair",
+  "Faucet Repair",
+  "Leak Repair",
+  "Water Heater",
+  "Sump Pump",
+  "RO System",
+  "Laundry Tub",
+  "Sewer / Main Drain",
+  "Electrical Support",
+  "Other",
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    <link rel="canonical" href={canonical}>
+    <link rel="stylesheet" href="/worker-checkin.css?v=20260606-worker-checkin">
+    <script is:inline src="/worker-checkin-config.js?v=20260606-worker-checkin"></script>
+    <script is:inline src="/worker-checkin.js?v=20260606-worker-checkin" defer></script>
+  </head>
+  <body class="worker-checkin-page">
+    <main class="worker-checkin-shell">
+      <header class="worker-checkin-header">
+        <a class="worker-checkin-brand" href="/index.html" aria-label="Fateh Plumbing & Electric home">
+          <img src="/assets/fateh-logo-transparent.png" alt="Fateh Plumbing & Electric" width="220" height="120">
+        </a>
+        <div class="worker-checkin-time" aria-live="polite">
+          <span>Current time</span>
+          <strong data-worker-clock>Loading...</strong>
+        </div>
+      </header>
+
+      <section class="worker-checkin-card">
+        <div class="worker-checkin-intro">
+          <p class="eyebrow">Private Worker Portal</p>
+          <h1>Worker Job Check-In</h1>
+          <p>Use your assigned PIN to submit completed job details. Please enter each job separately so payment and job notes stay clear.</p>
+        </div>
+
+        <form class="worker-checkin-form" data-worker-checkin-form>
+          <div class="worker-checkin-grid worker-checkin-pin-grid">
+            <label>
+              Worker PIN
+              <input type="password" name="pin" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter PIN" required>
+            </label>
+
+            <label>
+              Worker Name
+              <input type="text" name="workerName" placeholder="Name appears after PIN" readonly required>
+            </label>
+          </div>
+
+          <div class="worker-checkin-grid">
+            <label>
+              Job Address
+              <input type="text" name="jobAddress" list="worker-address-suggestions" autocomplete="street-address" placeholder="Start typing street or city" required>
+            </label>
+
+            <label>
+              Job Type
+              <select name="jobType" required>
+                <option value="">Select job type</option>
+                {jobTypes.map((jobType) => <option value={jobType}>{jobType}</option>)}
+              </select>
+            </label>
+          </div>
+
+          <datalist id="worker-address-suggestions">
+            {addressSuggestions.map((address) => <option value={address} />)}
+          </datalist>
+
+          <div class="worker-checkin-grid worker-checkin-money-grid">
+            <label>
+              Payment Received
+              <input type="number" name="paymentReceived" min="0" step="0.01" inputmode="decimal" placeholder="0.00" required>
+            </label>
+
+            <label>
+              Payment Type
+              <select name="paymentType" required>
+                <option value="Cash" selected>Cash</option>
+                <option value="E-Transfer">E-Transfer</option>
+                <option value="Interac/Card Machine">Interac/Card Machine</option>
+                <option value="Cheque">Cheque</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+
+            <label>
+              Worker Job Cost
+              <input type="number" name="workerJobCost" min="0" step="0.01" inputmode="decimal" placeholder="Optional">
+            </label>
+          </div>
+
+          <label>
+            Notes
+            <textarea name="notes" rows="5" placeholder="Add repair notes, parts used, payment note, or anything office should know."></textarea>
+          </label>
+
+          <div class="worker-checkin-actions">
+            <button class="button" type="submit" disabled>Submit Job Entry</button>
+            <p class="worker-checkin-status" data-worker-status aria-live="polite">Enter your PIN to unlock the form.</p>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
