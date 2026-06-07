@@ -1,0 +1,131 @@
+---
+const title = "Contractor Job Portal | Fateh Plumbing & Electric";
+const description = "Private job portal for approved Fateh Plumbing & Electric contractors.";
+const canonical = "https://fatehplumelec.com/contractor-job-portal.html";
+
+const jobTypes = [
+  "Kitchen Sink",
+  "Clogged Drain",
+  "Toilet Repair",
+  "Faucet Repair",
+  "Leak Repair",
+  "Water Heater",
+  "Sump Pump",
+  "RO System",
+  "Laundry Tub",
+  "Sewer / Main Drain",
+  "Electrical Support",
+  "Other",
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    <link rel="canonical" href={canonical}>
+    <link rel="stylesheet" href="/worker-checkin.css?v=20260607-contractor-portal">
+    <script is:inline src="/worker-checkin-config.js?v=20260607-contractor-portal"></script>
+    <script is:inline src="/worker-checkin.js?v=20260607-contractor-portal" defer></script>
+  </head>
+  <body class="worker-checkin-page">
+    <main class="worker-checkin-shell">
+      <header class="worker-checkin-header">
+        <a class="worker-checkin-brand" href="/index.html" aria-label="Fateh Plumbing & Electric home">
+          <img src="/assets/fateh-logo-transparent.png" alt="Fateh Plumbing & Electric" width="220" height="120">
+        </a>
+        <div class="worker-checkin-time" aria-live="polite">
+          <span>Current time</span>
+          <strong data-worker-clock>Loading...</strong>
+        </div>
+      </header>
+
+      <section class="worker-checkin-card">
+        <div class="worker-checkin-intro">
+          <p class="eyebrow">Private Contractor Portal</p>
+          <h1>Contractor Job Portal</h1>
+          <p>Use your assigned PIN to submit completed job details. Please enter each job separately so payment and job notes stay clear.</p>
+        </div>
+
+        <form class="worker-checkin-form" data-worker-checkin-form>
+          <div class="worker-checkin-grid worker-checkin-pin-grid">
+            <label>
+              Contractor PIN
+              <input type="password" name="pin" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter PIN" required>
+            </label>
+
+            <label>
+              Contractor Name
+              <input type="text" name="workerName" placeholder="Name appears after PIN" readonly required>
+            </label>
+          </div>
+
+          <div class="worker-checkin-grid">
+            <label>
+              Customer Name <span class="optional-label">Optional</span>
+              <input type="text" name="customerName" autocomplete="name" placeholder="Customer name">
+            </label>
+
+            <label>
+              Job Address
+              <input type="text" name="jobAddress" autocomplete="street-address" placeholder="Start typing full address" data-address-autocomplete required>
+            </label>
+          </div>
+
+          <div class="worker-checkin-grid">
+            <label>
+              Job Type
+              <select name="jobType" required>
+                <option value="">Select job type</option>
+                {jobTypes.map((jobType) => <option value={jobType}>{jobType}</option>)}
+              </select>
+            </label>
+
+            <label>
+              Payment Type
+              <select name="paymentType" required>
+                <option value="Cash" selected>Cash</option>
+                <option value="E-Transfer">E-Transfer</option>
+                <option value="Interac/Card Machine">Interac/Card Machine</option>
+                <option value="Cheque">Cheque</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="worker-checkin-grid worker-checkin-money-grid">
+            <label>
+              Payment Received
+              <span class="money-input">
+                <span aria-hidden="true">$</span>
+                <input type="number" name="paymentReceived" min="0" step="0.01" inputmode="decimal" placeholder="0.00" required>
+              </span>
+            </label>
+
+            <label>
+              Contractor Amount <span class="optional-label">Optional</span>
+              <span class="money-input">
+                <span aria-hidden="true">$</span>
+                <input type="number" name="workerJobCost" min="0" step="0.01" inputmode="decimal" placeholder="0.00">
+              </span>
+            </label>
+          </div>
+
+          <label>
+            Notes
+            <textarea name="notes" rows="5" placeholder="Add repair notes, parts used, payment note, or anything office should know."></textarea>
+          </label>
+
+          <div class="worker-checkin-actions">
+            <button class="button" type="submit" disabled>Submit Job Entry</button>
+            <p class="worker-checkin-status" data-worker-status aria-live="polite">Enter your PIN to unlock the form.</p>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

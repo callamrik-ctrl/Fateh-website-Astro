@@ -1,8 +1,10 @@
-# Fateh Worker Check-In Setup
+# Fateh Contractor Job Portal Setup
 
-This private worker check-in page lives at:
+This private contractor job portal lives at:
 
-`/worker-check-in.html`
+`/contractor-job-portal.html`
+
+The old `/worker-check-in.html` URL redirects to the new contractor portal URL so older private links do not break.
 
 It is intentionally not linked in the public menu and includes `noindex,nofollow`.
 
@@ -10,25 +12,25 @@ It is intentionally not linked in the public menu and includes `noindex,nofollow
 
 Create or import a Google Sheet with these two tabs:
 
-### Worker Check-ins
+### Contractor Job Entries
 
 Headers:
 
-`Timestamp, Worker Name, PIN, Job Address, Job Type, Payment Received, Payment Type, Worker Job Cost, Notes, Page URL, User Agent, Status, Admin Notes`
+`Timestamp, Contractor Name, PIN, Customer Name, Job Address, Job Type, Payment Received, Payment Type, Contractor Amount, Notes, Page URL, User Agent, Status, Admin Notes`
 
-### Workers
+### Contractors
 
 Headers:
 
-`PIN, Worker Name, Status, Notes`
+`PIN, Contractor Name, Status, Notes`
 
-Worker rows should use `Active` in the Status column. Use `Inactive` or `Paused` to stop a PIN from working.
+Contractor rows should use `Active` in the Status column. Use `Inactive` or `Paused` to stop a PIN from working.
 
 ## Apps Script
 
 Copy `docs/google-apps-script-worker-checkins.js` into Google Apps Script.
 
-The worker sheet is:
+The contractor job portal sheet is:
 
 `https://docs.google.com/spreadsheets/d/1Q-zhxZojqNEzfYXQQpEUtTAQ-YAwF8PH1d57rTEAmCI/edit`
 
@@ -39,7 +41,9 @@ const SPREADSHEET_ID = "1Q-zhxZojqNEzfYXQQpEUtTAQ-YAwF8PH1d57rTEAmCI";
 const NOTIFICATION_EMAIL = "info@fatehplumelec.com";
 ```
 
-Run `setupWorkerCheckinSheets()` once. It only creates missing headers and does not overwrite manual entries.
+Run `setupContractorJobPortalSheets()` once. It only creates missing headers and does not overwrite manual entries.
+
+The old helper name `setupWorkerCheckinSheets()` still works as an alias.
 
 Deploy as a Web App:
 
@@ -54,6 +58,20 @@ Copy the Web App URL and paste it into:
 window.FATEH_WORKER_CHECKIN_ENDPOINT = "https://script.google.com/macros/s/AKfycbx-s3vu2YJEAnht0gFKRMlLDpEIC8APj00buiQlKwo-n9X0V6KKzqEZtPNM0uTb1btj_Q/exec";
 ```
 
+## Google Address Autocomplete
+
+The address field works as a normal manual address field by default.
+
+To enable Google-style address suggestions, add a Google Maps Places API key in:
+
+`public/worker-checkin-config.js`
+
+```js
+window.FATEH_GOOGLE_MAPS_API_KEY = "YOUR_GOOGLE_MAPS_PLACES_API_KEY";
+```
+
+Keep the key restricted in Google Cloud for your website domain.
+
 ## Testing
 
-Use the sample PIN `1111` only for preview testing. Replace it with real worker PINs before sharing the page.
+Use the sample PIN `1111` only for preview testing. Replace it with real contractor PINs before sharing the page.

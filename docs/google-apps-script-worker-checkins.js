@@ -1,28 +1,29 @@
-// Fateh Plumbing & Electric worker check-in Google Apps Script.
+// Fateh Plumbing & Electric contractor job portal Google Apps Script.
 //
 // Setup:
-// 1. Create a Google Sheet for worker check-ins.
+// 1. Create a Google Sheet for contractor job entries.
 // 2. Paste that sheet ID below.
 // 3. Paste this whole file into Apps Script.
-// 4. Run setupWorkerCheckinSheets once.
-// 5. Add worker PINs and names in the Workers tab.
+// 4. Run setupContractorJobPortalSheets once.
+// 5. Add contractor PINs and names in the Contractors tab.
 // 6. Deploy as Web App: Execute as Me, Who has access: Anyone.
 // 7. Paste the Web App URL into public/worker-checkin-config.js.
 
 const SPREADSHEET_ID = "1Q-zhxZojqNEzfYXQQpEUtTAQ-YAwF8PH1d57rTEAmCI";
 const NOTIFICATION_EMAIL = "info@fatehplumelec.com";
-const CHECKINS_SHEET = "Worker Check-ins";
-const WORKERS_SHEET = "Workers";
+const CHECKINS_SHEET = "Contractor Job Entries";
+const WORKERS_SHEET = "Contractors";
 
 const CHECKIN_HEADERS = [
   "Timestamp",
-  "Worker Name",
+  "Contractor Name",
   "PIN",
+  "Customer Name",
   "Job Address",
   "Job Type",
   "Payment Received",
   "Payment Type",
-  "Worker Job Cost",
+  "Contractor Amount",
   "Notes",
   "Page URL",
   "User Agent",
@@ -32,15 +33,19 @@ const CHECKIN_HEADERS = [
 
 const WORKER_HEADERS = [
   "PIN",
-  "Worker Name",
+  "Contractor Name",
   "Status",
   "Notes"
 ];
 
-function setupWorkerCheckinSheets() {
+function setupContractorJobPortalSheets() {
   const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
   ensureSheet_(spreadsheet, CHECKINS_SHEET, CHECKIN_HEADERS);
   ensureSheet_(spreadsheet, WORKERS_SHEET, WORKER_HEADERS);
+}
+
+function setupWorkerCheckinSheets() {
+  setupContractorJobPortalSheets();
 }
 
 function doGet(event) {
@@ -62,7 +67,7 @@ function doPost(event) {
   const worker = findWorkerByPin_(payload.pin || "");
 
   if (!worker.ok) {
-    return json_({ ok: false, message: "Invalid or inactive worker PIN" });
+    return json_({ ok: false, message: "Invalid or inactive contractor PIN" });
   }
 
   const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
@@ -73,6 +78,7 @@ function doPost(event) {
     submittedAt,
     worker.workerName,
     payload.pin || "",
+    payload.customerName || "",
     payload.jobAddress || "",
     payload.jobType || "",
     payload.paymentReceived || "",
@@ -85,16 +91,17 @@ function doPost(event) {
     ""
   ]);
 
-  const subject = "New worker job check-in";
+  const subject = "New contractor job entry";
   const body = [
-    "A worker submitted a job check-in.",
+    "A contractor submitted a job entry.",
     "",
-    "Worker: " + worker.workerName,
+    "Contractor: " + worker.workerName,
+    "Customer name: " + (payload.customerName || ""),
     "Job address: " + (payload.jobAddress || ""),
     "Job type: " + (payload.jobType || ""),
     "Payment received: " + (payload.paymentReceived || ""),
     "Payment type: " + (payload.paymentType || "Cash"),
-    "Worker job cost: " + (payload.workerJobCost || ""),
+    "Contractor amount: " + (payload.workerJobCost || ""),
     "",
     "Notes:",
     payload.notes || "",

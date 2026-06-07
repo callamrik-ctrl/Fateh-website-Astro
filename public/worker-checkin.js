@@ -1,5 +1,6 @@
 (() => {
   const endpoint = String(window.FATEH_WORKER_CHECKIN_ENDPOINT || "").trim();
+  const googleMapsApiKey = String(window.FATEH_GOOGLE_MAPS_API_KEY || "").trim();
   const fallbackPins = window.FATEH_WORKER_FALLBACK_PINS || {};
   const form = document.querySelector("[data-worker-checkin-form]");
 
@@ -34,6 +35,61 @@
     clock.textContent = formatter.format(new Date());
   }
 
+  function loadGooglePlaces() {
+    return new Promise((resolve, reject) => {
+      if (!googleMapsApiKey) {
+        resolve(null);
+        return;
+      }
+
+      if (window.google && window.google.maps && window.google.maps.places) {
+        resolve(window.google.maps);
+        return;
+      }
+
+      const existing = document.querySelector("[data-google-places-loader]");
+      if (existing) {
+        existing.addEventListener("load", () => resolve(window.google && window.google.maps), { once: true });
+        existing.addEventListener("error", reject, { once: true });
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.dataset.googlePlacesLoader = "true";
+      script.async = true;
+      script.defer = true;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(googleMapsApiKey)}&libraries=places`;
+      script.onload = () => resolve(window.google && window.google.maps);
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+
+  async function setupAddressAutocomplete() {
+    const addressInput = form.querySelector("[data-address-autocomplete]");
+    if (!addressInput) return;
+
+    try {
+      const maps = await loadGooglePlaces();
+      if (!maps || !maps.places) return;
+
+      const autocomplete = new maps.places.Autocomplete(addressInput, {
+        componentRestrictions: { country: "ca" },
+        fields: ["formatted_address", "name"],
+        types: ["address"],
+      });
+
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+        if (place && place.formatted_address) {
+          addressInput.value = place.formatted_address;
+        }
+      });
+    } catch (error) {
+      // Keep the plain address input available if Google Places cannot load.
+    }
+  }
+
   function setWorker(workerName) {
     activeWorker = workerName ? { workerName } : null;
     workerNameInput.value = workerName || "";
@@ -66,7 +122,7 @@
 
       script.onerror = () => {
         cleanup();
-        reject(new Error("Worker lookup failed"));
+        reject(new Error("Contractor lookup failed"));
       };
 
       script.src = url.toString();
@@ -85,7 +141,7 @@
 
     if (fallbackPins[pin]) {
       setWorker(fallbackPins[pin]);
-      setStatus(`Worker found: ${fallbackPins[pin]}`, "success");
+      setStatus(`Contractor found: ${fallbackPins[pin]}`, "success");
       return;
     }
 
@@ -94,10 +150,10 @@
       const result = await jsonpWorkerLookup(pin);
       if (result && result.ok && result.workerName) {
         setWorker(result.workerName);
-        setStatus(`Worker found: ${result.workerName}`, "success");
+        setStatus(`Contractor found: ${result.workerName}`, "success");
         return;
       }
-      setStatus(endpoint ? "PIN not found or inactive." : "PIN not found. Add workers in the config or connect Google Apps Script.", "error");
+      setStatus(endpoint ? "PIN not found or inactive." : "PIN not found. Add contractors in the config or connect Google Apps Script.", "error");
     } catch (error) {
       setStatus("PIN lookup failed. Please try again.", "error");
     }
@@ -111,10 +167,11 @@
   function getPayload() {
     const data = new FormData(form);
     return {
-      sourceForm: "Worker Check-In",
+      sourceForm: "Contractor Job Portal",
       submittedAtLocal: new Date().toISOString(),
       pin: String(data.get("pin") || "").trim(),
       workerName: workerNameInput.value.trim(),
+      customerName: String(data.get("customerName") || "").trim(),
       jobAddress: String(data.get("jobAddress") || "").trim(),
       jobType: String(data.get("jobType") || "").trim(),
       paymentReceived: String(data.get("paymentReceived") || "").trim(),
@@ -148,7 +205,7 @@
     event.preventDefault();
 
     if (!activeWorker) {
-      setStatus("Please enter a valid worker PIN first.", "error");
+      setStatus("Please enter a valid contractor PIN first.", "error");
       pinInput.focus();
       return;
     }
@@ -180,4 +237,5 @@
 
   updateClock();
   window.setInterval(updateClock, 1000);
+  setupAddressAutocomplete();
 })();

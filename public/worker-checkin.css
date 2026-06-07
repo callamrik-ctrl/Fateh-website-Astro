@@ -135,6 +135,12 @@ body {
   font-weight: 950;
 }
 
+.optional-label {
+  color: #718096;
+  font-size: .82rem;
+  font-weight: 800;
+}
+
 .worker-checkin-form input,
 .worker-checkin-form select,
 .worker-checkin-form textarea {
@@ -160,6 +166,46 @@ body {
 .worker-checkin-form textarea:focus {
   border-color: #2463f1;
   box-shadow: 0 0 0 4px rgba(36, 99, 241, .14);
+}
+
+.money-input {
+  display: flex;
+  align-items: center;
+  min-height: 54px;
+  border: 1px solid #cbd9ea;
+  border-radius: 8px;
+  background: #f8fbff;
+  color: #151922;
+  overflow: hidden;
+}
+
+.money-input > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  min-width: 44px;
+  border-right: 1px solid #d9e3f0;
+  background: #edf5ff;
+  color: #00336f;
+  font-weight: 950;
+}
+
+.money-input input {
+  min-height: 52px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.money-input:focus-within {
+  border-color: #2463f1;
+  box-shadow: 0 0 0 4px rgba(36, 99, 241, .14);
+}
+
+.money-input input:focus {
+  box-shadow: none;
 }
 
 .worker-checkin-form input[readonly] {
