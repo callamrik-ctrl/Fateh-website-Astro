@@ -68,6 +68,13 @@ const siteSearchPages = [
   { title: "Electrical Services", url: "electrical-services.html", type: "Electrical", terms: "electrical service repair outlet switch wiring lighting panel ev charger" },
   { title: "Panel Upgrade", url: "panel-upgrade.html", type: "Electrical", terms: "electrical panel upgrade breaker fuse box service upgrade" },
   { title: "EV Charger Installation", url: "ev-charger-installation.html", type: "Electrical", terms: "ev charger electric vehicle charging station tesla home charger installation" },
+  { title: "Generator Installation", url: "generator-installation.html", type: "Electrical", terms: "generator installation backup generator home generator generator electrician backup power" },
+  { title: "Subpanel Installation", url: "subpanel-installation.html", type: "Electrical", terms: "subpanel installation electrical subpanel panel expansion garage workshop basement circuits" },
+  { title: "Surge Protection", url: "surge-protection.html", type: "Electrical", terms: "surge protection whole home surge protector panel surge protector electrical surge protection" },
+  { title: "Pot Light Installation", url: "pot-light-installation.html", type: "Electrical", terms: "pot light installation recessed lighting indoor outdoor soffit pot lights electrician" },
+  { title: "Ceiling Fan Installation", url: "ceiling-fan-installation.html", type: "Electrical", terms: "ceiling fan installation fan replacement fan wiring bedroom living room basement electrician" },
+  { title: "Smart Home Wiring", url: "smart-home-wiring.html", type: "Electrical", terms: "smart home wiring smart switch dimmer motion sensor speaker wiring automation electrician" },
+  { title: "Outdoor Lighting", url: "outdoor-lighting.html", type: "Electrical", terms: "outdoor lighting exterior lighting security motion sensor porch garage patio pathway electrician" },
   { title: "Lighting & Smart Home", url: "lighting-smart-home.html", type: "Electrical", terms: "lighting pot lights smart switch dimmer fixture smart home" },
   { title: "Commercial Services", url: "commercial.html", type: "Commercial", terms: "commercial plumbing electrical restaurant retail property manager business maintenance" },
   { title: "Commercial Emergency", url: "commercial-emergency.html", type: "Commercial", terms: "commercial emergency plumbing electrical restaurant leak drain power business urgent" },
@@ -236,6 +243,49 @@ function setupPlumbingMegaMenu() {
 }
 
 setupPlumbingMegaMenu();
+
+const electricalMegaMenuHtml = [
+  '<div><h2>Panels & Power</h2>',
+    '<a href="panel-upgrade.html">Panel Upgrade</a>',
+    '<a href="ev-charger-installation.html">EV Charger Installation</a>',
+    '<a href="generator-installation.html">Generator Installation</a>',
+    '<a href="subpanel-installation.html">Subpanel Installation</a>',
+    '<a href="surge-protection.html">Surge Protection</a>',
+  '</div>',
+  '<div><h2>Wiring & Repair</h2>',
+    '<span class="mega-menu-link menu-needs-work">Electrical Repair</span>',
+    '<span class="mega-menu-link menu-needs-work">Aluminum Wiring Replacement</span>',
+    '<span class="mega-menu-link menu-needs-work">Knob &amp; Tube Removal</span>',
+    '<span class="mega-menu-link menu-needs-work">House Rewiring</span>',
+    '<span class="mega-menu-link menu-needs-work">Outlet &amp; Switch Install</span>',
+  '</div>',
+  '<div><h2>Lighting &amp; Smart Home</h2>',
+    '<a href="pot-light-installation.html">Pot Light Installation</a>',
+    '<a href="lighting-smart-home.html">Lighting Installation</a>',
+    '<a href="ceiling-fan-installation.html">Ceiling Fan Installation</a>',
+    '<a href="smart-home-wiring.html">Smart Home Wiring</a>',
+    '<a href="outdoor-lighting.html">Outdoor Lighting</a>',
+  '</div>',
+  '<div><h2>Emergency &amp; Safety</h2>',
+    '<a href="emergency-electrician.html">Emergency Electrician</a>',
+    '<span class="mega-menu-link menu-needs-work">Electrical Safety Inspection</span>',
+    '<span class="mega-menu-link menu-needs-work">Smoke &amp; CO Detectors</span>',
+    '<a class="all-electrical-link" href="electrical-services.html">All Electrical Services →</a>',
+  '</div>',
+  '<div class="mega-cta">',
+    '<h2>Electrical Service</h2>',
+    '<p>Panel, EV, wiring, lighting and emergency electrical support.</p>',
+    '<a class="button" href="contact.html">Free On-Site Assessment</a>',
+  '</div>',
+].join("");
+
+function setupElectricalMegaMenu() {
+  document.querySelectorAll(".electrical-menu").forEach((menu) => {
+    menu.innerHTML = electricalMegaMenuHtml;
+  });
+}
+
+setupElectricalMegaMenu();
 
 function storeLocal(collectionKey, item, limit) {
   try {

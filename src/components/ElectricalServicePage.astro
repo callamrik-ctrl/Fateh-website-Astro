@@ -48,6 +48,7 @@ const {
   faqEyebrow,
   faqHeading,
   faqs = [],
+  breadcrumbs = [],
 } = Astro.props;
 ---
 
@@ -56,6 +57,18 @@ const {
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
   <SiteHeader />
+
+  {breadcrumbs.length > 0 && (
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <ol>
+        {breadcrumbs.map((crumb, index) => (
+          <li>
+            {index < breadcrumbs.length - 1 ? <a href={crumb.href}>{crumb.label}</a> : <span aria-current="page">{crumb.label}</span>}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )}
 
   <main class="page-hero electrical-page-hero">
     <div>
@@ -167,7 +180,7 @@ const {
       <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
     </div>
     <div class="photo-feature-media">
-      <img src={photoImage} alt={photoAlt} width="760" height="560">
+      <img src={photoImage} alt={photoAlt} width="760" height="560" loading="lazy">
     </div>
   </section>
 

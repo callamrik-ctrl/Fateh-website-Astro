@@ -1,0 +1,8 @@
+---
+import ElectricalServicePage from "../components/ElectricalServicePage.astro";
+import { electricalServicePages } from "../data/electricalServicePages.js";
+
+const page = electricalServicePages["smart-home-wiring"];
+---
+
+<ElectricalServicePage {...page} />

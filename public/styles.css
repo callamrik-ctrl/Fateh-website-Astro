@@ -400,6 +400,25 @@ a:hover { color: var(--accent); }
 .page-hero { padding-top: 78px; padding-bottom: 58px; background: var(--paper); border-bottom: 1px solid var(--line); }
 .page-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .78fr); gap: clamp(24px, 5vw, 64px); align-items: center; }
 .page-hero-photo { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--line); background: #dbe4ec; }
+.breadcrumb-nav {
+  padding: 18px clamp(18px, 5vw, 72px) 0;
+  background: var(--paper);
+}
+.breadcrumb-nav ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: .92rem;
+}
+.breadcrumb-nav li { display: inline-flex; align-items: center; min-width: 0; }
+.breadcrumb-nav li + li::before { content: ">"; margin-right: 8px; color: #9aa8ba; }
+.breadcrumb-nav a { color: var(--brand-dark); font-weight: 800; }
+.breadcrumb-nav span { overflow-wrap: anywhere; }
 .brampton-plumber-hero {
   background:
     linear-gradient(115deg, rgba(0, 114, 206, 0.1), rgba(240, 6, 18, 0.055) 54%, rgba(255, 210, 26, 0.14)),
