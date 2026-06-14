@@ -59,7 +59,14 @@ const electricalServiceFallbacks = [
   { title: "Ceiling Fan Installation", href: "/ceiling-fan-installation.html", text: "Ceiling fan wiring, replacement, support review, and switch control planning.", link: "View ceiling fans", icon: "M12 11a2 2 0 1 0 0 4 2 2 0 0 0 0-4z M12 11c-1-4 1-7 4-7 2 0 3 1 3 3 0 3-3 4-7 4z M12 13c4-1 7 1 7 4 0 2-1 3-3 3-3 0-4-3-4-7z M12 13c-3 3-6 3-8 1-1-1-1-3 0-4 2-2 5-1 8 3z" },
   { title: "Smart Home Wiring", href: "/smart-home-wiring.html", text: "Smart switches, controls, low-voltage planning, and connected home electrical setup.", link: "View smart wiring", icon: "M4 12h4l2-6 4 12 2-6h4 M5 20h14 M7 4h10" },
   { title: "Outdoor Lighting", href: "/outdoor-lighting.html", text: "Exterior lighting plans for entrances, pathways, garages, yards, and security visibility.", link: "View outdoor lighting", icon: "M4 20h16 M6 20v-8l6-5 6 5v8 M9 20v-5h6v5 M8 7l4-3 4 3" },
+  { title: "Driveway Lighting", href: "/driveway-lighting.html", text: "Driveway, garage approach, pathway, and motion lighting planned for outdoor visibility.", link: "View driveway lighting", icon: "M4 20h16 M6 16h12 M8 16l4-10 4 10 M9 10h6" },
+  { title: "New Construction Electrician", href: "/new-construction-electrician.html", text: "Electrical rough-in planning for new builds, additions, lighting, panels, and circuits.", link: "View new construction", icon: "M3 11 12 4l9 7v9H5v-9z M8 20v-6h8v6" },
   { title: "Electrical Panel Upgrade", href: "/panel-upgrade.html", text: "Panel capacity planning for renovations, EV charging, added circuits, and safer distribution.", link: "View panel upgrades", icon: "M5 4h14v18H5z M9 8h6 M9 12h2 M13 12h2 M9 16h2 M13 16h2" },
+  { title: "Electrical Repair", href: "/electrical-repair.html", text: "Troubleshooting for outlets, switches, breakers, fixtures, partial power, and urgent issues.", link: "View electrical repair", icon: "M14 3l7 7-4 1-1 4-4 1-1 4-7-7 4-1 1-4 4-1z" },
+  { title: "House Rewiring", href: "/house-rewiring.html", text: "Wiring updates for older homes, renovations, additions, outlets, lighting, and circuits.", link: "View house rewiring", icon: "M6 4v16 M6 8h8a4 4 0 0 1 0 8H6" },
+  { title: "Outlet & Switch Install", href: "/outlet-switch-install.html", text: "Outlet, switch, dimmer, timer, and smart control installation planning.", link: "View outlet service", icon: "M13 2 5 14h6l-1 8 9-13h-6z" },
+  { title: "Electrical Safety Inspection", href: "/electrical-safety-inspection.html", text: "Safety review for panels, breakers, outlets, wiring concerns, and older homes.", link: "View safety inspection", icon: "M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z" },
+  { title: "Smoke & CO Detectors", href: "/smoke-co-detectors.html", text: "Smoke alarm and carbon monoxide detector installation or replacement review.", link: "View detector service", icon: "M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z" },
 ];
 
 const currentPath = canonical ? new URL(canonical).pathname : "";
@@ -71,6 +78,14 @@ const hideVisibleBreadcrumbPaths = new Set([
   "/ceiling-fan-installation.html",
   "/smart-home-wiring.html",
   "/outdoor-lighting.html",
+  "/driveway-lighting.html",
+  "/new-construction-electrician.html",
+  "/panel-upgrade.html",
+  "/electrical-repair.html",
+  "/house-rewiring.html",
+  "/outlet-switch-install.html",
+  "/electrical-safety-inspection.html",
+  "/smoke-co-detectors.html",
 ]);
 const showVisibleBreadcrumbs = breadcrumbs.length > 0 && !hideVisibleBreadcrumbPaths.has(currentPath);
 const toRootHref = (href = "") => href.startsWith("http") || href.startsWith("/") || href.startsWith("tel:") || href.startsWith("mailto:") ? href : `/${href}`;
@@ -80,6 +95,7 @@ const normalizedRelatedServices = [...relatedServices, ...electricalServiceFallb
   services.push({ ...service, href });
   return services;
 }, []).slice(0, 8);
+const introSummaryItems = bookingItems.slice(0, 4);
 ---
 
 <BaseLayout title={title} description={description} canonical={canonical}>
@@ -133,11 +149,19 @@ const normalizedRelatedServices = [...relatedServices, ...electricalServiceFallb
     ))}
   </section>
 
-  <section class="content plumber-intro">
-    <div>
+  <section class="content plumber-intro electrical-content-section electrical-intro-section">
+    <div class="electrical-copy">
       <p class="eyebrow">Local electrical service</p>
       <h2>{introHeading}</h2>
       {introParagraphs.map((text) => <p>{text}</p>)}
+      {introSummaryItems.length > 0 && (
+        <div class="electrical-inline-panel">
+          <h3>What we can help with</h3>
+          <ul>
+            {introSummaryItems.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      )}
     </div>
     <aside class="quick-card booking-card">
       <p class="eyebrow">Need help?</p>
@@ -145,9 +169,6 @@ const normalizedRelatedServices = [...relatedServices, ...electricalServiceFallb
       <p>{bookingText}</p>
       <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
       <a class="button secondary" href="contact.html">Request service online</a>
-      <ul class="mini-links">
-        {bookingItems.map((item) => <li>{item}</li>)}
-      </ul>
     </aside>
   </section>
 
@@ -167,8 +188,8 @@ const normalizedRelatedServices = [...relatedServices, ...electricalServiceFallb
     </div>
   </section>
 
-  <section class="content">
-    <div>
+  <section class="content electrical-content-section electrical-planning-section">
+    <div class="electrical-copy">
       <p class="eyebrow">Service planning</p>
       <h2>{safetyHeading}</h2>
       {safetyParagraphs.map((text) => <p>{text}</p>)}
@@ -276,8 +297,8 @@ const normalizedRelatedServices = [...relatedServices, ...electricalServiceFallb
     </div>
   </section>
 
-  <section class="content neighbourhood-section">
-    <div>
+  <section class="content neighbourhood-section electrical-content-section electrical-area-section">
+    <div class="electrical-copy">
       <p class="eyebrow">Brampton service areas</p>
       <h2>Electrical help across Brampton neighbourhoods</h2>
       <p>{areaText}</p>
