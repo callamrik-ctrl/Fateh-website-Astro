@@ -50,6 +50,36 @@ const {
   faqs = [],
   breadcrumbs = [],
 } = Astro.props;
+
+const electricalServiceFallbacks = [
+  { title: "Generator Installation", href: "/generator-installation.html", text: "Backup power planning, panel readiness, and safe generator connection review.", link: "View generator service", icon: "M4 16h16 M6 16V8h12v8 M8 8V5h8v3 M9 12h2 M13 12h2 M17 12h1" },
+  { title: "Subpanel Installation", href: "/subpanel-installation.html", text: "Additional circuit planning for garages, basements, workshops, additions, and equipment areas.", link: "View subpanel service", icon: "M6 4v16 M6 8h8a4 4 0 0 1 0 8H6" },
+  { title: "Surge Protection", href: "/surge-protection.html", text: "Panel-based surge protection planning for electronics, appliances, and sensitive equipment.", link: "View surge protection", icon: "M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z" },
+  { title: "Pot Light Installation", href: "/pot-light-installation.html", text: "Clean recessed lighting plans for kitchens, basements, living rooms, and work spaces.", link: "View pot lights", icon: "M6 5h12 M8 5l2 8h4l2-8 M9 17h6 M10 21h4" },
+  { title: "Ceiling Fan Installation", href: "/ceiling-fan-installation.html", text: "Ceiling fan wiring, replacement, support review, and switch control planning.", link: "View ceiling fans", icon: "M12 11a2 2 0 1 0 0 4 2 2 0 0 0 0-4z M12 11c-1-4 1-7 4-7 2 0 3 1 3 3 0 3-3 4-7 4z M12 13c4-1 7 1 7 4 0 2-1 3-3 3-3 0-4-3-4-7z M12 13c-3 3-6 3-8 1-1-1-1-3 0-4 2-2 5-1 8 3z" },
+  { title: "Smart Home Wiring", href: "/smart-home-wiring.html", text: "Smart switches, controls, low-voltage planning, and connected home electrical setup.", link: "View smart wiring", icon: "M4 12h4l2-6 4 12 2-6h4 M5 20h14 M7 4h10" },
+  { title: "Outdoor Lighting", href: "/outdoor-lighting.html", text: "Exterior lighting plans for entrances, pathways, garages, yards, and security visibility.", link: "View outdoor lighting", icon: "M4 20h16 M6 20v-8l6-5 6 5v8 M9 20v-5h6v5 M8 7l4-3 4 3" },
+  { title: "Electrical Panel Upgrade", href: "/panel-upgrade.html", text: "Panel capacity planning for renovations, EV charging, added circuits, and safer distribution.", link: "View panel upgrades", icon: "M5 4h14v18H5z M9 8h6 M9 12h2 M13 12h2 M9 16h2 M13 16h2" },
+];
+
+const currentPath = canonical ? new URL(canonical).pathname : "";
+const hideVisibleBreadcrumbPaths = new Set([
+  "/generator-installation.html",
+  "/subpanel-installation.html",
+  "/surge-protection.html",
+  "/pot-light-installation.html",
+  "/ceiling-fan-installation.html",
+  "/smart-home-wiring.html",
+  "/outdoor-lighting.html",
+]);
+const showVisibleBreadcrumbs = breadcrumbs.length > 0 && !hideVisibleBreadcrumbPaths.has(currentPath);
+const toRootHref = (href = "") => href.startsWith("http") || href.startsWith("/") || href.startsWith("tel:") || href.startsWith("mailto:") ? href : `/${href}`;
+const normalizedRelatedServices = [...relatedServices, ...electricalServiceFallbacks].reduce((services, service) => {
+  const href = toRootHref(service.href);
+  if (href === currentPath || services.some((item) => item.href === href)) return services;
+  services.push({ ...service, href });
+  return services;
+}, []).slice(0, 8);
 ---
 
 <BaseLayout title={title} description={description} canonical={canonical}>
@@ -58,15 +88,16 @@ const {
 
   <SiteHeader />
 
-  {breadcrumbs.length > 0 && (
+  {showVisibleBreadcrumbs && (
     <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-      <ol>
+      <div class="breadcrumb-list">
         {breadcrumbs.map((crumb, index) => (
-          <li>
-            {index < breadcrumbs.length - 1 ? <a href={crumb.href}>{crumb.label}</a> : <span aria-current="page">{crumb.label}</span>}
-          </li>
+          <>
+            {index > 0 && <span class="breadcrumb-separator" aria-hidden="true">/</span>}
+            {index < breadcrumbs.length - 1 ? <a href={toRootHref(crumb.href)}>{crumb.label}</a> : <span aria-current="page">{crumb.label}</span>}
+          </>
         ))}
-      </ol>
+      </div>
     </nav>
   )}
 
@@ -156,7 +187,7 @@ const {
       <h2>{servicesHeading}</h2>
     </div>
     <div class="service-hub-grid">
-      {relatedServices.map((service) => (
+      {normalizedRelatedServices.map((service) => (
         <article>
           <span class="hub-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d={service.icon}></path></svg>

@@ -404,19 +404,21 @@ a:hover { color: var(--accent); }
   padding: 18px clamp(18px, 5vw, 72px) 0;
   background: var(--paper);
 }
-.breadcrumb-nav ol {
+.breadcrumb-nav .breadcrumb-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  align-items: center;
+  gap: 7px;
   max-width: 1180px;
   margin: 0 auto;
   padding: 0;
   list-style: none;
+  list-style-type: none;
   color: var(--muted);
   font-size: .92rem;
 }
-.breadcrumb-nav li { display: inline-flex; align-items: center; min-width: 0; }
-.breadcrumb-nav li + li::before { content: ">"; margin-right: 8px; color: #9aa8ba; }
+.breadcrumb-nav .breadcrumb-list > * { min-width: 0; }
+.breadcrumb-separator { color: #9aa8ba; line-height: 1; }
 .breadcrumb-nav a { color: var(--brand-dark); font-weight: 800; }
 .breadcrumb-nav span { overflow-wrap: anywhere; }
 .brampton-plumber-hero {
@@ -1050,6 +1052,7 @@ a:hover { color: var(--accent); }
   .mega-menu a, .mega-menu-link { padding: 7px 0; margin: 0; font-size: .95rem; font-weight: 400; }
   .mega-cta { display: none; }
   .hero, .page-hero, .content, .resources, .site-footer, .split-services, .home-photo-strip, .local-proof, .trust-strip, .home-trust-banner, .service-hub-grid, .problem-grid, .brampton-cta-band, .bathroom-coverage-band, .proof-band, .proof-grid, .review-style-grid, .process-steps, .photo-feature-section, .review-showcase-head, .home-path-grid { grid-template-columns: 1fr; }
+  .service-hub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .local-actions { justify-content: flex-start; }
   .hero { min-height: auto; padding-top: 34px; padding-bottom: 36px; }
   .hero-service-card, .hero-service-card img { min-height: 330px; }
@@ -1095,6 +1098,8 @@ a:hover { color: var(--accent); }
   .top-bar-inner { padding-left: 14px; padding-right: 14px; }
   .top-email, .top-map { overflow-wrap: anywhere; }
   .site-header { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; }
+  .breadcrumb-nav { padding-top: 14px; }
+  .breadcrumb-nav .breadcrumb-list { gap: 6px; font-size: .86rem; }
   .site-header::before {
     width: 178px;
     animation-duration: 8s;
@@ -1106,6 +1111,7 @@ a:hover { color: var(--accent); }
   .site-search { grid-column: 1 / -1; }
   .site-nav { grid-column: 1 / -1; }
   .hero, .page-hero, .content, .band, .resources, .site-footer, .split-services, .home-photo-strip, .local-proof, .trust-strip, .home-trust-banner, .bathroom-coverage-band, .proof-band, .review-style-band, .photo-feature-section, .review-showcase, .home-pathways { padding-left: 16px; padding-right: 16px; }
+  .service-hub-grid { grid-template-columns: 1fr; }
   .home-photo-strip { display: none; }
   .home-pathways { padding-top: 42px; padding-bottom: 32px; }
   .home-path-card { min-height: auto; padding: 22px; }
