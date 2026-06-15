@@ -70,6 +70,13 @@ const serviceGroups = [
 ];
 
 const allServices = serviceGroups.flatMap((group) => group.services);
+const featureItems = [
+  { title: "Emergency troubleshooting", text: "Help for sparks, burning smells, repeated breaker trips, partial power, and urgent safety concerns.", icon: icons.bolt },
+  { title: "Panel and power upgrades", text: "Planning for panels, subpanels, generators, surge protection, and EV charger readiness.", icon: icons.panel },
+  { title: "Lighting and controls", text: "Pot lights, ceiling fans, smart switches, outdoor lighting, driveway lighting, and fixture updates.", icon: icons.light },
+  { title: "Wiring and safety", text: "Support for repairs, rewiring, new construction rough-ins, safety inspections, and detectors.", icon: icons.shield },
+];
+
 const featuredServices = [
   allServices.find((service) => service.href === "emergency-electrician.html"),
   allServices.find((service) => service.href === "panel-upgrade.html"),
@@ -80,6 +87,15 @@ const featuredServices = [
   allServices.find((service) => service.href === "electrical-safety-inspection.html"),
   allServices.find((service) => service.href === "new-construction-electrician.html"),
 ].filter(Boolean);
+
+const viewLabel = (title) => {
+  const label = title
+    .replace(/^Electrical\s+/i, "")
+    .replace(/\s+Installation$/i, "")
+    .replace(/\s+Install$/i, "")
+    .toLowerCase();
+  return `View ${label} service`;
+};
 
 const faqs = [
   ["What electrical services do you provide?", "Fateh Plumbing & Electric helps with electrical repair, panel upgrades, EV charger installation, generator planning, subpanels, surge protection, lighting, wiring, safety inspections, and detector installation."],
@@ -167,40 +183,24 @@ const schema = {
         <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
         <a class="button secondary" href="contact.html">Request electrical service</a>
       </div>
-      <div class="hero-proof-row" aria-label="Electrical service highlights">
-        <span>Repairs</span>
-        <span>Panels & EV chargers</span>
-        <span>Lighting & wiring</span>
-      </div>
     </div>
     <div class="hero-service-card">
       <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1400&q=80" alt="Electrician working on residential electrical panel wiring" width="760" height="520">
     </div>
   </main>
 
-  <section class="content electrical-content-section electrical-hub-intro">
-    <div class="electrical-copy">
-      <p class="eyebrow">Direct answer</p>
-      <h2>One local electrical hub for repairs, upgrades, and installations</h2>
-      <p>Electrical service can be urgent, planned, or part of a bigger project. If you have sparks, a burning smell, partial power, repeated breaker trips, or an outlet that feels hot, call for help before using the affected circuit again.</p>
-      <p>For planned work, Fateh can help you choose the right path for <a href="panel-upgrade.html">electrical panel upgrades</a>, <a href="ev-charger-installation.html">EV charger installation</a>, <a href="pot-light-installation.html">pot light installation</a>, <a href="house-rewiring.html">house rewiring</a>, and other residential electrical services.</p>
-      <div class="electrical-inline-panel">
-        <h3>Common reasons customers call</h3>
-        <ul>
-          <li>Breaker trips, outlet issues, or partial power</li>
-          <li>Panel, subpanel, generator, or EV charger planning</li>
-          <li>Pot lights, ceiling fans, smart switches, and exterior lighting</li>
-          <li>Older wiring, renovations, safety inspections, or detectors</li>
-        </ul>
-      </div>
-    </div>
-    <aside class="quick-card booking-card">
-      <p class="eyebrow">Need help?</p>
-      <h2>Book electrical service</h2>
-      <p>Tell us what is happening, what you want installed, and whether the issue feels urgent.</p>
-      <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
-      <a class="button secondary" href="contact.html">Request service online</a>
-    </aside>
+  <section class="electrical-hub-feature-strip" aria-label="Electrical service highlights">
+    {featureItems.map((item) => (
+      <article>
+        <span class="hub-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d={item.icon}></path></svg>
+        </span>
+        <div>
+          <h2>{item.title}</h2>
+          <p>{item.text}</p>
+        </div>
+      </article>
+    ))}
   </section>
 
   <section class="band service-hub-band electrical-hub-band electrical-services-category-band">
@@ -233,6 +233,31 @@ const schema = {
     </div>
   </section>
 
+  <section class="content electrical-content-section electrical-hub-intro">
+    <div class="electrical-copy">
+      <p class="eyebrow">Electrical help without confusion</p>
+      <h2>One local hub for repairs, upgrades, and installations</h2>
+      <p>Electrical service can be urgent, planned, or part of a larger renovation. The right next step depends on the symptom, the affected area, the panel condition, and what you want the system to support.</p>
+      <p>If you have sparks, a burning smell, partial power, repeated breaker trips, or an outlet that feels hot, avoid using the affected circuit and call for help. For planned work, start with the service category above or request a visit so the setup can be reviewed properly.</p>
+      <div class="electrical-inline-panel">
+        <h3>Common reasons customers call</h3>
+        <ul>
+          <li>Breaker trips, outlet issues, or partial power</li>
+          <li>Panel, subpanel, generator, or EV charger planning</li>
+          <li>Pot lights, ceiling fans, smart switches, and exterior lighting</li>
+          <li>Older wiring, renovations, safety inspections, or detectors</li>
+        </ul>
+      </div>
+    </div>
+    <aside class="quick-card booking-card">
+      <p class="eyebrow">Need help?</p>
+      <h2>Book electrical service</h2>
+      <p>Tell us what is happening, what you want installed, and whether the issue feels urgent.</p>
+      <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
+      <a class="button secondary" href="contact.html">Request service online</a>
+    </aside>
+  </section>
+
   <section class="band problem-band electrical-problem-band">
     <div class="section-heading">
       <p class="eyebrow">Common electrical services</p>
@@ -246,34 +271,19 @@ const schema = {
           </span>
           <h3><a href={service.href}>{service.title}</a></h3>
           <p>{service.text}</p>
-          <a class="text-link" href={service.href}>Learn more</a>
+          <a class="text-link" href={service.href}>{viewLabel(service.title)}</a>
         </article>
       ))}
     </div>
   </section>
 
-  <section class="home-trust-banner electrical-trust-banner" aria-label="Why choose Fateh electrical service">
-    <article class="trust-feature">
-      <span class="trust-feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={icons.shield}></path></svg></span>
-      <div>
-        <h2>Safety-first troubleshooting</h2>
-        <p>Electrical work starts with the symptom, affected area, breaker behavior, and visible safety concerns.</p>
-      </div>
-    </article>
-    <article class="trust-feature">
-      <span class="trust-feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={icons.panel}></path></svg></span>
-      <div>
-        <h2>Clear upgrade planning</h2>
-        <p>Panels, subpanels, EV chargers, generators, and new circuits are reviewed around real property needs.</p>
-      </div>
-    </article>
-    <article class="trust-feature">
-      <span class="trust-feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={icons.home}></path></svg></span>
-      <div>
-        <h2>Local Brampton service</h2>
-        <p>Service is available for homes, rental units, small businesses, and managed properties across nearby GTA areas.</p>
-      </div>
-    </article>
+  <section class="electrical-dark-band" aria-label="Electrical service overview">
+    <div>
+      <p class="eyebrow">Electrical service hub</p>
+      <h2>Repairs, power planning, lighting, and safety in one place</h2>
+      <p>Fateh Plumbing & Electric helps customers across Brampton and nearby GTA areas choose the right electrical path, from urgent repairs and safety inspections to panel planning, EV chargers, wiring updates, lighting, detectors, and new construction electrical needs.</p>
+    </div>
+    <a class="button" href="contact.html">Request electrical service</a>
   </section>
 
   <section class="band process-band electrical-process-band">
@@ -313,21 +323,21 @@ const schema = {
     </aside>
   </section>
 
-  <section class="brampton-cta-band electrical-cta-band">
+  <section class="band faq electrical-services-faq">
+    <div class="section-heading">
+      <p class="eyebrow">Electrical FAQ</p>
+      <h2>Common questions about electrical services in Brampton</h2>
+    </div>
+    {faqs.map(([question, answer]) => <details><summary>{question}</summary><p>{answer}</p></details>)}
+  </section>
+
+  <section class="brampton-cta-band electrical-cta-band electrical-services-final-cta">
     <div>
       <p class="eyebrow">Electrical service</p>
       <h2>Need electrical repair, installation, or upgrade planning?</h2>
       <p>Call Fateh Plumbing & Electric for electrical services in Brampton, including panels, EV chargers, lighting, wiring, safety inspections, and urgent electrical concerns.</p>
     </div>
     <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
-  </section>
-
-  <section class="band faq">
-    <div class="section-heading">
-      <p class="eyebrow">Electrical FAQ</p>
-      <h2>Common questions about electrical services in Brampton</h2>
-    </div>
-    {faqs.map(([question, answer]) => <details><summary>{question}</summary><p>{answer}</p></details>)}
   </section>
 
   <SiteFooter />

@@ -400,6 +400,46 @@ if (footerNewsletterForm) {
   });
 }
 
+function setupPremiumHomepageMotion() {
+  const homeHero = document.querySelector(".home-hero");
+  if (!homeHero) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const revealItems = Array.from(document.querySelectorAll(".reveal-on-scroll"));
+  const staggerGroups = Array.from(document.querySelectorAll(".stagger-group"));
+
+  staggerGroups.forEach((group) => {
+    Array.from(group.children).forEach((item, index) => {
+      item.style.setProperty("--stagger-delay", Math.min(index * 110, 520) + "ms");
+    });
+  });
+
+  if (reduceMotion.matches || !("IntersectionObserver" in window)) {
+    revealItems.forEach((item) => item.classList.add("is-visible"));
+    staggerGroups.forEach((group) => group.classList.add("is-visible"));
+    return;
+  }
+
+  document.documentElement.classList.add("motion-ready");
+  homeHero.querySelectorAll(".reveal-on-scroll, .stagger-group").forEach((item) => item.classList.add("is-visible"));
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      observer.unobserve(entry.target);
+    });
+  }, {
+    threshold: 0.18,
+    rootMargin: "0px 0px -8% 0px",
+  });
+
+  revealItems.forEach((item) => observer.observe(item));
+  staggerGroups.forEach((group) => observer.observe(group));
+}
+
+setupPremiumHomepageMotion();
+
 const menuButton = document.querySelector(".menu-toggle");
 const nav = document.querySelector("#site-nav");
 
@@ -421,6 +461,7 @@ if (menuButton && nav) {
 
 const desktopMegaQuery = window.matchMedia("(min-width: 981px)");
 const megaWraps = Array.from(document.querySelectorAll(".mega-wrap"));
+let desktopMegaCloseTimer = null;
 
 function closeDesktopMegaMenus(exceptWrap) {
   megaWraps.forEach((wrap) => {
@@ -431,21 +472,40 @@ function closeDesktopMegaMenus(exceptWrap) {
   });
 }
 
-function setMegaMenuTop(wrap) {
-  const menu = wrap.querySelector(".mega-menu");
+function cancelDesktopMegaClose() {
+  if (desktopMegaCloseTimer) {
+    window.clearTimeout(desktopMegaCloseTimer);
+    desktopMegaCloseTimer = null;
+  }
+}
+
+function scheduleDesktopMegaClose() {
+  if (!desktopMegaQuery.matches) return;
+  cancelDesktopMegaClose();
+  desktopMegaCloseTimer = window.setTimeout(() => closeDesktopMegaMenus(), 120);
+}
+
+function openDesktopMegaMenu(wrap) {
+  if (!desktopMegaQuery.matches) return;
+  cancelDesktopMegaClose();
+  closeDesktopMegaMenus(wrap);
+  wrap.classList.add("active");
   const trigger = wrap.querySelector(".mega-trigger");
-  if (!menu || !trigger) return;
-  const triggerRect = trigger.getBoundingClientRect();
-  menu.style.setProperty("--mega-menu-top", Math.round(triggerRect.bottom + 22) + "px");
+  if (trigger) trigger.setAttribute("aria-expanded", "true");
 }
 
 megaWraps.forEach((wrap) => {
   const trigger = wrap.querySelector(".mega-trigger");
+  const menu = wrap.querySelector(".mega-menu");
   if (!trigger) return;
 
-  wrap.addEventListener("mouseenter", () => {
-    if (desktopMegaQuery.matches) setMegaMenuTop(wrap);
-  });
+  wrap.addEventListener("mouseenter", () => openDesktopMegaMenu(wrap));
+  wrap.addEventListener("mouseleave", scheduleDesktopMegaClose);
+  if (menu) {
+    menu.addEventListener("mouseenter", cancelDesktopMegaClose);
+    menu.addEventListener("mouseleave", scheduleDesktopMegaClose);
+  }
+  trigger.addEventListener("focus", () => openDesktopMegaMenu(wrap));
 
     trigger.addEventListener("click", (event) => {
       if (!desktopMegaQuery.matches) {
@@ -462,13 +522,28 @@ megaWraps.forEach((wrap) => {
       }
 
     event.preventDefault();
-    setMegaMenuTop(wrap);
     const open = !wrap.classList.contains("active");
     closeDesktopMegaMenus(wrap);
-    wrap.classList.toggle("active", open);
+    if (open) {
+      wrap.classList.add("active");
+    } else {
+      wrap.classList.remove("active");
+    }
     trigger.setAttribute("aria-expanded", String(open));
   });
 });
+
+if (nav) {
+  nav.addEventListener("mouseleave", scheduleDesktopMegaClose);
+  nav.querySelectorAll(":scope > a").forEach((link) => {
+    link.addEventListener("mouseenter", () => {
+      if (desktopMegaQuery.matches) closeDesktopMegaMenus();
+    });
+    link.addEventListener("focus", () => {
+      if (desktopMegaQuery.matches) closeDesktopMegaMenus();
+    });
+  });
+}
 
 document.addEventListener("click", (event) => {
   if (!desktopMegaQuery.matches) return;

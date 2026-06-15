@@ -103,13 +103,13 @@ a:hover { color: var(--accent); }
 .site-nav > a[aria-current="page"], .site-nav > a:hover, .mega-trigger:hover, .mega-wrap.active .mega-trigger { background: transparent; color: #1267ff; text-decoration: underline; text-underline-offset: 0.18em; }
 .mega-wrap { position: relative; }
 .mega-menu {
-  position: fixed; left: 50vw; top: var(--mega-menu-top, 154px); z-index: 30; width: min(1320px, calc(100vw - 56px));
-  transform: translateX(-50%); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) 242px; gap: 0;
+  position: fixed; left: 50vw; top: 176px; z-index: 30; width: min(1320px, calc(100vw - 56px));
+  transform: translateX(-50%); display: none; grid-template-columns: repeat(4, minmax(0, 1fr)) 242px; gap: 0;
   padding: 22px; background: rgba(255,255,255,.99); border: 1px solid var(--line); border-radius: 12px;
   box-shadow: 0 22px 60px rgba(15, 23, 42, 0.14); opacity: 0; pointer-events: none; translate: 0 -10px; transition: opacity .2s ease, translate .2s ease;
 }
 .theme-dark .mega-menu { background: rgba(11, 18, 32, .99); box-shadow: 0 22px 60px rgba(0, 0, 0, .44); }
-.mega-wrap:hover .mega-menu, .mega-wrap:focus-within .mega-menu, .mega-wrap.active .mega-menu { opacity: 1; pointer-events: auto; translate: 0 0; }
+.mega-wrap.active .mega-menu { display: grid; opacity: 1; pointer-events: auto; translate: 0 0; }
 .mega-menu > div:not(.mega-cta) { padding: 0 22px; border-right: 1px solid var(--line); }
 .mega-menu.plumbing-menu { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .mega-menu.electrical-menu { grid-template-columns: repeat(4, minmax(0, 1fr)) 260px; }
@@ -117,6 +117,7 @@ a:hover { color: var(--accent); }
 .mega-menu.plumbing-menu > div:nth-child(5) { border-right: 0; }
 .mega-menu h2 { display: flex; align-items: center; gap: 9px; margin: 0 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line); font-size: 0.88rem; letter-spacing: .09em; text-transform: uppercase; color: var(--ink); font-weight: 900; }
 .menu-icon { color: #1267ff; font-size: 1.25rem; line-height: 1; }
+.plumbing-menu .menu-icon { display: none; }
 .danger-icon { color: var(--accent); }
 .mega-menu a, .mega-menu-link { display: block; padding: 10px 12px; margin: 4px -12px; border-radius: 7px; color: #243044; text-decoration: none; font-weight: 400; }
 .mega-menu-link { cursor: default; }
@@ -382,6 +383,141 @@ a:hover { color: var(--accent); }
 .home-path-card.electrical .hub-icon { background: #ef233c; }
 .home-path-card.commercial .hub-icon { background: #172554; }
 .home-service-band .section-heading h2 { text-transform: none; }
+.home-hero {
+  perspective: 1200px;
+}
+.home-hero .hero-copy {
+  animation: heroPremiumIn .72s cubic-bezier(.16, 1, .3, 1) both;
+}
+.home-hero .motion-home-panel {
+  animation: heroPanelIn .82s cubic-bezier(.16, 1, .3, 1) .08s both;
+}
+.home-hero .button,
+.home-service-band .button,
+.photo-feature-section .button,
+.mobile-quote-bar {
+  transition: transform .22s ease, box-shadow .22s ease, filter .22s ease, background-color .22s ease;
+}
+.home-hero .button:hover,
+.home-service-band .button:hover,
+.photo-feature-section .button:hover,
+.mobile-quote-bar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(0, 82, 163, .2);
+  filter: saturate(1.05);
+}
+.premium-card {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+.hover-lift {
+  transition: transform .24s cubic-bezier(.2, .8, .2, 1), box-shadow .24s ease, border-color .24s ease, background .24s ease, filter .24s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-9px) scale(1.012);
+  box-shadow: 0 26px 58px rgba(15, 23, 42, .16);
+}
+.home-service-band .service-hub-grid article.hover-lift:hover,
+.home-path-card.hover-lift:hover,
+.trust-feature.hover-lift:hover {
+  border-color: rgba(0, 114, 206, .34);
+}
+.home-service-band .hub-icon,
+.home-path-card .hub-icon,
+.trust-feature-icon,
+.process-steps span,
+.proof-grid article {
+  transition: transform .24s ease, box-shadow .24s ease, filter .24s ease;
+}
+.home-service-band article:hover .hub-icon,
+.home-path-card:hover .hub-icon,
+.trust-feature:hover .trust-feature-icon {
+  transform: translateY(-3px) scale(1.07);
+  box-shadow: 0 16px 34px rgba(0, 82, 163, .22);
+}
+.home-service-band article:hover .emergency-icon,
+.home-path-card.electrical:hover .hub-icon {
+  box-shadow: 0 16px 34px rgba(239, 35, 60, .26);
+}
+.soft-depth {
+  box-shadow: 0 26px 70px rgba(15, 23, 42, .18);
+}
+.motion-ready .reveal-on-scroll,
+.motion-ready .stagger-group > * {
+  opacity: 0;
+  transform: translate3d(0, 46px, 0) scale(.975);
+  transition:
+    opacity .72s cubic-bezier(.16, 1, .3, 1),
+    transform .72s cubic-bezier(.16, 1, .3, 1),
+    box-shadow .24s ease,
+    border-color .24s ease,
+    background .24s ease;
+  transition-delay: var(--stagger-delay, 0ms);
+  will-change: opacity, transform;
+}
+.motion-ready .reveal-left {
+  transform: translate3d(-44px, 18px, 0) scale(.985);
+}
+.motion-ready .reveal-right {
+  transform: translate3d(44px, 18px, 0) scale(.985);
+}
+.motion-ready .reveal-up {
+  transform: translate3d(0, 52px, 0) scale(.975);
+}
+.motion-ready .reveal-on-scroll.is-visible,
+.motion-ready .stagger-group.is-visible > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+.motion-ready .home-hero .reveal-on-scroll {
+  opacity: 1;
+}
+.motion-ready .home-hero .hero-proof-row > * {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  animation: heroChipIn .58s cubic-bezier(.16, 1, .3, 1) both;
+  animation-delay: var(--stagger-delay, 0ms);
+}
+.motion-ready .review-carousel.is-visible .review-card {
+  animation: cardDepthIn .68s cubic-bezier(.16, 1, .3, 1) both;
+}
+.motion-ready .review-carousel.is-visible .review-card:nth-child(2) { animation-delay: .08s; }
+.motion-ready .review-carousel.is-visible .review-card:nth-child(3) { animation-delay: .16s; }
+@keyframes heroPremiumIn {
+  from { opacity: 0; transform: translate3d(-28px, 18px, 0) scale(.985); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes heroPanelIn {
+  from { opacity: 0; transform: translate3d(34px, 22px, 0) rotateX(2deg) scale(.975); filter: blur(2px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) rotateX(0) scale(1); filter: blur(0); }
+}
+@keyframes heroChipIn {
+  from { opacity: 0; transform: translate3d(0, 18px, 0) scale(.96); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes cardDepthIn {
+  from { opacity: 0; transform: translate3d(0, 28px, 0) scale(.97); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-hero .hero-copy,
+  .home-hero .motion-home-panel,
+  .motion-ready .reveal-on-scroll,
+  .motion-ready .stagger-group > *,
+  .motion-ready .review-carousel.is-visible .review-card {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .hover-lift:hover,
+  .home-hero .button:hover,
+  .home-service-band .button:hover,
+  .photo-feature-section .button:hover,
+  .mobile-quote-bar:hover {
+    transform: none;
+  }
+}
 .home-photo-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; padding: 0 clamp(18px, 5vw, 72px) 24px; background: white; }
 .theme-dark .home-photo-strip, .theme-dark .split-services { background: #0b1220; }
 .home-photo-strip img { width: 100%; aspect-ratio: 16 / 8; object-fit: cover; border-radius: var(--radius); box-shadow: 0 12px 28px rgba(23, 33, 43, 0.09); border: 1px solid var(--line); animation: softLift .7s ease both; }
@@ -555,6 +691,9 @@ a:hover { color: var(--accent); }
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
+.electrical-category-card a:hover {
+  color: var(--brand);
+}
 .electrical-category-card span {
   display: block;
   margin-top: 4px;
@@ -563,6 +702,195 @@ a:hover { color: var(--accent); }
 }
 .theme-dark .electrical-category-card a {
   color: #8ec7ff;
+}
+.electrical-services-hero {
+  padding-bottom: 58px;
+  background:
+    radial-gradient(circle at 82% 14%, rgba(239, 35, 60, .12), transparent 30%),
+    linear-gradient(115deg, rgba(239, 35, 60, .08), rgba(255, 210, 26, .08) 58%, rgba(15, 67, 132, .06)),
+    #ffffff;
+}
+.theme-dark .electrical-services-hero {
+  background:
+    radial-gradient(circle at 82% 14%, rgba(239, 35, 60, .18), transparent 32%),
+    linear-gradient(115deg, rgba(239, 35, 60, .12), rgba(255, 210, 26, .05) 58%, rgba(74, 163, 255, .08)),
+    #0b1220;
+}
+.electrical-services-hero .hero-service-card {
+  min-height: 390px;
+  border-color: rgba(239, 35, 60, .18);
+  box-shadow: 0 22px 50px rgba(23, 33, 43, .14);
+}
+.electrical-services-hero .hero-service-card img { min-height: 390px; }
+.electrical-hub-feature-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  padding: 22px clamp(18px, 5vw, 72px) 34px;
+  background: #ffffff;
+  border-top: 1px solid rgba(239, 35, 60, .1);
+}
+.theme-dark .electrical-hub-feature-strip {
+  background: #0b1220;
+  border-top-color: var(--line);
+}
+.electrical-hub-feature-strip article {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  min-height: 146px;
+  padding: 20px;
+  border: 1px solid rgba(239, 35, 60, .16);
+  border-radius: 18px;
+  background: linear-gradient(145deg, #ffffff 0%, #fff8f7 100%);
+  box-shadow: 0 12px 28px rgba(23, 33, 43, .06);
+}
+.theme-dark .electrical-hub-feature-strip article {
+  border-color: rgba(239, 35, 60, .26);
+  background: linear-gradient(145deg, #111d31 0%, #0b1220 100%);
+}
+.electrical-hub-feature-strip .hub-icon {
+  width: 54px;
+  height: 54px;
+  background: #ef233c;
+  box-shadow: 0 10px 22px rgba(239, 35, 60, .18);
+}
+.electrical-hub-feature-strip .hub-icon svg {
+  width: 28px;
+  height: 28px;
+}
+.electrical-hub-feature-strip h2 {
+  margin: 0 0 7px;
+  font-size: 1rem;
+  line-height: 1.18;
+  color: var(--ink);
+}
+.electrical-hub-feature-strip p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .94rem;
+  line-height: 1.45;
+}
+.electrical-services-category-band {
+  padding-top: 56px;
+  padding-bottom: 58px;
+}
+.electrical-services-category-band .section-heading {
+  margin-bottom: 24px;
+}
+.electrical-services-category-band .section-heading h2 {
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+.electrical-category-card {
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.electrical-category-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(239, 35, 60, .34);
+  box-shadow: 0 22px 46px rgba(23, 33, 43, .1);
+}
+.electrical-services-category-band .electrical-category-card .hub-icon,
+.electrical-services-category-band .category-head .hub-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ef233c;
+  flex: 0 0 66px;
+}
+.electrical-services-category-band .category-head .hub-icon svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: auto;
+}
+.electrical-hub-intro {
+  background: #f8fafc;
+}
+.theme-dark .electrical-hub-intro {
+  background: #0f172a;
+}
+.electrical-problem-band .service-hub-grid article {
+  min-height: 302px;
+  padding: 28px 24px 26px;
+  border: 0;
+  border-radius: 18px;
+  background: #f1f1f2;
+  text-align: center;
+  box-shadow: none;
+}
+.electrical-problem-band .service-hub-grid article:hover {
+  background: #eef4ff;
+  box-shadow: 0 18px 38px rgba(23, 33, 43, .11);
+}
+.electrical-problem-band .service-hub-grid .hub-icon {
+  width: 66px;
+  height: 66px;
+  background: #ef233c;
+  box-shadow: none;
+}
+.electrical-problem-band .service-hub-grid .hub-icon svg {
+  width: 32px;
+  height: 32px;
+}
+.electrical-problem-band .service-hub-grid h3 a {
+  color: #4b4d52;
+  text-decoration: none;
+}
+.electrical-problem-band .service-hub-grid .text-link {
+  color: #2d43ad;
+  font-weight: 850;
+}
+.electrical-problem-band .service-hub-grid h3 a:hover,
+.electrical-problem-band .service-hub-grid .text-link:hover {
+  color: #2d43ad;
+}
+.electrical-services-faq {
+  background: #ffffff;
+}
+.theme-dark .electrical-services-faq {
+  background: #0b1220;
+}
+.electrical-dark-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 28px;
+  align-items: center;
+  padding: 58px clamp(18px, 5vw, 72px);
+  background:
+    radial-gradient(circle at 12% 20%, rgba(239, 35, 60, .22), transparent 28%),
+    linear-gradient(135deg, #070b14 0%, #101827 62%, #17111a 100%);
+  color: #ffffff;
+}
+.electrical-dark-band > div {
+  max-width: 920px;
+}
+.electrical-dark-band .eyebrow {
+  color: #ff4b57;
+  margin-bottom: 10px;
+}
+.electrical-dark-band h2 {
+  margin: 0 0 14px;
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+  line-height: 1.08;
+  color: #ffffff;
+}
+.electrical-dark-band p:not(.eyebrow) {
+  margin: 0;
+  max-width: 860px;
+  color: #d7dfec;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+.electrical-dark-band .button {
+  white-space: nowrap;
+  background: #ef233c;
+  box-shadow: 0 16px 34px rgba(239, 35, 60, .28);
+}
+.electrical-services-final-cta {
+  margin-top: 0;
 }
 .urgent-card { border-color: rgba(240, 6, 18, .22); background: linear-gradient(145deg, #fff 0%, #fff4f3 100%); }
 .theme-dark .urgent-card { background: linear-gradient(145deg, #24131a 0%, #0b1220 100%); }
@@ -1184,6 +1512,7 @@ a:hover { color: var(--accent); }
   .hero, .page-hero, .content, .resources, .site-footer, .split-services, .home-photo-strip, .local-proof, .trust-strip, .home-trust-banner, .service-hub-grid, .problem-grid, .brampton-cta-band, .bathroom-coverage-band, .proof-band, .proof-grid, .review-style-grid, .process-steps, .photo-feature-section, .review-showcase-head, .home-path-grid { grid-template-columns: 1fr; }
   .service-hub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .electrical-category-grid { grid-template-columns: 1fr; }
+  .electrical-hub-feature-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-left: 18px; padding-right: 18px; }
   .local-actions { justify-content: flex-start; }
   .hero { min-height: auto; padding-top: 34px; padding-bottom: 36px; }
   .hero-service-card, .hero-service-card img { min-height: 330px; }
@@ -1213,10 +1542,24 @@ a:hover { color: var(--accent); }
   .scene-caption { flex-direction: column; align-items: flex-start; gap: 4px; }
   .page-hero { padding-top: 44px; padding-bottom: 42px; }
   .home-photo-strip img { aspect-ratio: 16 / 10; }
+  .motion-ready .reveal-on-scroll,
+  .motion-ready .stagger-group > * {
+    transform: translate3d(0, 28px, 0) scale(.985);
+  }
+  .motion-ready .reveal-left,
+  .motion-ready .reveal-right {
+    transform: translate3d(0, 28px, 0) scale(.985);
+  }
+  .hover-lift:hover {
+    transform: translateY(-5px) scale(1.006);
+  }
   .quick-card { position: static; }
   .card-grid, .link-grid, .two-column, .commercial-columns { grid-template-columns: 1fr; }
   .category-head { grid-template-columns: 54px minmax(0, 1fr); gap: 12px; }
-  .category-head .hub-icon { width: 54px; height: 54px; }
+  .category-head .hub-icon { width: 54px; height: 54px; flex-basis: 54px; }
+  .electrical-services-category-band .category-head .hub-icon svg { width: 28px; height: 28px; }
+  .electrical-dark-band { grid-template-columns: 1fr; align-items: start; }
+  .electrical-dark-band .button { justify-self: start; }
 }
 
 @media (max-width: 620px) {
@@ -1245,6 +1588,11 @@ a:hover { color: var(--accent); }
   .site-nav { grid-column: 1 / -1; }
   .hero, .page-hero, .content, .band, .resources, .site-footer, .split-services, .home-photo-strip, .local-proof, .trust-strip, .home-trust-banner, .bathroom-coverage-band, .proof-band, .review-style-band, .photo-feature-section, .review-showcase, .home-pathways { padding-left: 16px; padding-right: 16px; }
   .service-hub-grid { grid-template-columns: 1fr; }
+  .electrical-hub-feature-strip { grid-template-columns: 1fr; padding: 18px 16px 28px; }
+  .electrical-hub-feature-strip article { min-height: auto; padding: 18px; }
+  .electrical-services-category-band { padding-top: 42px; padding-bottom: 44px; }
+  .electrical-dark-band { padding: 42px 16px; gap: 20px; }
+  .electrical-dark-band .button { width: 100%; }
   .home-photo-strip { display: none; }
   .home-pathways { padding-top: 42px; padding-bottom: 32px; }
   .home-path-card { min-height: auto; padding: 22px; }
