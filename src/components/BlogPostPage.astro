@@ -1,0 +1,156 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "./SiteHeader.astro";
+import SiteFooter from "./SiteFooter.astro";
+
+const {
+  title,
+  description,
+  canonical,
+  h1,
+  eyebrow,
+  heroText,
+  heroImage,
+  heroAlt,
+  datePublished,
+  primaryKeyword,
+  category,
+  readingTime,
+  sections,
+  midCta,
+  endCta,
+  faqs,
+  disclaimer,
+  linkTone = "plumbing",
+} = Astro.props;
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title.replace(" | Brampton Electrician", "").replace(" | Brampton", ""),
+  author: {
+    "@type": "Organization",
+    name: "Fateh Plumbing & Electric",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Fateh Plumbing & Electric",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://fatehplumelec.com/assets/fateh-logo-clean.png",
+    },
+  },
+  datePublished,
+  dateModified: datePublished,
+  image: heroImage,
+  mainEntityOfPage: canonical,
+  description,
+  keywords: primaryKeyword,
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogImage={heroImage} baseHref="/">
+  <SiteHeader current="blog" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <main class={`page-hero blog-post-hero ${linkTone === "electrical" ? "blog-electrical" : "blog-plumbing"}`}>
+    <div>
+      <p class="eyebrow">{eyebrow}</p>
+      <h1>{h1}</h1>
+      <p>{heroText}</p>
+      <div class="hero-actions">
+        <a class="button" href="tel:6479809211">Call 647-980-9211</a>
+        <a class="button secondary" href="contact.html">Free on-site assessment</a>
+      </div>
+      <div class="blog-post-meta" aria-label="Article details">
+        <span>{category}</span>
+        <span>{datePublished}</span>
+        <span>{readingTime}</span>
+      </div>
+    </div>
+    <div class="hero-service-card">
+      <img src={heroImage} alt={heroAlt} width="760" height="520">
+    </div>
+  </main>
+
+  <article class={`blog-article ${linkTone === "electrical" ? "blog-electrical-links" : "blog-plumbing-links"}`}>
+    <div class="blog-article-body">
+      {sections.map((section, index) => (
+        <>
+          <section class="blog-article-section">
+            <h2>{section.heading}</h2>
+            {section.paragraphs.map((paragraph) => <p set:html={paragraph} />)}
+          </section>
+          {index === 1 && (
+            <aside class="blog-inline-cta">
+              <div>
+                <p class="eyebrow">{midCta.eyebrow}</p>
+                <h2>{midCta.title}</h2>
+                <p>{midCta.text}</p>
+              </div>
+              <div class="blog-cta-actions">
+                <a class="button" href="tel:6479809211">Call Now</a>
+                <a class="button secondary" href="contact.html">Free on-site assessment</a>
+              </div>
+            </aside>
+          )}
+        </>
+      ))}
+      {disclaimer && <p class="blog-disclaimer">{disclaimer}</p>}
+    </div>
+    <aside class="quick-card blog-article-aside">
+      <p class="eyebrow">Local service</p>
+      <h2>Fateh Plumbing & Electric</h2>
+      <p>Serving Brampton homes, rentals, businesses, and nearby GTA communities.</p>
+      <ul class="mini-links">
+        <li>Mississauga</li>
+        <li>Vaughan</li>
+        <li>Caledon</li>
+      </ul>
+      <a class="button" href="tel:6479809211">Call 647-980-9211</a>
+      <a class="button secondary" href="contact.html">Request service</a>
+    </aside>
+  </article>
+
+  <section class="proof-band blog-proof-band">
+    <div>
+      <p class="eyebrow">{endCta.eyebrow}</p>
+      <h2>{endCta.title}</h2>
+      <p>{endCta.text}</p>
+    </div>
+    <div class="blog-cta-actions">
+      <a class="button" href="tel:6479809211">Call Now</a>
+      <a class="button secondary" href="contact.html">Free on-site assessment</a>
+    </div>
+  </section>
+
+  <section class="band faq blog-faq">
+    <div class="section-heading">
+      <p class="eyebrow">FAQ</p>
+      <h2>Common questions about {primaryKeyword}</h2>
+    </div>
+    {faqs.map((faq) => (
+      <details>
+        <summary>{faq.question}</summary>
+        <p>{faq.answer}</p>
+      </details>
+    ))}
+  </section>
+
+  <SiteFooter />
+</BaseLayout>

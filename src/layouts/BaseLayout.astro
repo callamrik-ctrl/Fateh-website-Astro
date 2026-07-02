@@ -4,6 +4,7 @@ const {
   description,
   canonical,
   ogImage = "https://fatehplumelec.com/assets/fateh-logo-clean.png",
+  baseHref,
 } = Astro.props;
 ---
 <!doctype html>
@@ -12,6 +13,7 @@ const {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{title}</title>
+  {baseHref && <base href={baseHref} />}
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
   <meta property="og:type" content="website" />
