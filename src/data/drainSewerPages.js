@@ -53,8 +53,8 @@ function makePage(config) {
 
 export const drainSewerPages = {
   sewerLineRepair: makePage({
-    title: "Sewer Line Repair Brampton | Sewer Backup & Main Line Service",
-    description: "Sewer line repair in Brampton for sewer backups, main drain problems, sewer odour, root damage, sewer line replacement, and trenchless repair planning.",
+    title: "Sewer Line Repair Brampton | Fateh",
+    description: "Sewer line repair Brampton and GTA for backups, sewer smell, roots, and damaged lines. Licensed and insured drain service.",
     canonical: "https://fatehplumelec.com/sewer-line-repair.html",
     eyebrow: "Sewer line repair",
     h1: "Sewer Line Repair Brampton",
@@ -131,8 +131,8 @@ export const drainSewerPages = {
   }),
 
   sewerCameraInspection: makePage({
-    title: "Sewer Camera Inspection Brampton | Drain Camera & Pipe Scope",
-    description: "Sewer camera inspection in Brampton for recurring backups, drain camera service, sewer line inspection, plumbing camera inspection, and pipe repair planning.",
+    title: "Sewer Camera Inspection Brampton | Fateh",
+    description: "Sewer camera inspection Brampton for recurring clogs, sewer smell, roots, and main line diagnosis. Licensed and insured service.",
     canonical: "https://fatehplumelec.com/sewer-camera-inspection.html",
     eyebrow: "Sewer camera inspection",
     h1: "Sewer Camera Inspection Brampton",
@@ -209,8 +209,8 @@ export const drainSewerPages = {
   }),
 
   backwaterValve: makePage({
-    title: "Backwater Valve Brampton | Installation & Sewer Backup Prevention",
-    description: "Backwater valve service in Brampton for backwater valve installation, sewer backup prevention, basement flood protection planning, and valve maintenance.",
+    title: "Backwater Valve Brampton | Fateh",
+    description: "Backwater valve Brampton service for sewer backup prevention, basement flood risk, and storm protection. Free on-site assessment.",
     canonical: "https://fatehplumelec.com/backwater-valve.html",
     eyebrow: "Backwater valve",
     h1: "Backwater Valve Brampton",
@@ -287,8 +287,8 @@ export const drainSewerPages = {
   }),
 
   basementPlumbing: makePage({
-    title: "Basement Plumbing Brampton | Bathroom Rough-In, Drains & Leaks",
-    description: "Basement plumbing in Brampton for basement bathroom plumbing, rough-in plumbing, floor drains, laundry drains, basement leaks, sump pumps, and drain planning.",
+    title: "Basement Plumbing Brampton | Fateh",
+    description: "Basement plumbing Brampton service for drains, rough-ins, sump pumps, leaks, and lower-level fixtures. Licensed and insured help.",
     canonical: "https://fatehplumelec.com/basement-plumbing.html",
     eyebrow: "Basement plumbing",
     h1: "Basement Plumbing Brampton",

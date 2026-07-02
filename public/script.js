@@ -93,7 +93,6 @@ const siteSearchPages = [
   { title: "Maintenance Contracts", url: "maintenance-contracts.html", type: "Commercial", terms: "maintenance contract property manager recurring service commercial plumbing electrical" },
   { title: "Property Management Plumbing", url: "property-management-plumbing.html", type: "Commercial", terms: "property management plumbing rental condo tenant maintenance leak drain" },
   { title: "Contact Fateh", url: "contact.html", type: "Contact", terms: "contact phone quote request service email call" },
-  { title: "Contractor Job Portal", url: "contractor-job-portal.html", type: "Private Portal", terms: "contractor job portal subcontractor worker check in job entry pin payment contractor amount private portal" },
   { title: "About Fateh", url: "about.html", type: "Company", terms: "about company fateh plumbing electric brampton" },
   { title: "Blog", url: "blog.html", type: "Help", terms: "blog plumbing electrical tips homeowner repair maintenance" },
 ];

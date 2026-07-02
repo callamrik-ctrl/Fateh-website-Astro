@@ -133,8 +133,8 @@ export const waterSystemPages = {
   }),
 
   tanklessWaterHeater: makePage({
-    title: "Tankless Water Heater Brampton | Installation, Repair & Service",
-    description: "Tankless water heater service in Brampton for on-demand water heater installation, repair, maintenance, endless hot water planning, and tankless upgrades.",
+    title: "Tankless Water Heater Brampton | Fateh",
+    description: "Tankless water heater Brampton service for installs, repairs, flow issues, and hot water planning. Licensed and insured support.",
     canonical: "https://fatehplumelec.com/tankless-water-heater.html",
     eyebrow: "Tankless water heater",
     h1: "Tankless Water Heater Brampton",
@@ -211,8 +211,8 @@ export const waterSystemPages = {
   }),
 
   reverseOsmosisSystem: makePage({
-    title: "RO System Installation Brampton | Reverse Osmosis Water Filter",
-    description: "RO system installation in Brampton for reverse osmosis drinking water filters, under-sink water filtration, cleaner tasting water, and kitchen water filter service.",
+    title: "Reverse Osmosis System Brampton | Fateh",
+    description: "Reverse osmosis system Brampton installation for under-sink drinking water and RO faucet setup. Free on-site assessment.",
     canonical: "https://fatehplumelec.com/reverse-osmosis-system.html",
     eyebrow: "RO system installation",
     h1: "RO System Installation Brampton",
@@ -290,8 +290,8 @@ export const waterSystemPages = {
   }),
 
   sumpPumpRepair: makePage({
-    title: "Sump Pump Repair Brampton | Basement Flood Prevention",
-    description: "Sump pump repair in Brampton for failed pumps, float switch problems, noisy pumps, battery backup planning, discharge issues, and basement flood prevention.",
+    title: "Sump Pump Repair Brampton | Fateh",
+    description: "Sump pump repair Brampton for failed pumps, float switches, battery backup planning, and basement flood risk. Licensed and insured.",
     canonical: "https://fatehplumelec.com/sump-pump-repair.html",
     eyebrow: "Sump pump repair",
     h1: "Sump Pump Repair Brampton",
@@ -368,8 +368,8 @@ export const waterSystemPages = {
   }),
 
   waterSoftener: makePage({
-    title: "Water Softener Brampton | Water Softener System Installation",
-    description: "Water softener service in Brampton for hard water, water softener system installation, water conditioning systems, scale buildup, and fixture protection.",
+    title: "Water Softener Brampton | Fateh",
+    description: "Water softener Brampton service for hard water, plumbing connections, setup, and replacement planning. Licensed and insured help.",
     canonical: "https://fatehplumelec.com/water-softener.html",
     eyebrow: "Water softener",
     h1: "Water Softener Brampton",
@@ -446,8 +446,8 @@ export const waterSystemPages = {
   }),
 
   waterServiceUpgrade: makePage({
-    title: "Water Service Upgrade Brampton | Main Water Line Upgrade",
-    description: "Water service upgrade in Brampton for low water pressure, old service lines, main water line upgrades, larger plumbing demand, and water supply improvements.",
+    title: "Water Service Upgrade Brampton | Fateh",
+    description: "Water service upgrade Brampton help for old supply lines, pressure issues, and home plumbing demand. Free on-site assessment.",
     canonical: "https://fatehplumelec.com/water-service-upgrade.html",
     eyebrow: "Water service upgrade",
     h1: "Water Service Upgrade Brampton",

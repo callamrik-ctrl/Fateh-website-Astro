@@ -367,8 +367,8 @@ export const emergencyRepairPages = {
   }),
 
   mainDrainBackup: makePage({
-    title: "Main Drain Backup Brampton | Basement Drain & Sewer Backup Help",
-    description: "Main drain backup in Brampton for basement main drain backup, main sewer line backup, floor drain backing up, plumbing main line backup, and emergency drain service.",
+    title: "Main Drain Backup Brampton | Fateh",
+    description: "Main drain backup Brampton service for sewer smell, basement backups, and slow whole-home drainage. 24/7 emergency help.",
     canonical: "https://fatehplumelec.com/main-drain-backup.html",
     eyebrow: "Main drain backup",
     h1: "Main Drain Backup Brampton",
