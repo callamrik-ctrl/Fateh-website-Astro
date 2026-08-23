@@ -18,7 +18,7 @@ const baseTrust = [
 const baseServiceArea = {
   eyebrow: "Service coverage",
   title: "Emergency plumber and repair help across Brampton and nearby GTA communities",
-  text: "Fateh Plumbing & Electric helps with emergency plumber calls, leak detection, pipe repair, burst pipe repair, water service upgrade planning, and main drain backups from Brampton into nearby service areas when scheduling allows.",
+  text: "Fateh Plumbing & Electric helps with emergency plumber calls, leak detection, pipe repair, burst pipe repair, water service upgrade planning, and main drain backups from Brampton into nearby service areas.",
   points: ["Brampton", "Mississauga", "Vaughan", "Caledon", "Etobicoke"],
 };
 
@@ -127,7 +127,7 @@ export const emergencyRepairPages = {
       { q: "Do you help with same day plumbing service?", a: "Yes. Same day service depends on schedule and location, but urgent leaks and backups are treated as priority calls." },
       { q: "Can a main drain backup be an emergency?", a: "Yes. Sewage or dirty water backing up into a basement, floor drain, tub, or toilet should be treated as urgent." },
       { q: "Can a frozen pipe become an emergency?", a: "Yes. Frozen pipes can split and leak when pressure builds or when the pipe thaws." },
-      { q: "Do you serve Brampton as an emergency plumber?", a: "Yes. Fateh Plumbing & Electric helps with emergency plumber calls in Brampton and nearby GTA communities when scheduling allows." },
+      { q: "Do you serve Brampton as an emergency plumber?", a: "Yes. Fateh Plumbing & Electric helps with emergency plumber calls in Brampton and nearby GTA communities." },
     ],
   }),
 

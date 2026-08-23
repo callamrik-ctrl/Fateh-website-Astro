@@ -18,7 +18,7 @@ const baseTrust = [
 const baseServiceArea = {
   eyebrow: "Service coverage",
   title: "Drain and sewer plumbing help across Brampton and nearby GTA communities",
-  text: "Fateh Plumbing & Electric helps with sewer lines, drain cameras, backwater valves, basement plumbing, sump pumps, and main drain concerns from Brampton into nearby service areas when scheduling allows.",
+  text: "Fateh Plumbing & Electric helps with sewer lines, drain cameras, backwater valves, basement plumbing, sump pumps, and main drain concerns from Brampton into nearby service areas.",
   points: ["Brampton", "Mississauga", "Vaughan", "Caledon", "Etobicoke"],
 };
 
@@ -204,7 +204,7 @@ export const drainSewerPages = {
       { q: "When should I request a drain camera?", a: "A drain camera is useful when clogs keep returning, the main line backs up, sewer odour appears, or repair planning is needed." },
       { q: "Can sewer camera inspection help with sewer line repair?", a: "Yes. It can help identify the damaged or restricted section before repair or replacement planning." },
       { q: "Do businesses need sewer camera inspection?", a: "Restaurants, plazas, retail units, and properties with repeat drain problems may benefit from inspection before major service decisions." },
-      { q: "Do you provide sewer camera inspection in Brampton?", a: "Yes. Fateh Plumbing & Electric helps with sewer camera inspection in Brampton and nearby service areas when scheduling allows." },
+      { q: "Do you provide sewer camera inspection in Brampton?", a: "Yes. Fateh Plumbing & Electric helps with sewer camera inspection in Brampton and nearby service areas." },
     ],
   }),
 
