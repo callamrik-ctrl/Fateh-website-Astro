@@ -37,6 +37,10 @@ const siteSearchPages = [
   { title: "Emergency Plumber", url: "emergency-plumber.html", type: "Plumbing", terms: "emergency plumber brampton emergency plumber near me 24 hour plumber 24 7 plumber same day plumber urgent plumber emergency plumbing services emergency drain service" },
   { title: "Brampton Plumber", url: "brampton-plumber.html", type: "Plumbing Area", terms: "plumber in brampton plumbing service local drain leak water heater sewer toilet faucet sump pump" },
   { title: "Markham Plumber", url: "markham-plumber.html", type: "Plumbing Area", terms: "markham plumber unionville thornhill markham village cornell berczy milliken cathedraltown plumbing service local drain leak water heater sewer toilet faucet sump pump" },
+  { title: "Mississauga Plumber", url: "mississauga-plumber.html", type: "Plumbing Area", terms: "mississauga plumber port credit streetsville meadowvale erin mills malton cooksville clarkson drain leak water heater sewer toilet faucet sump pump" },
+  { title: "Vaughan Plumber", url: "vaughan-plumber.html", type: "Plumbing Area", terms: "vaughan plumber woodbridge maple thornhill concord kleinburg vellore patterson drain leak water heater sewer toilet faucet sump pump" },
+  { title: "Caledon Plumber", url: "caledon-plumber.html", type: "Plumbing Area", terms: "caledon plumber bolton caledon east mayfield west palgrave inglewood cheltenham alton drain leak water heater sewer well pump" },
+  { title: "Etobicoke Plumber", url: "etobicoke-plumber.html", type: "Plumbing Area", terms: "etobicoke plumber the kingsway mimico new toronto long branch islington rexdale alderwood drain leak water heater sewer toilet faucet" },
   { title: "Drain Cleaning", url: "drain-cleaning.html", type: "Plumbing", terms: "clogged drain sink toilet tub floor drain main drain sewer backup cleaning" },
   { title: "Kitchen Sink Installation", url: "kitchen-sink-installation.html", type: "Plumbing", terms: "kitchen sink installation brampton sink installation undermount drop in plumber replace kitchen sink faucet drain hookup" },
   { title: "Clogged Kitchen Sink", url: "clogged-kitchen-sink.html", type: "Plumbing", terms: "clogged kitchen sink brampton kitchen sink drain cleaning slow kitchen sink grease clogged kitchen drain not draining" },
@@ -101,6 +105,9 @@ const siteSearchPages = [
   { title: "Contact Fateh", url: "contact.html", type: "Contact", terms: "contact phone quote request service email call" },
   { title: "About Fateh", url: "about.html", type: "Company", terms: "about company fateh plumbing electric brampton" },
   { title: "Blog", url: "blog.html", type: "Help", terms: "blog plumbing electrical tips homeowner repair maintenance" },
+  { title: "Backwater Valve Brampton Guide", url: "blog/backwater-valve-brampton-guide.html", type: "Help", terms: "backwater valve brampton basement flooding sewer backup prevention subsidy" },
+  { title: "Breaker Keeps Tripping", url: "blog/breaker-keeps-tripping.html", type: "Help", terms: "breaker keeps tripping electrical panel circuit overload troubleshooting" },
+  { title: "Signs of a Clogged Main Sewer Line", url: "blog/signs-main-sewer-line-clogged.html", type: "Help", terms: "clogged main sewer line signs backup drain slow multiple drains" },
 ];
 
 function createSiteSearch(searchId, className) {
