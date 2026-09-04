@@ -84,3 +84,15 @@ RewriteRule ^electrical/outlet-switch-install/?$ /outlet-switch-install.html [R=
 RewriteRule ^electrical/electrical-safety-inspection/?$ /electrical-safety-inspection.html [R=301,L]
 RewriteRule ^electrical/smoke-co-detectors/?$ /smoke-co-detectors.html [R=301,L]
 RewriteRule ^electrical/lighting-smart-home/?$ /lighting-smart-home.html [R=301,L]
+
+# Old top-level clean URLs
+RewriteCond %{REQUEST_URI} !\.html$
+RewriteRule ^about/?$ /about.html [R=301,L]
+RewriteCond %{REQUEST_URI} !\.html$
+RewriteRule ^services/?$ /services.html [R=301,L]
+RewriteCond %{REQUEST_URI} !\.html$
+RewriteRule ^blog/?$ /blog.html [R=301,L]
+RewriteCond %{REQUEST_URI} !\.html$
+RewriteRule ^contact/?$ /contact.html [R=301,L]
+RewriteCond %{REQUEST_URI} !\.html$
+RewriteRule ^electrical-services/?$ /electrical-services.html [R=301,L]
