@@ -3,7 +3,7 @@ const businessName = "Fateh Plumbing & Electric";
 const phone = "647-980-9211";
 const email = "info@fatehplumelec.com";
 const logo = `${siteUrl}/assets/fateh-logo-clean.png`;
-const areas = ["Brampton", "Bramalea", "Springdale", "Castlemore", "Mount Pleasant", "Mississauga", "Vaughan", "Caledon", "Etobicoke", "Greater Toronto Area"];
+const areas = ["Brampton", "Bramalea", "Springdale", "Castlemore", "Mount Pleasant", "Mississauga", "Vaughan", "Caledon", "Etobicoke", "Markham", "Greater Toronto Area"];
 
 const icons = {
   panel: "M5 4h14v18H5z M9 8h6 M9 12h2 M13 12h2 M9 16h2 M13 16h2",

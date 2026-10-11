@@ -19,7 +19,7 @@ const baseServiceArea = {
   eyebrow: "Service coverage",
   title: "Water system plumbing help across Brampton and nearby GTA communities",
   text: "Fateh Plumbing & Electric helps with water heaters, tankless systems, softeners, RO filters, sump pumps, and water line concerns from Brampton into nearby service areas.",
-  points: ["Brampton", "Mississauga", "Vaughan", "Caledon", "Etobicoke"],
+  points: ["Brampton", "Mississauga", "Vaughan", "Caledon", "Etobicoke", "Markham"],
 };
 
 function pageSchema(title, description, canonical) {

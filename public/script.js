@@ -62,7 +62,6 @@ const siteSearchPages = [
   { title: "Pipe Repair", url: "pipe-repair.html", type: "Plumbing", terms: "pipe repair brampton pipe leak repair water pipe repair plumbing leak repair burst pipe frozen pipe copper pex pipe replacement" },
   { title: "Burst Pipe Repair", url: "burst-pipe-repair.html", type: "Plumbing", terms: "burst pipe repair brampton frozen pipe frozen water pipes plumbing frozen pipes emergency water leak repair pipe split thawed pipe leak" },
   { title: "Main Drain Backup", url: "main-drain-backup.html", type: "Plumbing", terms: "main drain backup brampton basement main drain backup main drain backing up in basement main sewer line backup main plumbing line backed up emergency drain service" },
-  { title: "Toilet & Faucet Repair", url: "toilet-faucet-repair.html", type: "Plumbing", terms: "toilet running clogged bathroom faucet tap sink shower bathroom fixture" },
   { title: "Sump Pump Repair", url: "sump-pump-repair.html", type: "Plumbing", terms: "sump pump repair brampton basement flood sump pump pit float switch discharge backup pump repair" },
   { title: "Water Softener", url: "water-softener.html", type: "Plumbing", terms: "water softener brampton water softener system water conditioning system hard water scale softener installation" },
   { title: "Water Service Upgrade", url: "water-service-upgrade.html", type: "Plumbing", terms: "water service upgrade brampton main water line upgrade low water pressure water supply service line" },

@@ -1,5 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /worker-check-in.html
-Disallow: /contractor-job-portal.html
 Sitemap: https://fatehplumelec.com/sitemap.xml

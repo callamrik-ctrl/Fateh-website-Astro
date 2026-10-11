@@ -19,7 +19,7 @@ const baseServiceArea = {
   eyebrow: "Service coverage",
   title: "Drain and sewer plumbing help across Brampton and nearby GTA communities",
   text: "Fateh Plumbing & Electric helps with sewer lines, drain cameras, backwater valves, basement plumbing, sump pumps, and main drain concerns from Brampton into nearby service areas.",
-  points: ["Brampton", "Mississauga", "Vaughan", "Caledon", "Etobicoke"],
+  points: ["Brampton", "Mississauga", "Vaughan", "Caledon", "Etobicoke", "Markham"],
 };
 
 function makePage(config) {

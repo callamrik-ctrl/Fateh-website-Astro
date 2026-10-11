@@ -15,6 +15,9 @@ RewriteRule ^service-areas/caledon-plumber/?$ /caledon-plumber.html [R=301,L]
 RewriteRule ^service-areas/etobicoke/?$ /etobicoke-plumber.html [R=301,L]
 RewriteRule ^service-areas/etobicoke-plumber/?$ /etobicoke-plumber.html [R=301,L]
 
+# Retired legacy page
+RewriteRule ^toilet-faucet-repair\.html$ /toilet-repair.html [R=301,L]
+
 # Old plumbing clean URLs
 RewriteRule ^plumbing/?$ /services.html [R=301,L]
 RewriteRule ^plumbing/emergency-plumbing-24-7/?$ /emergency-plumber.html [R=301,L]
@@ -32,7 +35,7 @@ RewriteRule ^plumbing/backwater-valve/?$ /backwater-valve.html [R=301,L]
 RewriteRule ^plumbing/basement-plumbing/?$ /basement-plumbing.html [R=301,L]
 RewriteRule ^plumbing/leak-detection/?$ /leak-detection.html [R=301,L]
 RewriteRule ^plumbing/pipe-repair/?$ /pipe-repair.html [R=301,L]
-RewriteRule ^plumbing/toilet-faucet-repair/?$ /toilet-faucet-repair.html [R=301,L]
+RewriteRule ^plumbing/toilet-faucet-repair/?$ /toilet-repair.html [R=301,L]
 RewriteRule ^plumbing/toilet-repair/?$ /toilet-repair.html [R=301,L]
 RewriteRule ^plumbing/faucet-repair/?$ /faucet-repair.html [R=301,L]
 RewriteRule ^plumbing/bidet-installation/?$ /bidet-installation.html [R=301,L]

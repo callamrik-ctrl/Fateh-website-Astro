@@ -62,7 +62,7 @@ const faqSchema = {
 };
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical} ogImage={heroImage} baseHref="/">
+<BaseLayout title={title} description={description} canonical={canonical} ogImage={heroImage} ogType="article" baseHref="/">
   <SiteHeader current="blog" />
 
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
@@ -74,7 +74,7 @@ const faqSchema = {
       <h1>{h1}</h1>
       <p>{heroText}</p>
       <div class="hero-actions">
-        <a class="button" href="tel:6479809211">Call 647-980-9211</a>
+        <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
         <a class="button secondary" href="contact.html">Free on-site assessment</a>
       </div>
       <div class="blog-post-meta" aria-label="Article details">
@@ -104,7 +104,7 @@ const faqSchema = {
                 <p>{midCta.text}</p>
               </div>
               <div class="blog-cta-actions">
-                <a class="button" href="tel:6479809211">Call Now</a>
+                <a class="button" href="tel:+16479809211">Call Now</a>
                 <a class="button secondary" href="contact.html">Free on-site assessment</a>
               </div>
             </aside>
@@ -122,7 +122,7 @@ const faqSchema = {
         <li>Vaughan</li>
         <li>Caledon</li>
       </ul>
-      <a class="button" href="tel:6479809211">Call 647-980-9211</a>
+      <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
       <a class="button secondary" href="contact.html">Request service</a>
     </aside>
   </article>
@@ -134,7 +134,7 @@ const faqSchema = {
       <p>{endCta.text}</p>
     </div>
     <div class="blog-cta-actions">
-      <a class="button" href="tel:6479809211">Call Now</a>
+      <a class="button" href="tel:+16479809211">Call Now</a>
       <a class="button secondary" href="contact.html">Free on-site assessment</a>
     </div>
   </section>

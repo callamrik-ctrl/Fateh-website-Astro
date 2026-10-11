@@ -51,7 +51,7 @@ const plumberSchema = {
     addressRegion: "ON",
     addressCountry: "CA",
   },
-  areaServed: ["Brampton", "Bramalea", "Springdale", "Castlemore", "Mount Pleasant", "Heart Lake", "Mississauga", "Vaughan", "Caledon", "Etobicoke"],
+  areaServed: ["Brampton", "Bramalea", "Springdale", "Castlemore", "Mount Pleasant", "Heart Lake", "Mississauga", "Vaughan", "Caledon", "Etobicoke", "Markham"],
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
@@ -203,7 +203,7 @@ const faqSchema = {
       <h2>{serviceArea.title || "Bathroom plumbing help across Brampton and nearby GTA communities"}</h2>
       <p>{serviceArea.text || "Fateh Plumbing & Electric helps homeowners, landlords, condos, and small businesses with bathroom plumbing repairs from Brampton into nearby service areas."}</p>
       <ul>
-        {(serviceArea.points || ["Brampton", "Mississauga", "Vaughan", "Caledon", "Etobicoke"]).map((point) => <li>{point}</li>)}
+        {(serviceArea.points || ["Brampton", "Mississauga", "Vaughan", "Caledon", "Etobicoke", "Markham"]).map((point) => <li>{point}</li>)}
       </ul>
     </div>
     <div class="coverage-map-card" aria-label="Brampton and nearby GTA service area map">
