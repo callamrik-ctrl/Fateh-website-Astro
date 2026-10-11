@@ -363,4 +363,101 @@ export const drainSewerPages = {
       { q: "Can you help before a basement renovation?", a: "Yes. Calling before walls and floors are closed can make drain, vent, fixture, and protection planning easier." },
     ],
   }),
+  newConstructionPlumbing: makePage({
+    title: "New Construction Plumbing Brampton | Fateh",
+    description: "New construction plumbing in Brampton for new homes, additions, and commercial builds. Underground, rough-in, water service, and fixture installs.",
+    canonical: "https://fatehplumelec.com/new-construction-plumbing.html",
+    eyebrow: "New construction plumbing",
+    h1: "New Construction Plumbing Brampton",
+    heroText: "New construction plumbing in Brampton for new homes, additions, basement builds, and commercial units. Fateh Plumbing & Electric handles underground plumbing, drain and vent rough-in, water service, and final fixture installation, and works around your build schedule and inspections.",
+    heroImage: "assets/contractor-van-side.png",
+    heroAlt: "Fateh Plumbing & Electric service van for new construction plumbing in Brampton",
+    proof: ["Underground and rough-in plumbing", "Residential and commercial builds", "Inspection-ready work"],
+    trust: [
+      { title: "Build-stage planning", text: "We plan drains, vents, and water lines around your drawings before concrete, framing, and drywall close things in." },
+      { title: "Inspection-ready rough-in", text: "Rough-in work is installed and tested so it is ready for the municipal plumbing inspection at each stage." },
+      { title: "Plumbing and electrical", text: "One company for plumbing and electrical rough-in makes coordination easier for builders and homeowners." },
+    ],
+    intro: {
+      eyebrow: "New build plumbing",
+      title: "Plumbing for new homes, additions, and commercial builds",
+      paragraphs: [
+        "<strong>New construction plumbing in Brampton</strong> is done in stages: underground drains before the slab is poured, drain, waste, and vent rough-in once framing is up, water supply lines before insulation and drywall, then fixture installation at finishing. Each stage has to line up with the drawings, the build schedule, and the municipal plumbing inspection.",
+        "Fateh Plumbing & Electric works as a new build plumber for homeowners, builders, general contractors, and property owners. We handle custom homes, home additions, garden suites, basement apartments, and commercial units across Brampton, Mississauga, Vaughan, Caledon, Etobicoke, and Markham.",
+        "Because we also do electrical work, we can coordinate plumbing and <a class=\"blog-link-red\" href=\"new-construction-electrician.html\"><strong>new construction electrical</strong></a> rough-in on the same project, which keeps trades in the right order on site."
+      ],
+    },
+    quickCard: {
+      eyebrow: "Planning a build?",
+      title: "Call before the slab is poured",
+      text: "Share your drawings, build stage, and fixture count so the plumbing plan is set before underground work starts.",
+      points: ["New homes and additions", "Basement apartments", "Commercial units"],
+    },
+    problems: {
+      eyebrow: "What we install",
+      title: "New construction plumbing services",
+      items: [
+        { title: "Underground plumbing", text: "Building drain, sewer connection, floor drains, and under-slab piping installed and tested before concrete is poured.", href: "sewer-line-repair.html", link: "Sewer line service" },
+        { title: "Drain and vent rough-in", text: "Drain, waste, and vent piping for bathrooms, kitchens, laundry, and floor drains, sized and sloped to the layout.", href: "bathroom-plumbing.html", link: "Bathroom plumbing" },
+        { title: "Water service and supply lines", text: "Main water service, shutoffs, and hot and cold supply lines run to every fixture location.", href: "water-service-upgrade.html", link: "Water service" },
+        { title: "Water heater and systems", text: "Tank or tankless water heater, softener, and RO connections planned into the mechanical room.", href: "tankless-water-heater.html", link: "Tankless water heater" },
+        { title: "Backwater valve and sump pump", text: "Basement flood protection with a backwater valve and sump pit planned in from the start.", href: "backwater-valve.html", link: "Backwater valve" },
+        { title: "Fixture installation", text: "Toilets, sinks, faucets, showers, tubs, and laundry connections installed and tested at finishing.", href: "kitchen-sink-installation.html", link: "Fixture installation" },
+      ],
+    },
+    process: {
+      eyebrow: "How it works",
+      title: "Plumbing that follows your build schedule",
+      items: [
+        { title: "Review the drawings", text: "We go over the plans, fixture count, and build schedule at a free on-site assessment." },
+        { title: "Underground stage", text: "Under-slab drains and the sewer connection are installed and tested before the slab is poured." },
+        { title: "Rough-in stage", text: "Drain, vent, and water lines go in after framing and are ready for the rough-in inspection." },
+        { title: "Finish stage", text: "Fixtures, water heater, and connections are installed and tested before the final inspection." },
+      ],
+    },
+    compare: {
+      eyebrow: "Residential and commercial",
+      title: "New construction plumbing for homes and businesses",
+      paragraphs: [
+        "<strong>Residential new construction:</strong> custom homes, home additions, garden suites, basement apartments, and second units. These builds need correct drain and vent sizing, water service capacity, and basement protection such as a backwater valve.",
+        "<strong>Commercial new construction:</strong> retail units, offices, restaurants, and plaza spaces. Commercial builds often add grease traps, <a class=\"blog-link-blue\" href=\"backflow-prevention.html\"><strong>backflow prevention</strong></a>, and higher water demand, and we coordinate with the general contractor's schedule. See our <a class=\"blog-link-blue\" href=\"commercial.html\"><strong>commercial plumbing services</strong></a>."
+      ],
+      cardTitle: "Helpful details to share",
+      points: ["Drawings or floor plan", "Current build stage", "Number of bathrooms and fixtures", "Residential or commercial project"],
+    },
+    serviceArea: {
+      eyebrow: "Service coverage",
+      title: "New construction plumbing across Brampton and the GTA",
+      text: "Fateh Plumbing & Electric handles new construction plumbing from Brampton across nearby GTA communities.",
+      points: ["Brampton", "Mississauga", "Vaughan", "Caledon", "Etobicoke", "Markham"],
+    },
+    related: [
+      { title: "New Construction Electrician", href: "new-construction-electrician.html", text: "Electrical rough-in, panels, and service planning for new builds and additions.", link: "View new construction electrical" },
+      { title: "Basement Plumbing", href: "basement-plumbing.html", text: "Basement bathroom plumbing, rough-ins, floor drains, and laundry drains.", link: "View basement plumbing" },
+      { title: "Bathroom Plumbing", href: "bathroom-plumbing.html", text: "Bathroom fixtures, drains, and supply lines for new and renovated bathrooms.", link: "View bathroom plumbing" },
+      { title: "Backwater Valve", href: "backwater-valve.html", text: "Sewer backup protection for lower-level fixtures.", link: "View backwater valve" },
+      { title: "Water Service Upgrade", href: "water-service-upgrade.html", text: "Main water supply sizing and upgrades for higher demand.", link: "View water service" },
+      { title: "Commercial Plumbing", href: "commercial.html", text: "Plumbing for restaurants, retail, offices, and property managers.", link: "View commercial services" },
+    ],
+    proofBand: {
+      eyebrow: "Why call Fateh",
+      title: "One team for plumbing and electrical on your build",
+      text: "Planning both trades together keeps rough-in, inspections, and finishing in the right order.",
+      items: [
+        { title: "Staged work", text: "Underground, rough-in, and finish work each line up with your build schedule." },
+        { title: "Tested before inspection", text: "Drain and water lines are tested before the inspector arrives." },
+        { title: "Clear communication", text: "Builders and homeowners know what is done at each stage and what comes next." },
+      ],
+    },
+    cta: { eyebrow: "Book new construction plumbing", title: "Planning a new build or addition in Brampton?", text: "Call Fateh Plumbing & Electric for a free on-site assessment of your new construction plumbing: underground, rough-in, water service, and fixtures.", button: "Call 647-980-9211" },
+    faqTitle: "Common new construction plumbing questions",
+    faqs: [
+      { q: "What does new construction plumbing include?", a: "New construction plumbing includes underground drains, drain, waste, and vent rough-in, water service and supply lines, water heater connections, and final fixture installation." },
+      { q: "What is rough-in plumbing?", a: "Rough-in plumbing is the drain, vent, and water piping installed inside walls and floors after framing and before insulation and drywall. It is inspected before the walls are closed." },
+      { q: "When should I call a plumber for a new build?", a: "Call before the foundation slab is poured. Underground drains and the sewer connection have to be installed and inspected before concrete goes in." },
+      { q: "Do you do commercial new construction plumbing?", a: "Yes. Fateh Plumbing & Electric handles plumbing for new retail units, offices, restaurants, and plaza spaces, including grease traps and backflow prevention." },
+      { q: "Do new construction plumbing jobs need inspections?", a: "Yes. In Ontario, new plumbing needs a building permit and municipal inspections at the underground, rough-in, and final stages. We prepare the work so it is ready for each inspection." },
+      { q: "Can you do plumbing and electrical on the same new build?", a: "Yes. Fateh Plumbing & Electric does both, so plumbing and electrical rough-in can be scheduled together on one project." },
+    ],
+  }),
 };
