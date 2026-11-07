@@ -48,6 +48,22 @@ const articleSchema = {
   keywords: primaryKeyword,
 };
 
+const publishedLabel = new Date(`${datePublished}T12:00:00`).toLocaleDateString("en-CA", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://fatehplumelec.com/" },
+    { "@type": "ListItem", position: 2, name: "Blog", item: "https://fatehplumelec.com/blog.html" },
+    { "@type": "ListItem", position: 3, name: h1, item: canonical },
+  ],
+};
+
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -67,10 +83,18 @@ const faqSchema = {
 
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
   <main class={`page-hero blog-post-hero ${linkTone === "electrical" ? "blog-electrical" : "blog-plumbing"}`}>
     <div>
-      <p class="eyebrow">{eyebrow}</p>
+      <nav class="blog-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">›</span>
+        <a href="/blog.html">Blog</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">{h1}</span>
+      </nav>
+      <p class="eyebrow"><span class="blog-badge">Blog</span> {eyebrow}</p>
       <h1>{h1}</h1>
       <p>{heroText}</p>
       <div class="hero-actions">
@@ -79,7 +103,7 @@ const faqSchema = {
       </div>
       <div class="blog-post-meta" aria-label="Article details">
         <span>{category}</span>
-        <span>{datePublished}</span>
+        <span><time datetime={datePublished}>Published {publishedLabel}</time></span>
         <span>{readingTime}</span>
       </div>
     </div>
