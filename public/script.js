@@ -108,6 +108,9 @@ const siteSearchPages = [
   { title: "Backwater Valve Brampton Guide", url: "blog/backwater-valve-brampton-guide.html", type: "Help", terms: "backwater valve brampton basement flooding sewer backup prevention subsidy" },
   { title: "Breaker Keeps Tripping", url: "blog/breaker-keeps-tripping.html", type: "Help", terms: "breaker keeps tripping electrical panel circuit overload troubleshooting" },
   { title: "Signs of a Clogged Main Sewer Line", url: "blog/signs-main-sewer-line-clogged.html", type: "Help", terms: "clogged main sewer line signs backup drain slow multiple drains" },
+  { title: "Frozen Pipes in Brampton", url: "blog/frozen-pipes-brampton.html", type: "Help", terms: "frozen pipes burst pipe winter thaw pipe brampton" },
+  { title: "Water Heater Repair or Replace", url: "blog/water-heater-repair-or-replace.html", type: "Help", terms: "water heater repair replace no hot water leaking tank rental tankless" },
+  { title: "Garburator Not Working", url: "blog/garburator-not-working.html", type: "Help", terms: "garburator garbage disposal not working jammed humming leaking reset" },
 ];
 
 function createSiteSearch(searchId, className) {
