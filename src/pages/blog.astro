@@ -68,33 +68,6 @@ const featuredPosts = [
     icon: "water",
     date: "January 22, 2026",
   },
-  {
-    category: "Emergency plumbing",
-    title: "What to do before an emergency plumber arrives",
-    description:
-      "Shut off the nearest valve if safe, avoid using affected fixtures, keep electrical items away from water, and describe the leak, backup, or fixture problem clearly when you call.",
-    href: "emergency-plumber.html",
-    cta: "Emergency plumbing",
-    icon: "alert",
-  },
-  {
-    category: "Electrical safety",
-    title: "Signs your electrical panel may need an upgrade",
-    description:
-      "Breaker trips, renovation plans, EV charging, older fuse equipment, warm panel areas, or flickering lights can all point to the need for a licensed electrical review.",
-    href: "panel-upgrade.html",
-    cta: "Panel upgrades",
-    icon: "bolt",
-  },
-  {
-    category: "Drain care",
-    title: "How to prevent repeat drain clogs",
-    description:
-      "Grease, food scraps, hair, wipes, and recurring slow drains are early warning signs. Catching the issue early can help prevent a larger main drain or sewer backup.",
-    href: "drain-cleaning.html",
-    cta: "Drain cleaning",
-    icon: "drain",
-  },
 ];
 
 const guideTopics = [
@@ -329,15 +302,6 @@ const iconPaths = {
           <a class="text-link" href={post.href}>{post.cta}</a>
         </article>
       ))}
-      <article>
-        <span class="hub-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false" set:html={iconPaths.water} />
-        </span>
-        <p class="card-kicker">Water heaters</p>
-        <h3><a href="water-heater-repair.html">No hot water or leaking tank</a></h3>
-        <p>Temperature changes, tank leaks, rust-coloured water, or no hot water can point to a water heater service issue.</p>
-        <a class="text-link" href="water-heater-repair.html">Water heater repair</a>
-      </article>
     </div>
   </section>
 
