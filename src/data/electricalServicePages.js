@@ -861,7 +861,7 @@ const pages = {
     eyebrow: "Panel upgrade - breaker panel service - Brampton",
     h1: "Electrical Panel Upgrade Services",
     intro: "Need more electrical capacity, safer breaker planning, or EV charger readiness? Fateh Plumbing & Electric helps Brampton customers review panel upgrades, breaker issues, added circuits, and renovation power needs.",
-    heroImage: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1400&q=80",
+    heroImage: "/assets/service-photos/new-electrical-panel-installation-brampton.webp",
     heroAlt: "Electrician reviewing an electrical panel",
     proof: ["Panel capacity planning", "Breaker concerns", "EV charger readiness"],
     trust: [
