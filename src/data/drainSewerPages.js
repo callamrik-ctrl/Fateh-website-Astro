@@ -59,7 +59,8 @@ export const drainSewerPages = {
     eyebrow: "Sewer line repair",
     h1: "Sewer Line Repair Brampton",
     heroText: "Recurring sewer backups, multiple slow drains, sewage odour, gurgling fixtures, or a damaged main sewer line can point to a deeper problem. Fateh Plumbing & Electric helps Brampton customers diagnose sewer line concerns and plan the right repair path.",
-    heroAlt: "Plumber checking sewer line and drain pipe repair options",
+    heroImage: "/assets/service-photos/sewer-line-repair-brampton.webp",
+    heroAlt: "Sewer line repair - damaged clay sewer pipe section replaced with new pipe and couplings by Fateh Plumbing & Electric",
     proof: ["Main sewer line help", "Repair and replacement planning", "Brampton plumbing service"],
     intro: {
       eyebrow: "Main sewer line service",
