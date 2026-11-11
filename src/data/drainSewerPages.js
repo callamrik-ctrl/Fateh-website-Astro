@@ -138,7 +138,8 @@ export const drainSewerPages = {
     eyebrow: "Sewer camera inspection",
     h1: "Sewer Camera Inspection Brampton",
     heroText: "A sewer camera inspection helps locate recurring drain problems, pipe damage, root intrusion, low spots, and hidden sewer line issues before repair decisions are made.",
-    heroAlt: "Technician using a sewer camera for drain inspection",
+    heroImage: "/assets/service-photos/sewer-camera-inspection-brampton.webp",
+    heroAlt: "Sewer camera inspection - technician feeding a drain camera into an outdoor sewer cleanout",
     proof: ["Drain camera inspection", "Sewer line inspection", "Pipe condition review"],
     intro: {
       eyebrow: "Drain camera service",
