@@ -61,7 +61,8 @@ export const waterSystemPages = {
     eyebrow: "Water heater repair",
     h1: "Water Heater Repair Brampton",
     heroText: "No hot water, a leaking tank, rusty water, strange noises, or a water heater that keeps failing? Fateh Plumbing & Electric helps with water heater repair and replacement planning in Brampton.",
-    heroAlt: "Plumber working near a residential water heater",
+    heroImage: "/assets/service-photos/water-heater-repair-brampton.webp",
+    heroAlt: "Rheem power-vent gas water heater serviced by Fateh Plumbing & Electric",
     proof: ["Water heater repair", "No hot water help", "Leaking tank checks"],
     intro: {
       eyebrow: "Hot water plumber",
