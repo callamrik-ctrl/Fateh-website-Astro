@@ -1,0 +1,336 @@
+---
+// TEST booking form (step 1: the form only) → /book-test.html
+// noindex, not in sitemap or site search. Slots are sample data until the
+// Google Calendar server part is connected. Submitting does not book anything yet.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+// Google Maps key for address autocomplete. Set PUBLIC_GOOGLE_MAPS_KEY in
+// Hostinger → Environment variables. Without it, the address is typed by hand.
+const MAPS_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_KEY || "";
+
+const title = "Book a Service Visit (Test) | Fateh";
+const description = "Test version of the Fateh Plumbing & Electric booking form.";
+const canonical = "https://fatehplumelec.com/book-test.html";
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} noindex>
+  <SiteHeader />
+
+  <main class="bk-wrap">
+    <p class="bk-test-flag">TEST PAGE: bookings are not saved yet</p>
+    <p class="eyebrow">Brampton booking</p>
+    <h1 class="bk-title">Book your service visit</h1>
+    <p class="bk-lead">Takes about a minute. Pick a 2-hour arrival window and tell us about the job.</p>
+
+    <form id="bk-form" class="bk-card" novalidate>
+      <!-- 1. Time -->
+      <fieldset class="bk-step">
+        <legend><span>1</span> Pick a day and arrival window</legend>
+        <div class="bk-days" id="bk-days" role="radiogroup" aria-label="Day"></div>
+        <div class="bk-slots" id="bk-slots" role="radiogroup" aria-label="Arrival window"></div>
+        <p class="bk-error" data-for="slot"></p>
+      </fieldset>
+
+      <!-- 2. Contact -->
+      <fieldset class="bk-step">
+        <legend><span>2</span> Your details</legend>
+        <div class="bk-row">
+          <label>First name
+            <input name="firstName" autocomplete="given-name" required>
+            <span class="bk-error" data-for="firstName"></span>
+          </label>
+          <label>Last name
+            <input name="lastName" autocomplete="family-name" required>
+            <span class="bk-error" data-for="lastName"></span>
+          </label>
+        </div>
+        <div class="bk-row">
+          <label>Mobile number
+            <input name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="647-555-1234" required>
+            <span class="bk-hint">Local GTA numbers only</span>
+            <span class="bk-error" data-for="phone"></span>
+          </label>
+          <label>Email
+            <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <span class="bk-error" data-for="email"></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <!-- 3. Address -->
+      <fieldset class="bk-step">
+        <legend><span>3</span> Service address</legend>
+        <label>Start typing your address
+          <div id="bk-place-slot"></div>
+          <input name="address" id="bk-address" autocomplete="street-address" placeholder="5 Loomis Rd, Brampton" required>
+          <span class="bk-error" data-for="address"></span>
+        </label>
+        <div class="bk-row">
+          <label>Unit / Apt (optional)
+            <input name="unit" autocomplete="address-line2">
+          </label>
+          <label>Postal code
+            <input name="postal" id="bk-postal" autocomplete="postal-code" placeholder="L6P 1A1" maxlength="7" required>
+            <span class="bk-error" data-for="postal"></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <!-- 4. Job -->
+      <fieldset class="bk-step">
+        <legend><span>4</span> What do you need?</legend>
+        <label>Type of work
+          <select name="service" required>
+            <option value="">Choose one</option>
+            <option>Faucet / tap install or repair</option>
+            <option>Clogged drain or toilet</option>
+            <option>Toilet repair or install</option>
+            <option>Water heater</option>
+            <option>Leak</option>
+            <option>Sump pump / backwater valve</option>
+            <option>Water softener / RO system</option>
+            <option>Electrical</option>
+            <option>Other</option>
+          </select>
+          <span class="bk-error" data-for="service"></span>
+        </label>
+        <label>Describe the job
+          <textarea name="details" rows="4" placeholder="Example: kitchen faucet leaking under the sink, new faucet already bought." required></textarea>
+          <span class="bk-error" data-for="details"></span>
+        </label>
+        <label>Photos (optional, up to 3)
+          <input name="photos" id="bk-photos" type="file" accept="image/*" multiple>
+          <span class="bk-hint">A photo of the problem helps us bring the right parts.</span>
+          <span class="bk-error" data-for="photos"></span>
+        </label>
+        <div class="bk-thumbs" id="bk-thumbs"></div>
+      </fieldset>
+
+      <label class="bk-hp" aria-hidden="true">Leave empty <input name="website" tabindex="-1" autocomplete="off"></label>
+
+      <button class="button bk-submit" type="submit">Request this time</button>
+      <p class="bk-small">We confirm every booking by text. Arrival can shift a little within the day; we text you if it does.</p>
+      <div class="bk-done" id="bk-done" hidden></div>
+    </form>
+
+    <p class="bk-alt">Outside Brampton or an urgent leak? Call <a href="tel:+16479809211"><strong>647-980-9211</strong></a>.</p>
+  </main>
+
+  <SiteFooter />
+
+  <script is:inline define:vars={{ MAPS_KEY }}>
+  (function () {
+    var form = document.getElementById("bk-form");
+    var daysEl = document.getElementById("bk-days");
+    var slotsEl = document.getElementById("bk-slots");
+    var picked = { date: null, slot: null };
+
+    // ---------- Days and slots (SAMPLE DATA until the calendar server part is connected) ----------
+    var WINDOWS = [["09:00", "9–11 AM"], ["11:00", "11 AM–1 PM"], ["13:00", "1–3 PM"], ["15:00", "3–5 PM"]];
+    function sampleDays() {
+      var out = [], d = new Date();
+      d.setHours(0, 0, 0, 0);
+      while (out.length < 10) {
+        d.setDate(d.getDate() + 1);
+        var wd = d.getDay();
+        if (wd === 0 || wd === 6) continue;
+        out.push(new Date(d));
+      }
+      return out;
+    }
+    function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+    function renderDays() {
+      sampleDays().forEach(function (d, i) {
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "bk-day"; b.setAttribute("role", "radio");
+        b.dataset.date = iso(d);
+        b.innerHTML = "<small>" + d.toLocaleDateString("en-CA", { weekday: "short" }) + "</small><strong>" + d.getDate() + "</strong><small>" + d.toLocaleDateString("en-CA", { month: "short" }) + "</small>";
+        b.addEventListener("click", function () { pickDay(b); });
+        daysEl.appendChild(b);
+        if (i === 0) pickDay(b);
+      });
+    }
+    function pickDay(btn) {
+      daysEl.querySelectorAll(".bk-day").forEach(function (x) { x.setAttribute("aria-checked", x === btn); });
+      picked.date = btn.dataset.date; picked.slot = null;
+      slotsEl.innerHTML = "";
+      WINDOWS.forEach(function (w) {
+        var s = document.createElement("button");
+        s.type = "button"; s.className = "bk-slot"; s.setAttribute("role", "radio");
+        s.textContent = w[1]; s.dataset.start = w[0];
+        s.addEventListener("click", function () {
+          slotsEl.querySelectorAll(".bk-slot").forEach(function (x) { x.setAttribute("aria-checked", x === s); });
+          picked.slot = w[0]; picked.label = w[1]; setErr("slot", "");
+        });
+        slotsEl.appendChild(s);
+      });
+    }
+
+    // ---------- Validation ----------
+    // GTA / Golden Horseshoe area codes
+    var AREA_CODES = ["416", "647", "437", "942", "905", "289", "365", "742"];
+    function cleanPhone(v) {
+      var d = (v || "").replace(/\D/g, "");
+      if (d.length === 11 && d[0] === "1") d = d.slice(1);
+      return d;
+    }
+    function checkPhone(v) {
+      var d = cleanPhone(v);
+      if (d.length !== 10) return "Enter a 10-digit phone number.";
+      if (AREA_CODES.indexOf(d.slice(0, 3)) === -1) return "Please use a local GTA number (416, 647, 437, 905, 289, 365...).";
+      if (/^(\d)\1{6}$/.test(d.slice(3)) || d.slice(3) === "5551234") return "Please enter a real phone number.";
+      return "";
+    }
+    function checkName(v) {
+      v = (v || "").trim();
+      if (v.length < 2) return "Required.";
+      if (!/^[A-Za-zÀ-ÿ' .-]+$/.test(v)) return "Letters only, please.";
+      return "";
+    }
+    function checkPostal(v) {
+      var p = (v || "").toUpperCase().replace(/\s/g, "");
+      if (!/^[A-Z]\d[A-Z]\d[A-Z]\d$/.test(p)) return "Enter a valid postal code, like L6P 1A1.";
+      if (p[0] !== "L" && p[0] !== "M") return "This postal code is outside our booking area. Please call us.";
+      return "";
+    }
+    function setErr(name, msg) {
+      var el = form.querySelector('.bk-error[data-for="' + name + '"]');
+      if (el) el.textContent = msg;
+      var input = form.elements[name];
+      if (input && input.setAttribute) input.setAttribute("aria-invalid", msg ? "true" : "false");
+      return !msg;
+    }
+
+    // Phone: format as the person types
+    var phone = form.elements.phone;
+    phone.addEventListener("input", function () {
+      var d = cleanPhone(phone.value).slice(0, 10);
+      phone.value = d.length > 6 ? d.slice(0, 3) + "-" + d.slice(3, 6) + "-" + d.slice(6) : d.length > 3 ? d.slice(0, 3) + "-" + d.slice(3) : d;
+    });
+    phone.addEventListener("blur", function () { if (phone.value) setErr("phone", checkPhone(phone.value)); });
+
+    // Postal: uppercase + space
+    var postal = form.elements.postal;
+    postal.addEventListener("input", function () {
+      var p = postal.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
+      postal.value = p.length > 3 ? p.slice(0, 3) + " " + p.slice(3) : p;
+    });
+    postal.addEventListener("blur", function () { if (postal.value) setErr("postal", checkPostal(postal.value)); });
+
+    // Photos: max 3, max 8 MB each, show thumbnails
+    var photos = document.getElementById("bk-photos"), thumbs = document.getElementById("bk-thumbs");
+    photos.addEventListener("change", function () {
+      thumbs.innerHTML = "";
+      var files = Array.prototype.slice.call(photos.files);
+      if (files.length > 3) { setErr("photos", "Up to 3 photos, please."); photos.value = ""; return; }
+      if (files.some(function (f) { return f.size > 8 * 1024 * 1024; })) { setErr("photos", "Each photo must be under 8 MB."); photos.value = ""; return; }
+      setErr("photos", "");
+      files.forEach(function (f) { var img = document.createElement("img"); img.src = URL.createObjectURL(f); img.alt = ""; thumbs.appendChild(img); });
+    });
+
+    // ---------- Address autocomplete (Google Places) ----------
+    function fillFromPlace(place) {
+      var comps = place.addressComponents || [];
+      function get(type) { var c = comps.find(function (x) { return x.types.indexOf(type) !== -1; }); return c ? c.shortText || c.longText : ""; }
+      var line = [get("street_number"), get("route")].filter(Boolean).join(" ");
+      var city = get("locality") || get("sublocality");
+      document.getElementById("bk-address").value = [line, city].filter(Boolean).join(", ") || place.formattedAddress || "";
+      var pc = get("postal_code");
+      if (pc) { postal.value = pc.toUpperCase(); setErr("postal", checkPostal(pc)); }
+      setErr("address", "");
+    }
+    if (MAPS_KEY) {
+      var s = document.createElement("script");
+      s.src = "https://maps.googleapis.com/maps/api/js?key=" + encodeURIComponent(MAPS_KEY) + "&v=weekly&loading=async&callback=bkMapsReady";
+      s.async = true;
+      window.bkMapsReady = async function () {
+        try {
+          var lib = await google.maps.importLibrary("places");
+          var el = new lib.PlaceAutocompleteElement({ includedRegionCodes: ["ca"] });
+          el.className = "bk-place";
+          document.getElementById("bk-place-slot").appendChild(el);
+          var plain = document.getElementById("bk-address");
+          plain.type = "hidden";
+          el.addEventListener("gmp-select", async function (e) {
+            var place = e.placePrediction.toPlace();
+            await place.fetchFields({ fields: ["addressComponents", "formattedAddress"] });
+            fillFromPlace(place);
+          });
+        } catch (err) { /* keep the plain address box */ }
+      };
+      document.head.appendChild(s);
+    }
+
+    // ---------- Submit ----------
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (form.elements.website.value) return; // bot
+      var ok = true;
+      ok = setErr("slot", picked.slot ? "" : "Pick an arrival window.") && ok;
+      ok = setErr("firstName", checkName(form.elements.firstName.value)) && ok;
+      ok = setErr("lastName", checkName(form.elements.lastName.value)) && ok;
+      ok = setErr("phone", checkPhone(phone.value)) && ok;
+      ok = setErr("email", /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.elements.email.value.trim()) ? "" : "Enter a valid email.") && ok;
+      ok = setErr("address", form.elements.address.value.trim().length >= 5 ? "" : "Enter your street address.") && ok;
+      ok = setErr("postal", checkPostal(postal.value)) && ok;
+      ok = setErr("service", form.elements.service.value ? "" : "Choose the type of work.") && ok;
+      ok = setErr("details", form.elements.details.value.trim().length >= 10 ? "" : "Tell us a little more (10+ characters).") && ok;
+      if (!ok) { var first = form.querySelector('[aria-invalid="true"], .bk-error:not(:empty)'); if (first) first.scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+
+      var done = document.getElementById("bk-done");
+      done.hidden = false;
+      done.innerHTML = "<strong>Form check passed ✓</strong><p>" + picked.date + ", " + picked.label + " · " +
+        form.elements.firstName.value + " " + form.elements.lastName.value + " · " + phone.value + " · " +
+        form.elements.address.value + " " + postal.value + "</p><p>Test page: nothing was booked. The calendar connection is the next step.</p>";
+      done.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+
+    renderDays();
+  })();
+  </script>
+</BaseLayout>
+
+<style is:global>
+  .bk-wrap { max-width: 760px; margin: 0 auto; padding: 48px 20px 64px; }
+  .bk-test-flag { display: inline-block; margin: 0 0 14px; padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .04em; }
+  .bk-title { margin: 0 0 8px; font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.1; }
+  .bk-lead { margin: 0 0 28px; color: var(--muted); font-size: 1.08rem; }
+  .bk-card { padding: 8px 24px 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
+  .bk-step { border: 0; border-bottom: 1px solid var(--line); margin: 0; padding: 22px 0; min-width: 0; }
+  .bk-step legend { display: flex; align-items: center; gap: 10px; padding: 0; margin-bottom: 14px; font-weight: 800; font-size: 1.1rem; color: var(--ink); }
+  .bk-step legend span { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--brand); color: #fff; font-size: .9rem; }
+  .bk-card label { display: grid; gap: 6px; margin-bottom: 14px; font-weight: 700; font-size: .95rem; color: var(--ink); }
+  .bk-card input:not([type="file"]), .bk-card select, .bk-card textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); color: var(--ink); font: inherit; font-weight: 400; }
+  .bk-card input:not([type="file"]), .bk-card select { height: 50px; margin: 0; }
+  .bk-card input:focus, .bk-card select:focus, .bk-card textarea:focus { outline: 2px solid var(--brand); outline-offset: 1px; border-color: var(--brand); }
+  .bk-card [aria-invalid="true"] { border-color: var(--accent); }
+  .bk-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .bk-hint { color: var(--muted); font-weight: 400; font-size: .85rem; }
+  .bk-error { color: var(--accent); font-weight: 600; font-size: .88rem; margin: 0; }
+  .bk-error:empty { display: none; }
+  .bk-days { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 14px; }
+  .bk-day { flex: 0 0 auto; display: grid; justify-items: center; min-width: 62px; padding: 8px 6px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); color: var(--ink); cursor: pointer; font: inherit; }
+  .bk-day strong { font-size: 1.25rem; line-height: 1.2; }
+  .bk-day small { color: var(--muted); font-size: .75rem; }
+  .bk-slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .bk-slot { padding: 12px 8px; border: 1px solid var(--brand); border-radius: var(--radius); background: var(--white); color: var(--brand); font: inherit; font-weight: 700; cursor: pointer; }
+  .bk-day[aria-checked="true"], .bk-slot[aria-checked="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .bk-day[aria-checked="true"] small { color: #fff; }
+  .bk-place { display: block; width: 100%; }
+  .bk-thumbs { display: flex; gap: 8px; }
+  .bk-thumbs img { width: 72px; height: 72px; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
+  .bk-hp { position: absolute; left: -9999px; }
+  .bk-submit { width: 100%; margin-top: 22px; padding: 14px; font-size: 1.05rem; cursor: pointer; }
+  .bk-small { margin: 10px 0 0; color: var(--muted); font-size: .88rem; text-align: center; }
+  .bk-done { margin-top: 18px; padding: 16px; border-radius: var(--radius); background: #ecfdf3; color: #065f46; border: 1px solid #a7f3d0; }
+  .bk-done p { margin: 6px 0 0; }
+  .bk-alt { margin-top: 18px; text-align: center; color: var(--muted); }
+  .bk-alt a { color: #2563eb; font-weight: 700; }
+  @media (max-width: 640px) {
+    .bk-card { padding: 4px 16px 18px; }
+    .bk-row { grid-template-columns: 1fr; }
+    .bk-slots { grid-template-columns: 1fr 1fr; }
+  }
+</style>
