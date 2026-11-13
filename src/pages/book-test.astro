@@ -64,8 +64,20 @@ const canonical = "https://fatehplumelec.com/book-test.html";
         <legend><span>3</span> Service address</legend>
         <label>Start typing your address
           <div id="bk-place-slot"></div>
-          <input name="address" id="bk-address" autocomplete="street-address" placeholder="5 Loomis Rd, Brampton" required>
+          <input name="address" id="bk-address" autocomplete="street-address" placeholder="5 Loomis Rd" required>
           <span class="bk-error" data-for="address"></span>
+        </label>
+        <label>City
+          <select name="city" id="bk-city" required>
+            <option selected>Brampton</option>
+            <option>Mississauga</option>
+            <option>Caledon</option>
+            <option>Vaughan</option>
+            <option>Etobicoke</option>
+            <option>Toronto</option>
+            <option>Other</option>
+          </select>
+          <span class="bk-hint" id="bk-city-note" hidden>Outside Brampton: we confirm your time by text before the visit.</span>
         </label>
         <div class="bk-row">
           <label>Unit / Apt (optional)
@@ -230,13 +242,27 @@ const canonical = "https://fatehplumelec.com/book-test.html";
       files.forEach(function (f) { var img = document.createElement("img"); img.src = URL.createObjectURL(f); img.alt = ""; thumbs.appendChild(img); });
     });
 
+    // ---------- City ----------
+    var citySel = document.getElementById("bk-city"), cityNote = document.getElementById("bk-city-note");
+    function updateCityNote() { cityNote.hidden = citySel.value === "Brampton"; }
+    function setCity(name) {
+      if (!name) return;
+      // North York, Scarborough etc. come back as their own names: treat as Toronto
+      if (/^(north york|scarborough|east york|york)$/i.test(name)) name = "Toronto";
+      var hit = Array.prototype.find.call(citySel.options, function (o) { return o.value.toLowerCase() === name.toLowerCase(); });
+      citySel.value = hit ? hit.value : "Other";
+      updateCityNote();
+    }
+    citySel.addEventListener("change", updateCityNote);
+
     // ---------- Address autocomplete (Google Places) ----------
     function fillFromPlace(place) {
       var comps = place.addressComponents || [];
       function get(type) { var c = comps.find(function (x) { return x.types.indexOf(type) !== -1; }); return c ? c.shortText || c.longText : ""; }
       var line = [get("street_number"), get("route")].filter(Boolean).join(" ");
-      var city = get("locality") || get("sublocality");
-      document.getElementById("bk-address").value = [line, city].filter(Boolean).join(", ") || place.formattedAddress || "";
+      var city = get("locality") || get("sublocality") || get("administrative_area_level_3");
+      document.getElementById("bk-address").value = line || place.formattedAddress || "";
+      setCity(city);
       var pc = get("postal_code");
       if (pc) { postal.value = pc.toUpperCase(); setErr("postal", checkPostal(pc)); }
       setErr("address", "");
@@ -248,7 +274,12 @@ const canonical = "https://fatehplumelec.com/book-test.html";
       window.bkMapsReady = async function () {
         try {
           var lib = await google.maps.importLibrary("places");
-          var el = new lib.PlaceAutocompleteElement({ includedRegionCodes: ["ca"] });
+          // Only addresses in Canada, inside a box around the GTA (Hamilton to Pickering, Lake Ontario to Caledon)
+          var el = new lib.PlaceAutocompleteElement({
+            includedRegionCodes: ["ca"],
+            locationRestriction: { north: 44.15, south: 43.20, east: -78.95, west: -80.10 }
+          });
+          el.setAttribute("placeholder", "Start typing, e.g. 5 Loomis Rd");
           el.className = "bk-place";
           document.getElementById("bk-place-slot").appendChild(el);
           var plain = document.getElementById("bk-address");
@@ -283,7 +314,7 @@ const canonical = "https://fatehplumelec.com/book-test.html";
       done.hidden = false;
       done.innerHTML = "<strong>Form check passed ✓</strong><p>" + picked.date + ", " + picked.label + " · " +
         form.elements.firstName.value + " " + form.elements.lastName.value + " · " + phone.value + " · " +
-        form.elements.address.value + " " + postal.value + "</p><p>Test page: nothing was booked. The calendar connection is the next step.</p>";
+        form.elements.address.value + ", " + citySel.value + " " + postal.value + "</p><p>Test page: nothing was booked. The calendar connection is the next step.</p>";
       done.scrollIntoView({ behavior: "smooth", block: "center" });
     });
 
@@ -318,7 +349,10 @@ const canonical = "https://fatehplumelec.com/book-test.html";
   .bk-slot { padding: 12px 8px; border: 1px solid var(--brand); border-radius: var(--radius); background: var(--white); color: var(--brand); font: inherit; font-weight: 700; cursor: pointer; }
   .bk-day[aria-checked="true"], .bk-slot[aria-checked="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
   .bk-day[aria-checked="true"] small { color: #fff; }
-  .bk-place { display: block; width: 100%; }
+  /* Google address box: light by default, dark only when the site's dark theme is on */
+  .bk-place { display: block; width: 100%; color-scheme: light; background-color: #fff; border: 1px solid var(--line); border-radius: var(--radius); }
+  .bk-place:focus-within { border-color: var(--brand); outline: 2px solid var(--brand); outline-offset: 1px; }
+  body.theme-dark .bk-place { color-scheme: dark; background-color: var(--white); }
   .bk-thumbs { display: flex; gap: 8px; }
   .bk-thumbs img { width: 72px; height: 72px; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
   .bk-hp { position: absolute; left: -9999px; }
