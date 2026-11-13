@@ -67,21 +67,21 @@ const canonical = "https://fatehplumelec.com/book-test.html";
           <input name="address" id="bk-address" autocomplete="street-address" placeholder="5 Loomis Rd" required>
           <span class="bk-error" data-for="address"></span>
         </label>
-        <label>City
-          <select name="city" id="bk-city" required>
-            <option selected>Brampton</option>
-            <option>Mississauga</option>
-            <option>Caledon</option>
-            <option>Vaughan</option>
-            <option>Etobicoke</option>
-            <option>Toronto</option>
-            <option>Other</option>
-          </select>
-          <span class="bk-hint" id="bk-city-note" hidden>Outside Brampton: we confirm your time by text before the visit.</span>
+        <label>Unit / Apt (optional)
+          <input name="unit" autocomplete="address-line2" placeholder="Basement, Unit 2">
         </label>
         <div class="bk-row">
-          <label>Unit / Apt (optional)
-            <input name="unit" autocomplete="address-line2">
+          <label>City
+            <select name="city" id="bk-city" required>
+              <option selected>Brampton</option>
+              <option>Mississauga</option>
+              <option>Caledon</option>
+              <option>Vaughan</option>
+              <option>Etobicoke</option>
+              <option>Toronto</option>
+              <option>Other</option>
+            </select>
+            <span class="bk-hint" id="bk-city-note" hidden>Outside Brampton: we confirm your time by text before the visit.</span>
           </label>
           <label>Postal code
             <input name="postal" id="bk-postal" autocomplete="postal-code" placeholder="L6P 1A1" maxlength="7" required>
