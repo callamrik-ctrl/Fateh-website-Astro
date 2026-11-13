@@ -1,7 +1,7 @@
 ---
-// TEST booking form (step 1: the form only) → /book-test.html
-// noindex, not in sitemap or site search. Slots are sample data until the
-// Google Calendar server part is connected. Submitting does not book anything yet.
+// Booking form (test URL) → /book-test.html
+// noindex, not in sitemap or site search. Open times come from Google Calendar
+// through /api/slots.php; bookings are saved by /api/book.php (see public/api/).
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
@@ -19,7 +19,7 @@ const canonical = "https://fatehplumelec.com/book-test.html";
   <SiteHeader />
 
   <main class="bk-wrap">
-    <p class="bk-test-flag">TEST PAGE: bookings are not saved yet</p>
+    <p class="bk-test-flag">TEST PAGE: bookings go onto the real calendar</p>
     <p class="eyebrow">Brampton booking</p>
     <h1 class="bk-title">Book your service visit</h1>
     <p class="bk-lead">Takes about a minute. Pick a 2-hour arrival window and tell us about the job.</p>
@@ -122,6 +122,7 @@ const canonical = "https://fatehplumelec.com/book-test.html";
 
       <label class="bk-hp" aria-hidden="true">Leave empty <input name="website" tabindex="-1" autocomplete="off"></label>
 
+      <p class="bk-error bk-form-error" id="bk-form-error" role="alert"></p>
       <button class="button bk-submit" type="submit">Request this time</button>
       <p class="bk-small">We confirm every booking by text. Arrival can shift a little within the day; we text you if it does.</p>
       <div class="bk-done" id="bk-done" hidden></div>
@@ -139,44 +140,75 @@ const canonical = "https://fatehplumelec.com/book-test.html";
     var slotsEl = document.getElementById("bk-slots");
     var picked = { date: null, slot: null };
 
-    // ---------- Days and slots (SAMPLE DATA until the calendar server part is connected) ----------
-    var WINDOWS = [["09:00", "9–11 AM"], ["11:00", "11 AM–1 PM"], ["13:00", "1–3 PM"], ["15:00", "3–5 PM"]];
-    function sampleDays() {
-      var out = [], d = new Date();
-      d.setHours(0, 0, 0, 0);
-      while (out.length < 10) {
-        d.setDate(d.getDate() + 1);
-        var wd = d.getDay();
-        if (wd === 0 || wd === 6) continue;
-        out.push(new Date(d));
-      }
-      return out;
-    }
-    function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
-    function renderDays() {
-      sampleDays().forEach(function (d, i) {
-        var b = document.createElement("button");
-        b.type = "button"; b.className = "bk-day"; b.setAttribute("role", "radio");
-        b.dataset.date = iso(d);
-        b.innerHTML = "<small>" + d.toLocaleDateString("en-CA", { weekday: "short" }) + "</small><strong>" + d.getDate() + "</strong><small>" + d.toLocaleDateString("en-CA", { month: "short" }) + "</small>";
-        b.addEventListener("click", function () { pickDay(b); });
-        daysEl.appendChild(b);
-        if (i === 0) pickDay(b);
-      });
+    // ---------- Days and slots (live from Google Calendar via /api/slots.php) ----------
+    var DAYS = [];
+    var submitBtn = form.querySelector(".bk-submit");
+    function parseISO(v) { var p = v.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+    function loadSlots() {
+      daysEl.innerHTML = '<p class="bk-hint">Loading open times…</p>';
+      slotsEl.innerHTML = "";
+      picked.date = null; picked.slot = null;
+      return fetch("/api/slots.php", { cache: "no-store" })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!data.ok) throw new Error(data.error || "unavailable");
+          DAYS = data.days || [];
+          daysEl.innerHTML = "";
+          if (!DAYS.length) {
+            daysEl.innerHTML = '<p class="bk-hint">No online times open in the next 2 weeks. Please call <a href="tel:+16479809211"><strong>647-980-9211</strong></a>.</p>';
+            return;
+          }
+          DAYS.forEach(function (day, i) {
+            var d = parseISO(day.date);
+            var b = document.createElement("button");
+            b.type = "button"; b.className = "bk-day"; b.setAttribute("role", "radio");
+            b.dataset.date = day.date;
+            b.innerHTML = "<small>" + d.toLocaleDateString("en-CA", { weekday: "short" }) + "</small><strong>" + d.getDate() + "</strong><small>" + d.toLocaleDateString("en-CA", { month: "short" }) + "</small>";
+            b.addEventListener("click", function () { pickDay(b); });
+            daysEl.appendChild(b);
+            if (i === 0) pickDay(b);
+          });
+        })
+        .catch(function () {
+          daysEl.innerHTML = '<p class="bk-error">Online booking is not available right now. Please call <a href="tel:+16479809211"><strong>647-980-9211</strong></a>.</p>';
+          submitBtn.disabled = true;
+        });
     }
     function pickDay(btn) {
       daysEl.querySelectorAll(".bk-day").forEach(function (x) { x.setAttribute("aria-checked", x === btn); });
       picked.date = btn.dataset.date; picked.slot = null;
       slotsEl.innerHTML = "";
-      WINDOWS.forEach(function (w) {
+      var day = DAYS.find(function (x) { return x.date === btn.dataset.date; });
+      (day ? day.windows : []).forEach(function (w) {
         var s = document.createElement("button");
         s.type = "button"; s.className = "bk-slot"; s.setAttribute("role", "radio");
-        s.textContent = w[1]; s.dataset.start = w[0];
+        s.textContent = w.label; s.dataset.start = w.start;
+        if (!w.available) { s.disabled = true; s.title = "Not available"; }
         s.addEventListener("click", function () {
           slotsEl.querySelectorAll(".bk-slot").forEach(function (x) { x.setAttribute("aria-checked", x === s); });
-          picked.slot = w[0]; picked.label = w[1]; setErr("slot", "");
+          picked.slot = w.start; picked.label = w.label; setErr("slot", "");
         });
         slotsEl.appendChild(s);
+      });
+    }
+
+    // Photos are shrunk in the browser before upload (faster on phones, smaller emails)
+    function compress(file) {
+      return new Promise(function (resolve) {
+        if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return resolve(file);
+        var url = URL.createObjectURL(file), img = new Image();
+        img.onload = function () {
+          var k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+          var c = document.createElement("canvas");
+          c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+          c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+          c.toBlob(function (blob) {
+            URL.revokeObjectURL(url);
+            resolve(blob && blob.size < file.size ? new File([blob], file.name.replace(/\.\w+$/, "") + ".jpg", { type: "image/jpeg" }) : file);
+          }, "image/jpeg", 0.82);
+        };
+        img.onerror = function () { URL.revokeObjectURL(url); resolve(file); };
+        img.src = url;
       });
     }
 
@@ -310,15 +342,42 @@ const canonical = "https://fatehplumelec.com/book-test.html";
       ok = setErr("details", form.elements.details.value.trim().length >= 10 ? "" : "Tell us a little more (10+ characters).") && ok;
       if (!ok) { var first = form.querySelector('[aria-invalid="true"], .bk-error:not(:empty)'); if (first) first.scrollIntoView({ behavior: "smooth", block: "center" }); return; }
 
-      var done = document.getElementById("bk-done");
-      done.hidden = false;
-      done.innerHTML = "<strong>Form check passed ✓</strong><p>" + picked.date + ", " + picked.label + " · " +
-        form.elements.firstName.value + " " + form.elements.lastName.value + " · " + phone.value + " · " +
-        form.elements.address.value + ", " + citySel.value + " " + postal.value + "</p><p>Test page: nothing was booked. The calendar connection is the next step.</p>";
-      done.scrollIntoView({ behavior: "smooth", block: "center" });
+      var formErr = document.getElementById("bk-form-error");
+      formErr.textContent = "";
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+      var fd = new FormData(form);
+      fd.delete("photos");
+      fd.append("date", picked.date);
+      fd.append("start", picked.slot);
+      Promise.all(Array.prototype.map.call(photos.files, compress))
+        .then(function (files) {
+          files.forEach(function (f) { fd.append("photos[]", f, f.name); });
+          return fetch("/api/book.php", { method: "POST", body: fd });
+        })
+        .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+        .then(function (res) {
+          if (res.ok) {
+            var done = document.getElementById("bk-done");
+            form.querySelectorAll(".bk-step, .bk-submit, .bk-small").forEach(function (el) { el.hidden = true; });
+            done.hidden = false;
+            done.innerHTML = "<strong>Booking received ✓</strong><p>" + (res.when || "") + "<br>" + (res.address || "") +
+              "</p><p>We sent a confirmation to your email and will text you to confirm. Questions? Call 647-980-9211.</p>";
+            done.scrollIntoView({ behavior: "smooth", block: "center" });
+            return;
+          }
+          var fields = res.fields || {};
+          Object.keys(fields).forEach(function (k) { setErr(k, fields[k]); });
+          if (res.refresh) loadSlots();
+          var box = form.querySelector(".bk-error:not(:empty)");
+          formErr.textContent = res.error || "Something went wrong. Please call 647-980-9211.";
+          (box || formErr).scrollIntoView({ behavior: "smooth", block: "center" });
+        })
+        .catch(function () { formErr.textContent = "Could not send your booking. Please check your connection or call 647-980-9211."; })
+        .finally(function () { submitBtn.disabled = false; submitBtn.textContent = "Request this time"; });
     });
 
-    renderDays();
+    loadSlots();
   })();
   </script>
 </BaseLayout>
@@ -347,6 +406,9 @@ const canonical = "https://fatehplumelec.com/book-test.html";
   .bk-day small { color: var(--muted); font-size: .75rem; }
   .bk-slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .bk-slot { padding: 12px 8px; border: 1px solid var(--brand); border-radius: var(--radius); background: var(--white); color: var(--brand); font: inherit; font-weight: 700; cursor: pointer; }
+  .bk-slot:disabled { border-color: var(--line); color: var(--muted); text-decoration: line-through; cursor: not-allowed; opacity: .6; }
+  .bk-form-error { margin-top: 16px; text-align: center; }
+  .bk-submit:disabled { opacity: .7; cursor: wait; }
   .bk-day[aria-checked="true"], .bk-slot[aria-checked="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
   .bk-day[aria-checked="true"] small { color: #fff; }
   /* Google address box: light by default, dark only when the site's dark theme is on */

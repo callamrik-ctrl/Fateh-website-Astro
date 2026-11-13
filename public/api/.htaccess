@@ -1,0 +1,11 @@
+# Booking API: the shared code file is never served directly
+<Files "_booking.php">
+  Require all denied
+</Files>
+# Never serve key files, even if one is uploaded here by mistake
+<FilesMatch "\.(json|pem|key)$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
