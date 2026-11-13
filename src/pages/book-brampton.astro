@@ -7,7 +7,9 @@ import SiteFooter from "../components/SiteFooter.astro";
 
 // STEP: paste your Google Calendar "Appointment schedule" booking page link here.
 // Example: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ...."
-const BOOKING_URL = "";
+const BOOKING_URL = "<!-- Google Calendar Appointment Scheduling begin -->
+<iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2a25xLiyC-IsSSBgxrKBsGgKdP6etJcRiXy5Ny3FK9mrJ5Dw0zgi1kDFnyRk39FifGgI0AViQu?gv=true" style="border: 0" width="100%" height="600" frameborder="0"></iframe>
+<!-- end Google Calendar Appointment Scheduling -->";
 
 const embedUrl = BOOKING_URL
   ? `${BOOKING_URL}${BOOKING_URL.includes("?") ? "&" : "?"}gv=true`
