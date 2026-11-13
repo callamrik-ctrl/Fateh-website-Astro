@@ -1,0 +1,85 @@
+---
+// Private booking page for Brampton customers → /book-brampton.html
+// Not in sitemap, not in site search, noindex. Link is shared by WhatsApp only.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+// STEP: paste your Google Calendar "Appointment schedule" booking page link here.
+// Example: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ...."
+const BOOKING_URL = "";
+
+const embedUrl = BOOKING_URL
+  ? `${BOOKING_URL}${BOOKING_URL.includes("?") ? "&" : "?"}gv=true`
+  : "";
+
+const title = "Book Your Service Visit in Brampton | Fateh";
+const description = "Pick a 2-hour arrival window for your Fateh Plumbing & Electric service visit in Brampton.";
+const canonical = "https://fatehplumelec.com/book-brampton.html";
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} noindex>
+  <SiteHeader />
+
+  <main class="page-hero booking-hero">
+    <div>
+      <p class="eyebrow">Brampton booking</p>
+      <h1>Book your service visit</h1>
+      <p>Choose a day and a 2-hour arrival window that works for you. Your visit goes straight onto our schedule, and you get a confirmation email right away.</p>
+      <div class="hero-actions">
+        <a class="button" href="#booking-calendar">Pick a time</a>
+        <a class="button secondary" href="tel:+16479809211">Call 647-980-9211</a>
+      </div>
+    </div>
+    <ul class="booking-points" aria-label="How booking works">
+      <li><span>1</span><div><strong>Pick a window</strong><p>Every slot is a 2-hour arrival window, such as 9–11 AM or 1–3 PM.</p></div></li>
+      <li><span>2</span><div><strong>Add your details</strong><p>Your address, phone number, and the work you need done.</p></div></li>
+      <li><span>3</span><div><strong>Get confirmed</strong><p>We text you if we are arriving earlier or later within the day.</p></div></li>
+    </ul>
+  </main>
+
+  <section class="booking-section" id="booking-calendar">
+    <div class="booking-card">
+      {embedUrl ? (
+        <iframe
+          src={embedUrl}
+          title="Book a service visit with Fateh Plumbing & Electric"
+          loading="lazy"
+          frameborder="0"
+        ></iframe>
+      ) : (
+        <div class="booking-placeholder">
+          <p class="eyebrow">Online booking</p>
+          <h2>Booking calendar coming soon</h2>
+          <p>To book your visit now, call or WhatsApp <a href="tel:+16479809211"><strong>647-980-9211</strong></a>.</p>
+        </div>
+      )}
+    </div>
+    <p class="booking-note">
+      Serving Brampton. For jobs outside Brampton or urgent leaks and backups, call
+      <a href="tel:+16479809211"><strong>647-980-9211</strong></a> for a time.
+    </p>
+  </section>
+
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .booking-hero { align-items: start; }
+  .booking-points { list-style: none; margin: 0; padding: 22px; display: grid; gap: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
+  .booking-points li { display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; }
+  .booking-points span { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--brand); color: #fff; font-weight: 850; }
+  .booking-points strong { display: block; color: var(--ink); }
+  .booking-points p { margin: 2px 0 0; color: var(--muted); font-size: 0.98rem; }
+  .booking-section { max-width: 1180px; margin: 0 auto; padding: 48px 20px 64px; }
+  .booking-card { border: 1px solid var(--line); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow); overflow: hidden; }
+  .booking-card iframe { display: block; width: 100%; height: 760px; border: 0; }
+  .booking-placeholder { padding: 48px 24px; text-align: center; background: var(--white); }
+  .booking-placeholder h2 { margin: 0 0 10px; }
+  .booking-placeholder p { color: var(--muted); }
+  .booking-section a, .booking-placeholder a { color: #2563eb; font-weight: 700; }
+  .booking-note { margin: 16px 0 0; text-align: center; color: var(--muted); }
+  @media (max-width: 760px) {
+    .booking-card iframe { height: 900px; }
+  }
+</style>

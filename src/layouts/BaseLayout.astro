@@ -7,6 +7,7 @@ const {
   baseHref,
   schemas = [],
   ogType = "website",
+  noindex = false,
 } = Astro.props;
 ---
 <!doctype html>
@@ -17,6 +18,7 @@ const {
   <title>{title}</title>
   {baseHref && <base href={baseHref} />}
   <meta name="description" content={description} />
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
   <link rel="canonical" href={canonical} />
   <meta property="og:type" content={ogType} />
   <meta property="og:title" content={title} />
