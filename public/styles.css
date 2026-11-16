@@ -1948,3 +1948,17 @@ body.theme-dark .blog-post-meta span { background: rgba(255, 255, 255, .06); col
   .theme-toggle, .theme-dark .theme-toggle { width: 32px; height: 48px; }
   .theme-toggle .switch-track { width: 15px; height: 26px; }
 }
+
+/* Wall switch v3: plate always white; rocker still flips (black on the light site, white on the dark site) */
+.theme-toggle, .theme-dark .theme-toggle {
+  background: linear-gradient(160deg, #ffffff, #e6ebf2);
+  box-shadow: 0 0 0 1px #cbd5e1, 0 6px 16px rgba(15, 23, 42, .22), inset 0 1px 0 #fff;
+}
+.theme-toggle::before, .theme-toggle::after,
+.theme-dark .theme-toggle::before, .theme-dark .theme-toggle::after {
+  background: linear-gradient(transparent 40%, rgba(0, 0, 0, .5) 40% 60%, transparent 60%), #d3d9e2;
+}
+.theme-toggle .switch-track { border-color: #0b1220; background: #0b1220; }
+.theme-toggle .switch-knob { background: #3b4658; }
+.theme-dark .theme-toggle .switch-track { border-color: #0b1220; background: #ffffff; }
+.theme-dark .theme-toggle .switch-knob { background: #d5dbe4; }
