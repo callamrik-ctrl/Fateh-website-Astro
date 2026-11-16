@@ -65,22 +65,16 @@ const canonical = "https://fatehplumelec.com/book-brampton.html";
           <div id="bk-place-slot"></div>
           <input name="address" id="bk-address" autocomplete="street-address" placeholder="5 Loomis Rd" required>
           <span class="bk-error" data-for="address"></span>
+          <span class="bk-hint" id="bk-city-note" hidden></span>
         </label>
-        <label>Unit / Apt (optional)
-          <input name="unit" autocomplete="address-line2" placeholder="Basement, Unit 2">
+        <!-- City comes from the picked address; this box only shows if Google autocomplete is unavailable -->
+        <label id="bk-city-wrap" hidden>City
+          <input name="city" id="bk-city" autocomplete="address-level2" placeholder="Brampton">
+          <span class="bk-error" data-for="city"></span>
         </label>
         <div class="bk-row">
-          <label>City
-            <select name="city" id="bk-city" required>
-              <option selected>Brampton</option>
-              <option>Mississauga</option>
-              <option>Caledon</option>
-              <option>Vaughan</option>
-              <option>Etobicoke</option>
-              <option>Toronto</option>
-              <option>Other</option>
-            </select>
-            <span class="bk-hint" id="bk-city-note" hidden>Outside Brampton: we confirm your time by text before the visit.</span>
+          <label>Unit / Apt (optional)
+            <input name="unit" autocomplete="address-line2" placeholder="Basement, Unit 2">
           </label>
           <label>Postal code
             <input name="postal" id="bk-postal" autocomplete="postal-code" placeholder="L6P 1A1" maxlength="7" required>
@@ -274,17 +268,17 @@ const canonical = "https://fatehplumelec.com/book-brampton.html";
     });
 
     // ---------- City ----------
-    var citySel = document.getElementById("bk-city"), cityNote = document.getElementById("bk-city-note");
-    function updateCityNote() { cityNote.hidden = citySel.value === "Brampton"; }
+    // City is read from the chosen address. The typed City box only shows when autocomplete isn't available.
+    var cityIn = document.getElementById("bk-city"), cityWrap = document.getElementById("bk-city-wrap"), cityNote = document.getElementById("bk-city-note");
+    function showCityBox() { cityWrap.hidden = false; cityIn.required = true; }
     function setCity(name) {
-      if (!name) return;
-      // North York, Scarborough etc. come back as their own names: treat as Toronto
-      if (/^(north york|scarborough|east york|york)$/i.test(name)) name = "Toronto";
-      var hit = Array.prototype.find.call(citySel.options, function (o) { return o.value.toLowerCase() === name.toLowerCase(); });
-      citySel.value = hit ? hit.value : "Other";
-      updateCityNote();
+      cityIn.value = name || "";
+      if (!name) { cityNote.hidden = true; showCityBox(); return; }
+      cityNote.textContent = "📍 " + name + (/^brampton$/i.test(name) ? "" : " · outside Brampton: we confirm your time by text before the visit.");
+      cityNote.hidden = false;
+      setErr("city", "");
     }
-    citySel.addEventListener("change", updateCityNote);
+    if (!MAPS_KEY) showCityBox();
 
     // ---------- Address autocomplete (Google Places) ----------
     function fillFromPlace(place) {
@@ -320,7 +314,7 @@ const canonical = "https://fatehplumelec.com/book-brampton.html";
             await place.fetchFields({ fields: ["addressComponents", "formattedAddress"] });
             fillFromPlace(place);
           });
-        } catch (err) { /* keep the plain address box */ }
+        } catch (err) { showCityBox(); /* keep the plain address box */ }
       };
       document.head.appendChild(s);
     }
@@ -336,6 +330,8 @@ const canonical = "https://fatehplumelec.com/book-brampton.html";
       ok = setErr("phone", checkPhone(phone.value)) && ok;
       ok = setErr("email", /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.elements.email.value.trim()) ? "" : "Enter a valid email.") && ok;
       ok = setErr("address", form.elements.address.value.trim().length >= 5 ? "" : "Enter your street address.") && ok;
+      if (cityWrap.hidden && !cityIn.value) ok = setErr("address", "Pick your address from the list.") && ok;
+      else ok = setErr("city", /^[A-Za-zÀ-ÿ' .-]{2,40}$/.test(cityIn.value.trim()) ? "" : "Enter your city.") && ok;
       ok = setErr("postal", checkPostal(postal.value)) && ok;
       ok = setErr("service", form.elements.service.value ? "" : "Choose the type of work.") && ok;
       ok = setErr("details", form.elements.details.value.trim().length >= 10 ? "" : "Tell us a little more (10+ characters).") && ok;
@@ -411,7 +407,9 @@ const canonical = "https://fatehplumelec.com/book-brampton.html";
   .bk-day[aria-checked="true"], .bk-slot[aria-checked="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
   .bk-day[aria-checked="true"] small { color: #fff; }
   /* Google address box: light by default, dark only when the site's dark theme is on */
-  .bk-place { display: block; width: 100%; color-scheme: light; background-color: #fff; border: 1px solid var(--line); border-radius: var(--radius); }
+  /* Keep the Google box inside the card on phones (grid children default to min-width:auto and spill out) */
+  .bk-card label, .bk-card label > *, #bk-place-slot { min-width: 0; max-width: 100%; }
+  .bk-place { display: block; box-sizing: border-box; width: 100%; max-width: 100%; min-width: 0; color-scheme: light; background-color: #fff; border: 1px solid var(--line); border-radius: var(--radius); }
   .bk-place:focus-within { border-color: var(--brand); outline: 2px solid var(--brand); outline-offset: 1px; }
   body.theme-dark .bk-place { color-scheme: dark; background-color: var(--white); }
   .bk-thumbs { display: flex; gap: 8px; }
