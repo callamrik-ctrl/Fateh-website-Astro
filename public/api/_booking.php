@@ -233,7 +233,8 @@ function bk_validate(array $in): array {
   elseif (preg_match('/^(\d)\1{6}$/', substr($b['phone'], 3)) || substr($b['phone'], 3) === '5551234') $err['phone'] = 'Please enter a real phone number.';
   if (!filter_var($b['email'], FILTER_VALIDATE_EMAIL)) $err['email'] = 'Enter a valid email.';
   if (mb_strlen($b['address']) < 5) $err['address'] = 'Enter your street address.';
-  if (!in_array($b['city'], BK_CITIES, true)) $err['city'] = 'Choose a city.';
+  // City now comes from the picked address (any GTA city), so check the format instead of a fixed list
+  if (!preg_match("/^[\p{L}' .-]{2,40}$/u", $b['city'])) $err['city'] = 'Enter your city.';
   if (!preg_match('/^[LM]\d[A-Z]\d[A-Z]\d$/', $b['postal'])) $err['postal'] = 'Enter a GTA postal code (starts with L or M).';
   if (!in_array($b['service'], BK_SERVICES, true)) $err['service'] = 'Choose the type of work.';
   if (mb_strlen($b['details']) < 10) $err['details'] = 'Tell us a little more (10+ characters).';
