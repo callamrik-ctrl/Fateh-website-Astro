@@ -243,19 +243,7 @@ function setupSiteSearch() {
 
 setupSiteSearch();
 
-// Open the desktop mega menu right under the header (no gap), whether the top bar is showing or scrolled away
-function syncMegaMenuTop() {
-  const siteHeader = document.querySelector(".site-header");
-  if (!siteHeader) return;
-  const bottom = Math.max(0, Math.round(siteHeader.getBoundingClientRect().bottom));
-  document.documentElement.style.setProperty("--mega-top", bottom + "px");
-}
-syncMegaMenuTop();
-window.addEventListener("scroll", syncMegaMenuTop, { passive: true });
-window.addEventListener("resize", syncMegaMenuTop);
-document.addEventListener("mouseover", (event) => {
-  if (event.target.closest && event.target.closest(".mega-wrap")) syncMegaMenuTop();
-});
+// Mega menu position is handled in CSS (see the LOCKED note on .mega-menu in styles.css)
 
 const plumbingMegaMenuHtml = [
   '<div><h2><span class="menu-icon">♨</span> Kitchen & Laundry</h2>',

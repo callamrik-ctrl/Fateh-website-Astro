@@ -64,6 +64,7 @@ a:hover { color: var(--accent); }
   min-height: 110px; padding: 0 clamp(24px, 6vw, 100px); background: rgba(255, 255, 255, 0.97);
   border-bottom: 1px solid var(--line); box-shadow: 0 16px 38px rgba(15, 23, 42, 0.14); backdrop-filter: blur(12px);
 }
+/* LOCKED: keep backdrop-filter on .site-header — the mega menu (top:100%) uses the header as its anchor. */
 .site-header::before {
   content: "";
   position: absolute;
@@ -103,7 +104,10 @@ a:hover { color: var(--accent); }
 .site-nav > a[aria-current="page"], .site-nav > a:hover, .mega-trigger:hover, .mega-wrap.active .mega-trigger { background: transparent; color: #1267ff; text-decoration: underline; text-underline-offset: 0.18em; }
 .mega-wrap { position: relative; }
 .mega-menu {
-  position: fixed; left: 50vw; top: var(--mega-top, 176px); z-index: 30; width: min(1320px, calc(100vw - 56px));
+  /* LOCKED: the header's backdrop-filter makes the header (not the screen) the box this menu is placed in,
+     so top:100% = exactly the header's bottom edge, with no gap whether or not the top bar is showing.
+     Do not change this top value or remove the header's backdrop-filter without re-checking the gap. */
+  position: fixed; left: 50vw; top: 100%; z-index: 30; width: min(1320px, calc(100vw - 56px));
   transform: translateX(-50%); display: none; grid-template-columns: repeat(4, minmax(0, 1fr)) 242px; gap: 0;
   padding: 22px; background: rgba(255,255,255,.99); border: 1px solid var(--line); border-radius: 12px;
   box-shadow: 0 22px 60px rgba(15, 23, 42, 0.14); opacity: 0; pointer-events: none; translate: 0 -10px; transition: opacity .2s ease, translate .2s ease;
