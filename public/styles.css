@@ -103,7 +103,7 @@ a:hover { color: var(--accent); }
 .site-nav > a[aria-current="page"], .site-nav > a:hover, .mega-trigger:hover, .mega-wrap.active .mega-trigger { background: transparent; color: #1267ff; text-decoration: underline; text-underline-offset: 0.18em; }
 .mega-wrap { position: relative; }
 .mega-menu {
-  position: fixed; left: 50vw; top: 176px; z-index: 30; width: min(1320px, calc(100vw - 56px));
+  position: fixed; left: 50vw; top: var(--mega-top, 176px); z-index: 30; width: min(1320px, calc(100vw - 56px));
   transform: translateX(-50%); display: none; grid-template-columns: repeat(4, minmax(0, 1fr)) 242px; gap: 0;
   padding: 22px; background: rgba(255,255,255,.99); border: 1px solid var(--line); border-radius: 12px;
   box-shadow: 0 22px 60px rgba(15, 23, 42, 0.14); opacity: 0; pointer-events: none; translate: 0 -10px; transition: opacity .2s ease, translate .2s ease;
@@ -1868,19 +1868,22 @@ body.theme-dark .blog-post-meta span { background: rgba(255, 255, 255, .06); col
   font-weight: 800; font-size: .9rem; text-decoration: none; box-shadow: 0 8px 20px rgba(22, 163, 74, .28);
 }
 .book-online-link:hover { background: #15803d; color: #fff !important; }
-.top-bar .book-online-link { margin-left: -12px; }
+.site-header .book-online-desktop { position: relative; z-index: 1; min-height: 48px; border-radius: 14px; padding: 0 20px; font-size: .95rem; }
 .book-online-mobile { display: none; }
 @media (max-width: 980px) {
   .book-online-desktop { display: none; }
   .site-nav.open .book-online-mobile { display: flex; width: 100%; min-height: 48px; margin: 0 0 12px; font-size: 1rem; }
 }
 
-/* Floating chat pill: round green chat icon + "Need help? Chat now" (phones only, opens WhatsApp) */
+/* Floating chat pill: green bar, white round chat icon + "Chat now" (phones only, opens WhatsApp) */
 .mobile-quote-bar .chat-pill-icon {
-  display: inline-grid; place-items: center; flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%;
-  background: #25d366; box-shadow: 0 0 0 3px rgba(255, 255, 255, .9);
+  display: inline-grid; place-items: center; flex: 0 0 auto; width: 42px; height: 42px; border-radius: 50%; background: #fff;
 }
-.mobile-quote-bar .chat-pill-icon svg { width: 26px; height: 26px; }
+.mobile-quote-bar .chat-pill-icon svg { width: 28px; height: 28px; }
 @media (max-width: 620px) {
-  .mobile-quote-bar { justify-content: flex-start; min-width: 0; min-height: 58px; padding: 0 20px 0 6px; gap: 12px; font-size: 1rem; }
+  .mobile-quote-bar {
+    justify-content: flex-start; min-width: 0; min-height: 54px; padding: 0 20px 0 6px; gap: 10px; font-size: 1rem;
+    background: #16a34a; box-shadow: 0 10px 22px rgba(22, 163, 74, .35);
+  }
+  .mobile-quote-bar:hover { background: #15803d; box-shadow: 0 18px 36px rgba(22, 163, 74, .35); }
 }

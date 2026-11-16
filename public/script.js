@@ -226,12 +226,13 @@ function setupSiteSearch() {
     if (mobileSearch) nav.insertBefore(mobileSearch, nav.firstChild);
   }
 
-  // "Book online" button: beside the search on desktop, under the search in the phone menu
+  // "Book online" button: next to Call on desktop, under the search in the phone menu
   const onBookingPage = /book-online/.test(location.pathname);
   if (!onBookingPage) {
-    const desktopSearchBox = topBarInner && topBarInner.querySelector(".site-search-desktop");
-    if (desktopSearchBox && !topBarInner.querySelector(".book-online-link")) {
-      desktopSearchBox.insertAdjacentHTML("afterend", '<a class="book-online-link book-online-desktop" href="book-online.html">📅 Book online</a>');
+    // Desktop: beside the Call button in the main header, so it stays visible while scrolling
+    const callLink = header.querySelector(".call-link");
+    if (callLink && !header.querySelector(".book-online-desktop")) {
+      callLink.insertAdjacentHTML("beforebegin", '<a class="book-online-link book-online-desktop" href="book-online.html">📅 Book online</a>');
     }
     const mobileSearchBox = nav && nav.querySelector(".site-search-mobile");
     if (mobileSearchBox && !nav.querySelector(".book-online-link")) {
@@ -241,6 +242,20 @@ function setupSiteSearch() {
 }
 
 setupSiteSearch();
+
+// Open the desktop mega menu right under the header (no gap), whether the top bar is showing or scrolled away
+function syncMegaMenuTop() {
+  const siteHeader = document.querySelector(".site-header");
+  if (!siteHeader) return;
+  const bottom = Math.max(0, Math.round(siteHeader.getBoundingClientRect().bottom));
+  document.documentElement.style.setProperty("--mega-top", bottom + "px");
+}
+syncMegaMenuTop();
+window.addEventListener("scroll", syncMegaMenuTop, { passive: true });
+window.addEventListener("resize", syncMegaMenuTop);
+document.addEventListener("mouseover", (event) => {
+  if (event.target.closest && event.target.closest(".mega-wrap")) syncMegaMenuTop();
+});
 
 const plumbingMegaMenuHtml = [
   '<div><h2><span class="menu-icon">♨</span> Kitchen & Laundry</h2>',
