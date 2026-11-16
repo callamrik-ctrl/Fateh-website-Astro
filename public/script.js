@@ -10,8 +10,20 @@ function setTheme(mode) {
   }
 }
 
+// No saved choice: follow the phone/computer setting (and keep following it if it changes).
+// Once the visitor uses the switch, their choice is remembered and wins.
+const systemDark = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
 const savedTheme = localStorage.getItem(themeStorageKey);
-setTheme(savedTheme === "dark" ? "dark" : "light");
+if (savedTheme === "dark" || savedTheme === "light") {
+  setTheme(savedTheme);
+} else {
+  setTheme(systemDark && systemDark.matches ? "dark" : "light");
+}
+if (systemDark && systemDark.addEventListener) {
+  systemDark.addEventListener("change", (event) => {
+    if (!localStorage.getItem(themeStorageKey)) setTheme(event.matches ? "dark" : "light");
+  });
+}
 
 if (themeToggle) {
   themeToggle.addEventListener("click", () => {
@@ -34,6 +46,8 @@ const newsletterThankYouText = "Thanks. You are subscribed for maintenance tips.
 const contactThankYouText = "Thanks. Your request has been sent. Fateh Plumbing & Electric will contact you soon.";
 
 const siteSearchPages = [
+  { title: "Home", url: "/", type: "Company", terms: "home fateh plumbing electric brampton plumber electrician gta" },
+  { title: "Book Online", url: "book-brampton.html", type: "Booking", terms: "book online booking appointment schedule visit arrival window plumber electrician brampton" },
   { title: "Emergency Plumber", url: "emergency-plumber.html", type: "Plumbing", terms: "emergency plumber brampton emergency plumber near me 24 hour plumber 24 7 plumber same day plumber urgent plumber emergency plumbing services emergency drain service" },
   { title: "Brampton Plumber", url: "brampton-plumber.html", type: "Plumbing Area", terms: "plumber in brampton plumbing service local drain leak water heater sewer toilet faucet sump pump" },
   { title: "Markham Plumber", url: "markham-plumber.html", type: "Plumbing Area", terms: "markham plumber unionville thornhill markham village cornell berczy milliken cathedraltown plumbing service local drain leak water heater sewer toilet faucet sump pump" },
@@ -104,6 +118,7 @@ const siteSearchPages = [
   { title: "Property Management Plumbing", url: "property-management-plumbing.html", type: "Commercial", terms: "property management plumbing rental condo tenant maintenance leak drain" },
   { title: "Contact Fateh", url: "contact.html", type: "Contact", terms: "contact phone quote request service email call" },
   { title: "About Fateh", url: "about.html", type: "Company", terms: "about company fateh plumbing electric brampton" },
+  { title: "Disclaimer", url: "disclaimer.html", type: "Company", terms: "disclaimer legal terms" },
   { title: "Blog", url: "blog.html", type: "Help", terms: "blog plumbing electrical tips homeowner repair maintenance" },
   { title: "Backwater Valve Brampton Guide", url: "blog/backwater-valve-brampton-guide.html", type: "Help", terms: "backwater valve brampton basement flooding sewer backup prevention subsidy" },
   { title: "Breaker Keeps Tripping", url: "blog/breaker-keeps-tripping.html", type: "Help", terms: "breaker keeps tripping electrical panel circuit overload troubleshooting" },
@@ -209,6 +224,19 @@ function setupSiteSearch() {
   if (nav && !nav.querySelector(".site-search-mobile")) {
     const mobileSearch = createSiteSearch("site-search-mobile-input", "site-search-mobile");
     if (mobileSearch) nav.insertBefore(mobileSearch, nav.firstChild);
+  }
+
+  // "Book online" button: beside the search on desktop, under the search in the phone menu
+  const onBookingPage = /book-brampton/.test(location.pathname);
+  if (!onBookingPage) {
+    const desktopSearchBox = topBarInner && topBarInner.querySelector(".site-search-desktop");
+    if (desktopSearchBox && !topBarInner.querySelector(".book-online-link")) {
+      desktopSearchBox.insertAdjacentHTML("afterend", '<a class="book-online-link book-online-desktop" href="book-brampton.html">📅 Book online</a>');
+    }
+    const mobileSearchBox = nav && nav.querySelector(".site-search-mobile");
+    if (mobileSearchBox && !nav.querySelector(".book-online-link")) {
+      mobileSearchBox.insertAdjacentHTML("afterend", '<a class="book-online-link book-online-mobile" href="book-brampton.html">📅 Book online</a>');
+    }
   }
 }
 
@@ -364,7 +392,9 @@ function shouldShowNewsletter() {
   return Date.now() > nextShow;
 }
 
-if (newsletterModal && shouldShowNewsletter()) {
+// Never pop the newsletter over the booking form
+const isBookingPage = /book-brampton/.test(location.pathname);
+if (newsletterModal && !isBookingPage && shouldShowNewsletter()) {
   window.setTimeout(() => {
     newsletterModal.hidden = false;
   }, 15000);

@@ -63,7 +63,7 @@ const canonical = "https://fatehplumelec.com/book-brampton.html";
         <legend><span>3</span> Service address</legend>
         <label>Start typing your address
           <div id="bk-place-slot"></div>
-          <input name="address" id="bk-address" autocomplete="street-address" placeholder="5 Loomis Rd" required>
+          <input name="address" id="bk-address" autocomplete="street-address" placeholder="123 Main St" required>
           <span class="bk-error" data-for="address"></span>
           <span class="bk-hint" id="bk-city-note" hidden></span>
         </label>
@@ -304,7 +304,7 @@ const canonical = "https://fatehplumelec.com/book-brampton.html";
             includedRegionCodes: ["ca"],
             locationRestriction: { north: 44.15, south: 43.20, east: -78.95, west: -80.10 }
           });
-          el.setAttribute("placeholder", "Start typing, e.g. 5 Loomis Rd");
+          el.setAttribute("placeholder", "Start typing, e.g. 123 Main St");
           el.className = "bk-place";
           document.getElementById("bk-place-slot").appendChild(el);
           var plain = document.getElementById("bk-address");
