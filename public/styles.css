@@ -1925,3 +1925,26 @@ body.theme-dark .blog-post-meta span { background: rgba(255, 255, 255, .06); col
   .theme-toggle { width: 30px; height: 44px; }
   .theme-toggle .switch-track { width: 12px; height: 22px; }
 }
+
+/* Wall switch v2: cover plate always black; the rocker flips to the opposite colour of the page
+   (black rocker on the light site, white rocker on the dark site), with a white trim so it stands out. */
+.theme-toggle, .theme-dark .theme-toggle {
+  width: 38px; height: 58px;
+  background: linear-gradient(160deg, #1f2937, #050a14);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, .32), inset 0 1px 0 rgba(255, 255, 255, .14);
+}
+.theme-dark .theme-toggle { box-shadow: 0 0 0 1px rgba(255, 255, 255, .35), 0 6px 16px rgba(0, 0, 0, .5); }
+.theme-toggle::before, .theme-toggle::after,
+.theme-dark .theme-toggle::before, .theme-dark .theme-toggle::after {
+  background: linear-gradient(transparent 40%, rgba(0, 0, 0, .6) 40% 60%, transparent 60%), #9aa4b5;
+}
+.theme-toggle .switch-track {
+  width: 18px; height: 32px; border: 2px solid #ffffff; border-radius: 3px; background: #0b1220;
+}
+.theme-toggle .switch-knob { background: #374151; }
+.theme-dark .theme-toggle .switch-track { border-color: #ffffff; background: #ffffff; }
+.theme-dark .theme-toggle .switch-knob { background: #cfd6e0; }
+@media (max-width: 980px) {
+  .theme-toggle, .theme-dark .theme-toggle { width: 32px; height: 48px; }
+  .theme-toggle .switch-track { width: 15px; height: 26px; }
+}
