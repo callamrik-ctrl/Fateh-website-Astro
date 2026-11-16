@@ -1877,9 +1877,9 @@ body.theme-dark .blog-post-meta span { background: rgba(255, 255, 255, .06); col
 
 /* Floating chat pill: green bar, white round chat icon + "Chat now" (phones only, opens WhatsApp) */
 .mobile-quote-bar .chat-pill-icon {
-  display: inline-grid; place-items: center; flex: 0 0 auto; width: 42px; height: 42px; border-radius: 50%; background: #fff;
+  display: inline-grid; place-items: center; flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; background: #fff;
 }
-.mobile-quote-bar .chat-pill-icon svg { width: 28px; height: 28px; }
+.mobile-quote-bar .chat-pill-icon img { width: 40px; height: 40px; display: block; }
 @media (max-width: 620px) {
   .mobile-quote-bar {
     justify-content: flex-start; min-width: 0; min-height: 54px; padding: 0 20px 0 6px; gap: 10px; font-size: 1rem;
