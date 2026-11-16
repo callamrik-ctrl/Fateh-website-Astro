@@ -47,7 +47,7 @@ const contactThankYouText = "Thanks. Your request has been sent. Fateh Plumbing 
 
 const siteSearchPages = [
   { title: "Home", url: "/", type: "Company", terms: "home fateh plumbing electric brampton plumber electrician gta" },
-  { title: "Book Online", url: "book-brampton.html", type: "Booking", terms: "book online booking appointment schedule visit arrival window plumber electrician brampton" },
+  { title: "Book Online", url: "book-online.html", type: "Booking", terms: "book online booking appointment schedule visit arrival window plumber electrician brampton" },
   { title: "Emergency Plumber", url: "emergency-plumber.html", type: "Plumbing", terms: "emergency plumber brampton emergency plumber near me 24 hour plumber 24 7 plumber same day plumber urgent plumber emergency plumbing services emergency drain service" },
   { title: "Brampton Plumber", url: "brampton-plumber.html", type: "Plumbing Area", terms: "plumber in brampton plumbing service local drain leak water heater sewer toilet faucet sump pump" },
   { title: "Markham Plumber", url: "markham-plumber.html", type: "Plumbing Area", terms: "markham plumber unionville thornhill markham village cornell berczy milliken cathedraltown plumbing service local drain leak water heater sewer toilet faucet sump pump" },
@@ -227,15 +227,15 @@ function setupSiteSearch() {
   }
 
   // "Book online" button: beside the search on desktop, under the search in the phone menu
-  const onBookingPage = /book-brampton/.test(location.pathname);
+  const onBookingPage = /book-online/.test(location.pathname);
   if (!onBookingPage) {
     const desktopSearchBox = topBarInner && topBarInner.querySelector(".site-search-desktop");
     if (desktopSearchBox && !topBarInner.querySelector(".book-online-link")) {
-      desktopSearchBox.insertAdjacentHTML("afterend", '<a class="book-online-link book-online-desktop" href="book-brampton.html">📅 Book online</a>');
+      desktopSearchBox.insertAdjacentHTML("afterend", '<a class="book-online-link book-online-desktop" href="book-online.html">📅 Book online</a>');
     }
     const mobileSearchBox = nav && nav.querySelector(".site-search-mobile");
     if (mobileSearchBox && !nav.querySelector(".book-online-link")) {
-      mobileSearchBox.insertAdjacentHTML("afterend", '<a class="book-online-link book-online-mobile" href="book-brampton.html">📅 Book online</a>');
+      mobileSearchBox.insertAdjacentHTML("afterend", '<a class="book-online-link book-online-mobile" href="book-online.html">📅 Book online</a>');
     }
   }
 }
@@ -393,7 +393,7 @@ function shouldShowNewsletter() {
 }
 
 // Never pop the newsletter over the booking form
-const isBookingPage = /book-brampton/.test(location.pathname);
+const isBookingPage = /book-online/.test(location.pathname);
 if (newsletterModal && !isBookingPage && shouldShowNewsletter()) {
   window.setTimeout(() => {
     newsletterModal.hidden = false;

@@ -1,5 +1,5 @@
 ---
-// Online booking page → /book-brampton.html
+// Online booking page → /book-online.html
 // Open times come from Google Calendar through /api/slots.php; bookings are saved
 // by /api/book.php (see public/api/). The same link is shared on WhatsApp.
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -10,9 +10,9 @@ import SiteFooter from "../components/SiteFooter.astro";
 // Hostinger → Environment variables. Without it, the address is typed by hand.
 const MAPS_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_KEY || "";
 
-const title = "Book a Plumber in Brampton Online | Fateh";
-const description = "Book a plumber in Brampton online. Pick a 2-hour arrival window, add your address and photos, and get an email confirmation from Fateh.";
-const canonical = "https://fatehplumelec.com/book-brampton.html";
+const title = "Book a Plumber or Electrician Online | Fateh";
+const description = "Book a plumber or electrician in Brampton and the GTA online. Pick a 2-hour arrival window, add your address and photos, and get an email confirmation from Fateh.";
+const canonical = "https://fatehplumelec.com/book-online.html";
 ---
 
 <BaseLayout title={title} description={description} canonical={canonical}>
@@ -20,8 +20,8 @@ const canonical = "https://fatehplumelec.com/book-brampton.html";
 
   <main class="bk-wrap">
     <p class="eyebrow">Online booking</p>
-    <h1 class="bk-title">Book a plumber in Brampton</h1>
-    <p class="bk-lead">Book your Brampton plumber in about a minute. Pick a 2-hour arrival window, tell us about the job, and add a photo if you have one.</p>
+    <h1 class="bk-title">Book a plumber or electrician online</h1>
+    <p class="bk-lead">Book your visit in Brampton or across the GTA in about a minute. Pick a 2-hour arrival window, tell us about the job, and add a photo if you have one.</p>
 
     <form id="bk-form" class="bk-card" novalidate>
       <!-- 1. Time -->
