@@ -42,7 +42,7 @@ const BK_WA_TEMPLATES = [
 ];
 const BK_OWNER_WHATSAPP = '647-980-9211'; // business WhatsApp that gets the new-booking alert
 const BK_OWNER_SMS      = '647-812-1111'; // phone that gets the new-booking SMS with the link
-const BK_HOME_ADDRESS   = '5 Loomis Rd, Brampton, ON L7A 4X9'; // distance on the owner page is measured from here
+const BK_HOME_ADDRESS   = '18 Donald Stewart Rd, Brampton, ON'; // distance on the owner page is measured from here
 
 date_default_timezone_set(BK_TZ);
 
