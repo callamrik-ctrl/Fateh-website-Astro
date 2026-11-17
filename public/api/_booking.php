@@ -194,9 +194,14 @@ function bk_slots(): array {
     $wins = [];
     foreach (BK_WINDOWS as [$hm, $label]) {
       [$s, $e] = bk_window($d->format('Y-m-d'), $hm);
-      $wins[] = ['start' => $hm, 'label' => $label, 'available' => bk_window_bookable($s) && !bk_overlaps($s, $e, $busy)];
+      $booked = bk_overlaps($s, $e, $busy);
+      $wins[] = ['start' => $hm, 'label' => $label, 'available' => bk_window_bookable($s) && !$booked, 'booked' => $booked];
     }
-    if (array_filter($wins, fn($w) => $w['available'])) $days[] = ['date' => $d->format('Y-m-d'), 'windows' => $wins];
+    // Every weekday is listed (full days too), so the page can show how busy each day is.
+    // Days that are simply too soon (12-hour notice) are left out instead of looking "full".
+    $timeOk = false;
+    foreach (BK_WINDOWS as [$hm]) if (bk_window_bookable(bk_window($d->format('Y-m-d'), $hm)[0])) $timeOk = true;
+    if ($timeOk) $days[] = ['date' => $d->format('Y-m-d'), 'windows' => $wins];
   }
   return $days;
 }

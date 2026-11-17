@@ -148,7 +148,8 @@ const canonical = "https://fatehplumelec.com/book-online.html";
           if (!data.ok) throw new Error(data.error || "unavailable");
           DAYS = data.days || [];
           daysEl.innerHTML = "";
-          if (!DAYS.length) {
+          var firstOpen = DAYS.findIndex(function (x) { return x.windows.some(function (w) { return w.available; }); });
+          if (firstOpen < 0) {
             daysEl.innerHTML = '<p class="bk-hint">No online times open in the next 2 weeks. Please call <a href="tel:+16479809211"><strong>647-980-9211</strong></a>.</p>';
             return;
           }
@@ -157,10 +158,20 @@ const canonical = "https://fatehplumelec.com/book-online.html";
             var b = document.createElement("button");
             b.type = "button"; b.className = "bk-day"; b.setAttribute("role", "radio");
             b.dataset.date = day.date;
-            b.innerHTML = "<small>" + d.toLocaleDateString("en-CA", { weekday: "short" }) + "</small><strong>" + d.getDate() + "</strong><small>" + d.toLocaleDateString("en-CA", { month: "short" }) + "</small>";
+            // Fill bar: how many of the day's windows are booked (2 of 4 = half full)
+            var total = day.windows.length || 1;
+            var booked = day.windows.filter(function (w) { return w.booked; }).length;
+            var open = day.windows.some(function (w) { return w.available; });
+            var pct = open ? Math.round(booked / total * 100) : 100;
+            b.innerHTML = "<small>" + d.toLocaleDateString("en-CA", { weekday: "short" }) + "</small><strong>" + d.getDate() + "</strong><small>" +
+              (open ? d.toLocaleDateString("en-CA", { month: "short" }) : "Full") + "</small>" +
+              '<span class="bk-fill" aria-hidden="true"><span style="width:' + pct + '%"></span></span>';
+            b.setAttribute("aria-label", d.toLocaleDateString("en-CA", { weekday: "long", month: "long", day: "numeric" }) + (open ? ", " + booked + " of " + total + " times booked" : ", full"));
+            if (pct >= 75) b.classList.add("bk-busy");
+            if (!open) { b.disabled = true; b.classList.add("bk-full"); }
             b.addEventListener("click", function () { pickDay(b); });
             daysEl.appendChild(b);
-            if (i === 0) pickDay(b);
+            if (i === firstOpen) pickDay(b);
           });
         })
         .catch(function () {
@@ -404,6 +415,13 @@ const canonical = "https://fatehplumelec.com/book-online.html";
   .bk-day { flex: 0 0 auto; display: grid; justify-items: center; min-width: 62px; padding: 8px 6px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); color: var(--ink); cursor: pointer; font: inherit; }
   .bk-day strong { font-size: 1.25rem; line-height: 1.2; }
   .bk-day small { color: var(--muted); font-size: .75rem; }
+  .bk-fill { display: block; width: 100%; height: 5px; margin-top: 5px; border-radius: 3px; background: #e5e7eb; overflow: hidden; }
+  .bk-fill span { display: block; height: 100%; background: #16a34a; }
+  .bk-day.bk-busy .bk-fill span { background: #f59e0b; }
+  .bk-day.bk-full { cursor: not-allowed; opacity: .55; }
+  .bk-day.bk-full .bk-fill span { background: #dc2626; }
+  .bk-day[aria-checked="true"] .bk-fill { background: rgba(255,255,255,.35); }
+  .bk-day[aria-checked="true"] .bk-fill span { background: #fff; }
   .bk-slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .bk-slot { padding: 12px 8px; border: 1px solid var(--brand); border-radius: var(--radius); background: var(--white); color: var(--brand); font: inherit; font-weight: 700; cursor: pointer; }
   .bk-slot:disabled { border-color: var(--line); color: var(--muted); text-decoration: line-through; cursor: not-allowed; opacity: .6; }
