@@ -418,7 +418,7 @@ function bk_get_event(string $eventId): array {
     $s = (new DateTimeImmutable('tomorrow 10:00', bk_tz()));
     return ['id' => $eventId, 'status' => 'confirmed', 'summary' => 'NEW: Leak – Test Customer (Brampton)', 'location' => '1 Main St, Brampton, ON L6X 1A1',
             'start' => ['dateTime' => $s->format(DATE_RFC3339)], 'end' => ['dateTime' => $s->modify('+2 hours')->format(DATE_RFC3339)],
-            'description' => "Customer: Test Customer\nPhone: 647-555-0199", 'extendedProperties' => ['private' => ['bkFirst' => 'Test', 'bkPhone' => '647-555-0199', 'bkStatus' => 'new']]];
+            'description' => "Booked online (website form). Confirm with the customer by text.\n\nCustomer: Test Customer\nPhone: 647-555-0199\nEmail: test@example.com\nAddress: 1 Main St, Brampton, ON L6X 1A1\nService: Leak\n\nDetails:\nKitchen sink leaking\nunder the cabinet\n\nPhotos: 2 sent to info@fatehplumelec.com", 'extendedProperties' => ['private' => ['bkFirst' => 'Test', 'bkPhone' => '647-555-0199', 'bkStatus' => 'new']]];
   }
   return bk_api('GET', bk_event_url($eventId));
 }

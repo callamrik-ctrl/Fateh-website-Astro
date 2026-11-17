@@ -52,9 +52,18 @@ $addr = (string) ($ev['location'] ?? '');
 $status = $ev['extendedProperties']['private']['bkStatus'] ?? 'new';
 $name = preg_replace('/^(NEW|CONFIRMED|RESCHEDULED):\s*/', '', (string) ($ev['summary'] ?? ''));
 $self = '?b=' . rawurlencode($code);
+// Email, job details and photos, read from the calendar entry's description
+$descText = (string) ($ev['description'] ?? '');
+$email = preg_match('/^Email:\s*(\S+@\S+)/m', $descText, $m) ? $m[1] : '';
+$jobDetails = preg_match('/^Details:\s*\n(.*?)(?:\n\s*\nPhotos:|\z)/ms', $descText, $m) ? trim($m[1]) : '';
+$photoNote = preg_match('/^Photos:\s*(.+)$/m', $descText, $m) ? trim($m[1]) : '';
+if ($photoNote !== '' && $photoNote !== 'none') $photoNote = preg_replace('/ sent to .*/', ' (in the booking email)', $photoNote);
 
 $details = '<dl><dt>Job</dt><dd>' . ba_h($name) . '</dd><dt>When</dt><dd>' . ba_h($date . ', ' . $time) . '</dd>'
          . '<dt>Address</dt><dd>' . ba_h($addr) . '</dd><dt>Phone</dt><dd><a href="tel:' . ba_h(bk_e164($phone)) . '">' . ba_h($phone) . '</a></dd>'
+         . ($email !== '' ? '<dt>Email</dt><dd><a href="mailto:' . ba_h($email) . '">' . ba_h($email) . '</a></dd>' : '')
+         . ($jobDetails !== '' ? '<dt>Details</dt><dd style="font-weight:400;white-space:pre-line">' . ba_h($jobDetails) . '</dd>' : '')
+         . ($photoNote !== '' ? '<dt>Photos</dt><dd style="font-weight:400">' . ba_h($photoNote) . '</dd>' : '')
          . '<dt>Status</dt><dd>' . ($status === 'new' ? '🟡 Waiting for you to confirm' : '🟢 Confirmed') . '</dd></dl>';
 
 // Distance from home + map + Directions (main page only; never blocks the page)
