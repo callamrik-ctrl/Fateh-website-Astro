@@ -47,6 +47,13 @@ if ($manage && BK_WA_TEMPLATES['owner_alert'] !== '') {
   } catch (Throwable $e) { error_log('[booking] owner alert: ' . $e->getMessage()); }
 }
 
+// SMS alert with the link (works without Meta approval). A failed SMS does not undo the booking.
+if ($manage) {
+  try {
+    bk_sms(BK_OWNER_SMS, 'New booking: ' . $b['firstName'] . ' ' . $b['lastName'] . ', ' . str_replace('–', '-', $when) . ', ' . $b['service'] . ' (' . $b['city'] . '). Confirm / change / decline: ' . $manage);
+  } catch (Throwable $e) { error_log('[booking] owner sms: ' . $e->getMessage()); }
+}
+
 // Email to the business (with photos). A failed email does not undo the booking.
 bk_mail(BK_NOTIFY_TO, 'New online booking: ' . $when . ' – ' . $b['firstName'] . ' ' . $b['lastName'], implode("\n", [
   'New booking from the website form. It is on the calendar (yellow).',

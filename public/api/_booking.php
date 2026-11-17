@@ -41,6 +41,7 @@ const BK_WA_TEMPLATES = [
   'owner_alert' => '',
 ];
 const BK_OWNER_WHATSAPP = '647-980-9211'; // business WhatsApp that gets the new-booking alert
+const BK_OWNER_SMS      = '647-812-1111'; // phone that gets the new-booking SMS with the link
 
 date_default_timezone_set(BK_TZ);
 
@@ -344,15 +345,8 @@ function bk_twilio_token(): ?string { return bk_twilio_keys()[1] ?? null; }
 /** "647-555-1234" → "+16475551234" */
 function bk_e164(string $phone): string { return '+1' . bk_clean_phone($phone); }
 
-/** Send an approved WhatsApp template. Returns the Twilio message SID. */
-function bk_whatsapp(string $phone, string $template, array $vars): string {
-  $vars = array_combine(array_map('strval', range(1, count($vars))), array_map('strval', array_values($vars)));
-  $post = [
-    'From' => 'whatsapp:' . BK_TWILIO_FROM,
-    'To' => 'whatsapp:' . bk_e164($phone),
-    'ContentSid' => BK_WA_TEMPLATES[$template],
-    'ContentVariables' => json_encode($vars, JSON_UNESCAPED_UNICODE),
-  ];
+/** POST to Twilio's Messages API. Returns the message SID. */
+function bk_twilio_send(array $post, string $what): string {
   if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_whatsapp.log', json_encode($post) . "\n", FILE_APPEND); return 'SM-mock'; }
   $keys = bk_twilio_keys();
   if (!$keys) throw new RuntimeException('Twilio key file (booking-private/twilio.json) not found');
@@ -367,8 +361,25 @@ function bk_whatsapp(string $phone, string $template, array $vars): string {
   $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
   curl_close($ch);
   $r = json_decode((string) $raw, true) ?? [];
-  if ($code >= 400 || empty($r['sid'])) throw new RuntimeException('WhatsApp not sent: ' . ($r['message'] ?? 'HTTP ' . $code));
+  if ($code >= 400 || empty($r['sid'])) throw new RuntimeException($what . ' not sent: ' . ($r['message'] ?? 'HTTP ' . $code));
   return $r['sid'];
+}
+
+/** Plain SMS from the Twilio number (no Meta approval needed). */
+function bk_sms(string $phone, string $text): string {
+  return bk_twilio_send(['From' => BK_TWILIO_FROM, 'To' => bk_e164($phone), 'Body' => $text], 'SMS');
+}
+
+/** Send an approved WhatsApp template. Returns the Twilio message SID. */
+function bk_whatsapp(string $phone, string $template, array $vars): string {
+  $vars = array_combine(array_map('strval', range(1, count($vars))), array_map('strval', array_values($vars)));
+  $post = [
+    'From' => 'whatsapp:' . BK_TWILIO_FROM,
+    'To' => 'whatsapp:' . bk_e164($phone),
+    'ContentSid' => BK_WA_TEMPLATES[$template],
+    'ContentVariables' => json_encode($vars, JSON_UNESCAPED_UNICODE),
+  ];
+  return bk_twilio_send($post, 'WhatsApp');
 }
 
 // ---------------- Owner action links (Confirm / Change time / Decline) ----------------
