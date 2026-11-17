@@ -114,6 +114,7 @@ const canonical = "https://fatehplumelec.com/book-online.html";
       </fieldset>
 
       <label class="bk-hp" aria-hidden="true">Leave empty <input name="website" tabindex="-1" autocomplete="off"></label>
+      <input type="hidden" name="lat" id="bk-lat"><input type="hidden" name="lng" id="bk-lng">
 
       <p class="bk-error bk-form-error" id="bk-form-error" role="alert"></p>
       <button class="button bk-submit" type="submit">Request this time</button>
@@ -311,8 +312,12 @@ const canonical = "https://fatehplumelec.com/book-online.html";
           plain.type = "hidden";
           el.addEventListener("gmp-select", async function (e) {
             var place = e.placePrediction.toPlace();
-            await place.fetchFields({ fields: ["addressComponents", "formattedAddress"] });
+            await place.fetchFields({ fields: ["addressComponents", "formattedAddress", "location"] });
             fillFromPlace(place);
+            // Exact map point, so the owner page can show distance from home
+            var loc = place.location;
+            document.getElementById("bk-lat").value = loc ? loc.lat().toFixed(6) : "";
+            document.getElementById("bk-lng").value = loc ? loc.lng().toFixed(6) : "";
           });
         } catch (err) { showCityBox(); /* keep the plain address box */ }
       };

@@ -23,6 +23,8 @@ function ba_page(string $title, string $body, string $tone = ''): void {
      . 'button,select{width:100%;font-size:1.05rem;padding:14px;border-radius:10px;border:0;margin-top:10px;cursor:pointer}'
      . 'select{border:1px solid #d1d5db;background:#fff}.g{background:#16a34a;color:#fff}.b{background:#2563eb;color:#fff}.r{background:#fff;color:#b91c1c;border:1px solid #fca5a5}'
      . 'a{color:#2563eb}.small{color:#6b7280;font-size:.9rem;margin-top:12px}'
+     . '.dist{background:#eff6ff;border-radius:10px;padding:12px 14px;margin-bottom:10px}.dist span{color:#6b7280;font-size:.85rem}'
+     . '.map{width:100%;height:220px;border:0;border-radius:10px}.w{background:#fff;color:#111827;border:1px solid #d1d5db}'
      . '</style></head><body><div class="card">' . $box . $body . '</div></body></html>';
   exit;
 }
@@ -54,6 +56,19 @@ $self = '?b=' . rawurlencode($code);
 $details = '<dl><dt>Job</dt><dd>' . ba_h($name) . '</dd><dt>When</dt><dd>' . ba_h($date . ', ' . $time) . '</dd>'
          . '<dt>Address</dt><dd>' . ba_h($addr) . '</dd><dt>Phone</dt><dd><a href="tel:' . ba_h(bk_e164($phone)) . '">' . ba_h($phone) . '</a></dd>'
          . '<dt>Status</dt><dd>' . ($status === 'new' ? '🟡 Waiting for you to confirm' : '🟢 Confirmed') . '</dd></dl>';
+
+// Distance from home + map + Directions (main page only; never blocks the page)
+$where = '';
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST' && ($_REQUEST['a'] ?? '') === '') {
+  try { $dist = bk_distance($ev); } catch (Throwable $e) { $dist = null; }
+  if ($dist) {
+    $d = 0.01;
+    $where .= '<div class="dist">🚗 <b>' . ba_h($dist['km']) . ' km</b> from home · about <b>' . ba_h($dist['min']) . ' min</b> drive <span>(without traffic)</span></div>'
+      . '<iframe class="map" loading="lazy" title="Job location" src="https://www.openstreetmap.org/export/embed.html?bbox='
+      . ba_h(sprintf('%F,%F,%F,%F', $dist['lng'] - $d * 2, $dist['lat'] - $d, $dist['lng'] + $d * 2, $dist['lat'] + $d)) . '&layer=mapnik&marker=' . ba_h(sprintf('%F,%F', $dist['lat'], $dist['lng'])) . '"></iframe>';
+  }
+  if ($addr !== '') $where .= '<a href="' . ba_h(bk_directions_url($addr)) . '" target="_blank" rel="noopener"><button class="w" type="button">🗺️ Directions in Google Maps (live traffic)</button></a>';
+}
 
 /** Mark the event confirmed (green) and remember the status. */
 function ba_mark(array $ev, array $extra = []): array {
@@ -130,7 +145,7 @@ if ($action === 'reschedule') {
 // ---- Main page ----
 $btn = fn($a, $cls, $label, $confirm = '') => '<form method="post" action="' . ba_h($self) . '"' . ($confirm ? ' onsubmit="return confirm(\'' . $confirm . '\')"' : '')
   . '><input type="hidden" name="a" value="' . $a . '"><button class="' . $cls . '" type="submit">' . $label . '</button></form>';
-ba_page('Online booking', $details
+ba_page('Online booking', $details . $where . '<hr style="border:0;border-top:1px solid #e5e7eb;margin:16px 0 6px">'
   . ($status === 'new' ? $btn('confirm', 'g', '✅ Confirm and send WhatsApp') : '')
   . '<a href="' . ba_h($self) . '&a=reschedule"><button class="b" type="button">🔁 Change time</button></a>'
   . $btn('decline', 'r', '❌ Decline / cancel', 'Remove this booking and send the customer a cancellation message?')

@@ -42,6 +42,7 @@ const BK_WA_TEMPLATES = [
 ];
 const BK_OWNER_WHATSAPP = '647-980-9211'; // business WhatsApp that gets the new-booking alert
 const BK_OWNER_SMS      = '647-812-1111'; // phone that gets the new-booking SMS with the link
+const BK_HOME_ADDRESS   = '5 Loomis Rd, Brampton, ON L7A 4X9'; // distance on the owner page is measured from here
 
 date_default_timezone_set(BK_TZ);
 
@@ -226,7 +227,7 @@ function bk_create_event(array $b, DateTimeImmutable $s, DateTimeImmutable $e): 
     // Kept on the event so the Confirm / Change time / Decline page can send the WhatsApp message
     'extendedProperties' => ['private' => [
       'bkFirst' => $b['firstName'], 'bkPhone' => $b['phone'], 'bkStatus' => 'new',
-    ]],
+    ] + ($b['lat'] !== '' ? ['bkLat' => $b['lat'], 'bkLng' => $b['lng']] : [])],
   ];
   if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_events.log', json_encode($event) . "\n", FILE_APPEND); return ['id' => 'mock-' . uniqid()]; }
   return bk_api('POST', 'https://www.googleapis.com/calendar/v3/calendars/' . rawurlencode(BK_CALENDAR_ID) . '/events', $event);
@@ -248,7 +249,10 @@ function bk_validate(array $in): array {
     'address' => $t('address', 160), 'unit' => $t('unit', 60), 'city' => $t('city', 40),
     'postal' => strtoupper(preg_replace('/\s/', '', $t('postal', 10))),
     'service' => $t('service', 80), 'details' => $t('details', 2000),
+    'lat' => $t('lat', 12), 'lng' => $t('lng', 12),
   ];
+  // Map point from the address picker: keep only if it is a real GTA point
+  if (!is_numeric($b['lat']) || !is_numeric($b['lng']) || $b['lat'] < 43 || $b['lat'] > 44.5 || $b['lng'] < -80.5 || $b['lng'] > -78.5) $b['lat'] = $b['lng'] = '';
   $err = [];
   foreach (['firstName', 'lastName'] as $f) if (!preg_match("/^[\p{L}' .-]{2,60}$/u", $b[$f])) $err[$f] = 'Letters only, at least 2.';
   if (strlen($b['phone']) !== 10) $err['phone'] = 'Enter a 10-digit phone number.';
@@ -307,7 +311,7 @@ function bk_origin_ok(): bool {
 }
 
 // ---------------- Email ----------------
-function bk_mail(string $to, string $subject, string $text, array $attachments = [], ?string $replyTo = null): bool {
+function bk_mail(string $to, string $subject, string $text, array $attachments = [], ?string $replyTo = null, ?string $html = null): bool {
   $boundary = 'bk_' . bin2hex(random_bytes(8));
   $headers = [
     'From: ' . BK_BUSINESS . ' <' . BK_FROM . '>',
@@ -315,14 +319,23 @@ function bk_mail(string $to, string $subject, string $text, array $attachments =
     'Content-Type: multipart/mixed; boundary="' . $boundary . '"',
   ];
   if ($replyTo) $headers[] = 'Reply-To: ' . $replyTo;
-  $body = "--$boundary\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n" . $text . "\r\n";
+  if ($html !== null) {
+    // Plain text + HTML (HTML shows a real button); mail apps pick the one they can show
+    $alt = 'bka_' . bin2hex(random_bytes(8));
+    $body = "--$boundary\r\nContent-Type: multipart/alternative; boundary=\"$alt\"\r\n\r\n"
+          . "--$alt\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode($text)) . "\r\n"
+          . "--$alt\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode($html)) . "\r\n"
+          . "--$alt--\r\n";
+  } else {
+    $body = "--$boundary\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n" . $text . "\r\n";
+  }
   foreach ($attachments as [$name, $mime, $bytes]) {
     $body .= "--$boundary\r\nContent-Type: $mime; name=\"$name\"\r\nContent-Transfer-Encoding: base64\r\nContent-Disposition: attachment; filename=\"$name\"\r\n\r\n"
            . chunk_split(base64_encode($bytes)) . "\r\n";
   }
   $body .= "--$boundary--";
   $subj = '=?UTF-8?B?' . base64_encode($subject) . '?=';
-  if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_mail.log', "TO: $to\nSUBJECT: $subject\nATTACHMENTS: " . count($attachments) . "\n$text\n----\n", FILE_APPEND); return true; }
+  if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_mail.log', "TO: $to\nSUBJECT: $subject\nATTACHMENTS: " . count($attachments) . "\n$text\n" . ($html ? "HTML: $html\n" : '') . "----\n", FILE_APPEND); return true; }
   return @mail($to, $subj, $body, implode("\r\n", $headers), '-f' . BK_FROM);
 }
 
@@ -436,4 +449,48 @@ function bk_when_parts(DateTimeImmutable $s): array {
   $time = $s->format('g:i A');
   foreach (BK_WINDOWS as [$hm, $label]) if ($hm === $s->format('H:i')) $time = $label;
   return [$s->format('D, M j'), $time];
+}
+
+// ---------------- Distance from home (owner page) ----------------
+// Free services, no key: OpenStreetMap Nominatim (address → map point, only when the
+// booking has no point from the address picker) and OSRM (driving km + minutes, no traffic).
+function bk_cached_get(string $url, int $ttl = 2592000): ?array {
+  $file = sys_get_temp_dir() . '/bk_geo_' . md5($url) . '.json';
+  if (@is_readable($file) && filemtime($file) > time() - $ttl) return json_decode((string) file_get_contents($file), true);
+  $ch = curl_init($url);
+  curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 8,
+    CURLOPT_HTTPHEADER => ['User-Agent: fatehplumelec.com booking page (info@fatehplumelec.com)']]);
+  $raw = curl_exec($ch);
+  $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  curl_close($ch);
+  if ($raw === false || $code >= 400) return null;
+  $data = json_decode((string) $raw, true);
+  if ($data) @file_put_contents($file, $raw);
+  return $data;
+}
+
+/** @return array{0: float, 1: float}|null  [lat, lng] */
+function bk_geocode(string $address): ?array {
+  $tries = [$address, preg_replace('/,\s*[A-Z]\d[A-Z]\s?\d[A-Z]\d\s*$/i', '', $address)];
+  foreach (array_unique($tries) as $q) {
+    $r = bk_cached_get('https://nominatim.openstreetmap.org/search?' . http_build_query(['q' => $q, 'format' => 'json', 'limit' => 1, 'countrycodes' => 'ca']));
+    if (!empty($r[0]['lat'])) return [(float) $r[0]['lat'], (float) $r[0]['lon']];
+  }
+  return null;
+}
+
+/** Driving distance from home: ['km' => 12.3, 'min' => 18, 'lat' => .., 'lng' => ..] or null */
+function bk_distance(array $ev): ?array {
+  if (bk_mock()) return ['km' => 12.3, 'min' => 18, 'lat' => 43.7, 'lng' => -79.75];
+  $p = $ev['extendedProperties']['private'] ?? [];
+  $to = isset($p['bkLat'], $p['bkLng']) ? [(float) $p['bkLat'], (float) $p['bkLng']] : bk_geocode((string) ($ev['location'] ?? ''));
+  $from = bk_geocode(BK_HOME_ADDRESS);
+  if (!$to || !$from) return null;
+  $r = bk_cached_get(sprintf('https://router.project-osrm.org/route/v1/driving/%F,%F;%F,%F?overview=false', $from[1], $from[0], $to[1], $to[0]));
+  if (empty($r['routes'][0])) return null;
+  return ['km' => round($r['routes'][0]['distance'] / 1000, 1), 'min' => (int) round($r['routes'][0]['duration'] / 60), 'lat' => $to[0], 'lng' => $to[1]];
+}
+
+function bk_directions_url(string $address): string {
+  return 'https://www.google.com/maps/dir/?' . http_build_query(['api' => 1, 'origin' => BK_HOME_ADDRESS, 'destination' => $address, 'travelmode' => 'driving']);
 }
