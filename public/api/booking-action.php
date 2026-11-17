@@ -90,7 +90,8 @@ $action = (string) ($_REQUEST['a'] ?? '');
 
 // ---- Actions (button presses only) ----
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
-  if (!bk_origin_ok()) ba_page('Not allowed.', '', 'bad');
+  // No Origin check here: the page sends no referrer, so browsers send "Origin: null".
+  // The signed link code (checked above) is what protects these actions.
   try {
     if ($action === 'confirm') {
       if ($status !== 'new') ba_page('Already confirmed. No new message was sent.', $details, 'ok');
