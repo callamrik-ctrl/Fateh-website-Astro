@@ -95,7 +95,7 @@ bk_mail($b['email'], 'We received your request (not confirmed yet) – ' . BK_BU
   'Address: ' . $addr,
   'Service: ' . $b['service'],
   '',
-  'Next step: we will review your request and confirm your visit by WhatsApp at ' . $b['phone'] . ' shortly. If that time does not work for us, we will offer you a new time.',
+  'Next step: we will review your request and confirm your visit shortly by WhatsApp at ' . $b['phone'] . ' (or by text message if you don't use WhatsApp). If that time does not work for us, we will offer you a new time.',
   '',
   'Need to change something? Call or text ' . BK_PHONE . '.',
   '',

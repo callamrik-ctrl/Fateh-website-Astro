@@ -402,7 +402,31 @@ function bk_whatsapp(string $phone, string $template, array $vars): string {
     'ContentSid' => BK_WA_TEMPLATES[$template],
     'ContentVariables' => json_encode($vars, JSON_UNESCAPED_UNICODE),
   ];
+  // Customer messages: if WhatsApp can't deliver (no WhatsApp on that number), Twilio calls
+  // /api/twilio-status.php, which sends the same message as a plain text instead.
+  if (bk_sms_text($template, array_values($vars)) !== '') {
+    try { $post['StatusCallback'] = bk_fallback_url($phone, $template, array_values($vars)); } catch (Throwable $e) { /* no key: no fallback */ }
+  }
   return bk_twilio_send($post, 'WhatsApp');
+}
+
+/** Same words as the WhatsApp templates, for the text-message fallback. */
+function bk_sms_text(string $template, array $v): string {
+  $v = array_map(fn($x) => str_replace('–', '-', (string) $x), array_pad($v, 4, '')); // plain dash keeps the SMS cheap
+  switch ($template) {
+    case 'confirmed':
+      return "Hi {$v[0]}, your booking with " . BK_BUSINESS . " is confirmed for {$v[1]} at {$v[2]}.\nAddress: {$v[3]}\nNeed to reschedule or cancel? Call or text us at " . BK_PHONE . '.';
+    case 'rescheduled':
+      return "Hi {$v[0]}, your appointment with " . BK_BUSINESS . " has been rescheduled to {$v[1]} at {$v[2]}.\nAddress: {$v[3]}\nQuestions? Call or text us at " . BK_PHONE . '.';
+    case 'cancelled':
+      return "Hi {$v[0]}, your appointment with " . BK_BUSINESS . " on {$v[1]} at {$v[2]} has been cancelled.\nTo book a new time, call or text us at " . BK_PHONE . '.';
+  }
+  return '';
+}
+
+function bk_fallback_url(string $phone, string $template, array $vars): string {
+  $f = bk_b64url(json_encode(['p' => $phone, 't' => $template, 'v' => $vars], JSON_UNESCAPED_UNICODE));
+  return BK_SITE . '/api/twilio-status.php?f=' . $f . '&k=' . bk_sig('fallback|' . $f);
 }
 
 // ---------------- Owner action links (Confirm / Change time / Decline) ----------------
