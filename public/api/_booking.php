@@ -23,6 +23,24 @@ const BK_SERVICES     = ['Faucet / tap install or repair', 'Clogged drain or toi
 const BK_MAX_PHOTOS   = 3;
 const BK_MAX_PHOTO_BYTES = 8 * 1024 * 1024;
 const BK_RATE_LIMIT   = 5;    // bookings per IP per hour
+const BK_SITE         = 'https://fatehplumelec.com';
+const BK_COLOR_NEW       = '5';   // Google Calendar "Banana" (yellow): waiting for owner to confirm
+const BK_COLOR_CONFIRMED = '10';  // Google Calendar "Basil" (green): confirmed, WhatsApp sent
+
+// ---------------- Twilio WhatsApp ----------------
+// Account SID + Auth Token live in booking-private/twilio.json, next to
+// service-account.json and OUTSIDE the website folder:
+//   {"account_sid": "AC...", "auth_token": "..."}
+const BK_TWILIO_FROM = '+13435120411';
+const BK_WA_TEMPLATES = [
+  'confirmed'   => 'HX77c62cda89e02dc911f79c6f563441d7', // booking_confirmed_v2   {{1}} name {{2}} date {{3}} time {{4}} address
+  'rescheduled' => 'HXc8a50436ce719284dfc4caaaa14b3174', // booking_rescheduled_v2 {{1}} name {{2}} date {{3}} time {{4}} address
+  'cancelled'   => 'HXf45930ac0ea7a14a9b0124d054f3ae47', // booking_cancelled_v2   {{1}} name {{2}} date {{3}} time
+  // owner_booking_alert: new-booking alert to the owner's business WhatsApp, with an "Open booking" button.
+  // {{1}} customer {{2}} phone {{3}} when {{4}} address {{5}} service {{6}} link code. Paste its HX… SID here once approved.
+  'owner_alert' => '',
+];
+const BK_OWNER_WHATSAPP = '647-980-9211'; // business WhatsApp that gets the new-booking alert
 
 date_default_timezone_set(BK_TZ);
 
@@ -203,7 +221,11 @@ function bk_create_event(array $b, DateTimeImmutable $s, DateTimeImmutable $e): 
     'description' => $desc,
     'start' => ['dateTime' => $s->format(DATE_RFC3339), 'timeZone' => BK_TZ],
     'end' => ['dateTime' => $e->format(DATE_RFC3339), 'timeZone' => BK_TZ],
-    'colorId' => '5', // yellow = new online booking, still to confirm
+    'colorId' => BK_COLOR_NEW, // yellow = new online booking, still to confirm
+    // Kept on the event so the Confirm / Change time / Decline page can send the WhatsApp message
+    'extendedProperties' => ['private' => [
+      'bkFirst' => $b['firstName'], 'bkPhone' => $b['phone'], 'bkStatus' => 'new',
+    ]],
   ];
   if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_events.log', json_encode($event) . "\n", FILE_APPEND); return ['id' => 'mock-' . uniqid()]; }
   return bk_api('POST', 'https://www.googleapis.com/calendar/v3/calendars/' . rawurlencode(BK_CALENDAR_ID) . '/events', $event);
@@ -301,4 +323,106 @@ function bk_mail(string $to, string $subject, string $text, array $attachments =
   $subj = '=?UTF-8?B?' . base64_encode($subject) . '?=';
   if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_mail.log', "TO: $to\nSUBJECT: $subject\nATTACHMENTS: " . count($attachments) . "\n$text\n----\n", FILE_APPEND); return true; }
   return @mail($to, $subj, $body, implode("\r\n", $headers), '-f' . BK_FROM);
+}
+
+// ---------------- Twilio WhatsApp ----------------
+/** @return array{0: string, 1: string}|null  [account SID, auth token] */
+function bk_twilio_keys(): ?array {
+  if (getenv('TWILIO_ACCOUNT_SID') && getenv('TWILIO_AUTH_TOKEN')) return [getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN')];
+  foreach (bk_key_paths() as $path) {
+    $path = dirname($path) . '/twilio.json';
+    if (@is_readable($path)) {
+      $k = json_decode((string) file_get_contents($path), true);
+      if (!empty($k['account_sid']) && !empty($k['auth_token'])) return [trim($k['account_sid']), trim($k['auth_token'])];
+    }
+  }
+  return null;
+}
+
+function bk_twilio_token(): ?string { return bk_twilio_keys()[1] ?? null; }
+
+/** "647-555-1234" → "+16475551234" */
+function bk_e164(string $phone): string { return '+1' . bk_clean_phone($phone); }
+
+/** Send an approved WhatsApp template. Returns the Twilio message SID. */
+function bk_whatsapp(string $phone, string $template, array $vars): string {
+  $vars = array_combine(array_map('strval', range(1, count($vars))), array_map('strval', array_values($vars)));
+  $post = [
+    'From' => 'whatsapp:' . BK_TWILIO_FROM,
+    'To' => 'whatsapp:' . bk_e164($phone),
+    'ContentSid' => BK_WA_TEMPLATES[$template],
+    'ContentVariables' => json_encode($vars, JSON_UNESCAPED_UNICODE),
+  ];
+  if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_whatsapp.log', json_encode($post) . "\n", FILE_APPEND); return 'SM-mock'; }
+  $keys = bk_twilio_keys();
+  if (!$keys) throw new RuntimeException('Twilio key file (booking-private/twilio.json) not found');
+  [$sid, $token] = $keys;
+  $ch = curl_init('https://api.twilio.com/2010-04-01/Accounts/' . rawurlencode($sid) . '/Messages.json');
+  curl_setopt_array($ch, [
+    CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 20,
+    CURLOPT_USERPWD => $sid . ':' . $token,
+    CURLOPT_POSTFIELDS => http_build_query($post),
+  ]);
+  $raw = curl_exec($ch);
+  $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  curl_close($ch);
+  $r = json_decode((string) $raw, true) ?? [];
+  if ($code >= 400 || empty($r['sid'])) throw new RuntimeException('WhatsApp not sent: ' . ($r['message'] ?? 'HTTP ' . $code));
+  return $r['sid'];
+}
+
+// ---------------- Owner action links (Confirm / Change time / Decline) ----------------
+function bk_sig(string $eventId): string {
+  $key = bk_twilio_token() ?: (bk_mock() ? 'mock-key' : '');
+  if ($key === '') throw new RuntimeException('Twilio key file not found');
+  return substr(hash_hmac('sha256', 'booking-action|' . $eventId, $key), 0, 32);
+}
+
+/** Short code used in links: "<eventId>.<signature>" */
+function bk_link_code(string $eventId): string { return $eventId . '.' . bk_sig($eventId); }
+
+function bk_action_url(string $eventId, string $action = ''): string {
+  return BK_SITE . '/api/booking-action.php?b=' . rawurlencode(bk_link_code($eventId)) . ($action ? '&a=' . $action : '');
+}
+
+function bk_event_url(string $eventId): string {
+  return 'https://www.googleapis.com/calendar/v3/calendars/' . rawurlencode(BK_CALENDAR_ID) . '/events/' . rawurlencode($eventId);
+}
+
+function bk_get_event(string $eventId): array {
+  if (bk_mock()) {
+    $s = (new DateTimeImmutable('tomorrow 10:00', bk_tz()));
+    return ['id' => $eventId, 'status' => 'confirmed', 'summary' => 'NEW: Leak – Test Customer (Brampton)', 'location' => '1 Main St, Brampton, ON L6X 1A1',
+            'start' => ['dateTime' => $s->format(DATE_RFC3339)], 'end' => ['dateTime' => $s->modify('+2 hours')->format(DATE_RFC3339)],
+            'description' => "Customer: Test Customer\nPhone: 647-555-0199", 'extendedProperties' => ['private' => ['bkFirst' => 'Test', 'bkPhone' => '647-555-0199', 'bkStatus' => 'new']]];
+  }
+  return bk_api('GET', bk_event_url($eventId));
+}
+
+function bk_patch_event(string $eventId, array $changes): array {
+  if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_events.log', 'PATCH ' . json_encode($changes) . "\n", FILE_APPEND); return $changes; }
+  return bk_api('PATCH', bk_event_url($eventId), $changes);
+}
+
+function bk_delete_event(string $eventId): void {
+  if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_events.log', "DELETE $eventId\n", FILE_APPEND); return; }
+  bk_api('DELETE', bk_event_url($eventId));
+}
+
+/** Customer first name + phone from the event (older bookings: read from the description). */
+function bk_event_customer(array $ev): array {
+  $p = $ev['extendedProperties']['private'] ?? [];
+  $first = $p['bkFirst'] ?? '';
+  $phone = $p['bkPhone'] ?? '';
+  $desc = (string) ($ev['description'] ?? '');
+  if ($first === '' && preg_match('/^Customer:\s*(\S+)/m', $desc, $m)) $first = $m[1];
+  if ($phone === '' && preg_match('/^Phone:\s*([\d -]+)/m', $desc, $m)) $phone = trim($m[1]);
+  return [$first ?: 'there', $phone];
+}
+
+/** WhatsApp-friendly date + time for an event start, e.g. ["Wed, Nov 18", "10 AM–12 PM"] */
+function bk_when_parts(DateTimeImmutable $s): array {
+  $time = $s->format('g:i A');
+  foreach (BK_WINDOWS as [$hm, $label]) if ($hm === $s->format('H:i')) $time = $label;
+  return [$s->format('D, M j'), $time];
 }

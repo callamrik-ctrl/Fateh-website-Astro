@@ -27,7 +27,7 @@ try {
   if (bk_overlaps($start, $end, bk_busy($start->modify('-1 minute'), $end->modify('+1 minute')))) {
     bk_json(['ok' => false, 'error' => 'Sorry, that time was just taken. Please pick another window.', 'fields' => ['slot' => 'Just taken. Please pick another.'], 'refresh' => true], 409);
   }
-  bk_create_event($b, $start, $end);
+  $event = bk_create_event($b, $start, $end);
 } catch (Throwable $e) {
   error_log('[booking] book: ' . $e->getMessage());
   bk_json(['ok' => false, 'error' => 'We could not save your booking. Please call ' . BK_PHONE . '.'], 503);
@@ -36,9 +36,23 @@ try {
 $when = $start->format('l, F j') . ', ' . $label;
 $addr = $b['address'] . ($b['unit'] ? ', ' . $b['unit'] : '') . ', ' . $b['city'] . ', ON ' . $b['postal'];
 
+// Confirm / Change time / Decline link for the owner (needs booking-private/twilio.json)
+$manage = '';
+try { $manage = bk_action_url((string) ($event['id'] ?? '')); } catch (Throwable $e) { error_log('[booking] link: ' . $e->getMessage()); }
+
+// WhatsApp alert to the business number. A failed alert does not undo the booking.
+if ($manage && BK_WA_TEMPLATES['owner_alert'] !== '') {
+  try {
+    bk_whatsapp(BK_OWNER_WHATSAPP, 'owner_alert', [$b['firstName'] . ' ' . $b['lastName'], $b['phone'], $when, $addr, $b['service'], bk_link_code((string) $event['id'])]);
+  } catch (Throwable $e) { error_log('[booking] owner alert: ' . $e->getMessage()); }
+}
+
 // Email to the business (with photos). A failed email does not undo the booking.
 bk_mail(BK_NOTIFY_TO, 'New online booking: ' . $when . ' – ' . $b['firstName'] . ' ' . $b['lastName'], implode("\n", [
   'New booking from the website form. It is on the calendar (yellow).',
+  '',
+  $manage ? 'Confirm, change the time or decline (the customer gets a WhatsApp message):' : 'Confirm with the customer by text.',
+  $manage ?: '',
   '',
   'When: ' . $when,
   'Customer: ' . $b['firstName'] . ' ' . $b['lastName'],
