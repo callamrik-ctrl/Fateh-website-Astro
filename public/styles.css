@@ -1966,3 +1966,15 @@ body.theme-dark .blog-post-meta span { background: rgba(255, 255, 255, .06); col
 .theme-toggle .switch-knob { background: #3b4658; }
 .theme-dark .theme-toggle .switch-track { border-color: #0b1220; background: #ffffff; }
 .theme-dark .theme-toggle .switch-knob { background: #d5dbe4; }
+
+/* Laptop widths: keep the menu on one line now that Book online sits next to Call */
+@media (min-width: 981px) and (max-width: 1400px) {
+  .site-header { gap: 12px; padding-left: 24px; padding-right: 24px; }
+  .site-nav { gap: 16px; flex-wrap: nowrap; }
+  .site-nav > a, .mega-trigger { font-size: .9rem; white-space: nowrap; }
+  .site-header .book-online-desktop { padding: 0 12px; font-size: .85rem; }
+  .call-link { padding-left: 14px; padding-right: 14px; font-size: .88rem; }
+}
+@media (min-width: 981px) and (max-width: 1180px) {
+  .site-header .book-online-desktop { display: none; }
+}

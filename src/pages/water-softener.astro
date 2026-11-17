@@ -1,8 +1,634 @@
 ---
-import BathroomPlumbingPage from "../components/BathroomPlumbingPage.astro";
-import { waterSystemPages } from "../data/waterSystemPages.js";
+// Water Softener Brampton — standalone service page (city water, well water, softener + RO combo).
+// No prices on this page (site rule): every package uses "Contact us for price".
+// Illustrations are inline SVG drawings (no stock or competitor photos). Swap in real install photos later.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 
-const page = waterSystemPages.waterSoftener;
+const title = "Water Softener Brampton | Install & Free Water Test | Fateh";
+const description = "Water softener installation in Brampton for city and well water. Free water hardness test, licensed plumbers, clean installs. Call 647-980-9211.";
+const canonical = "https://fatehplumelec.com/water-softener.html";
+
+const signs = [
+  { icon: "drop", title: "White scale on taps", text: "Crusty white or chalky buildup around faucets, shower heads and drains that keeps coming back after cleaning." },
+  { icon: "glass", title: "Spots on dishes and glass", text: "Cloudy glasses out of the dishwasher and water spots on shower doors are the most common hard water sign." },
+  { icon: "soap", title: "Soap won't lather", text: "Shampoo and soap feel like they don't rinse off, and you use more detergent than you should." },
+  { icon: "heater", title: "Water heater scale", text: "Popping or rumbling sounds from the tank, or a tankless heater that needs descaling more often." },
+  { icon: "skin", title: "Dry skin and hair", text: "Many people notice their skin feels tight and hair feels rough after showering in hard water." },
+  { icon: "pipe", title: "Lower flow at fixtures", text: "Scale inside aerators, shower heads and valves slowly reduces water flow and wears out parts." },
+];
+
+const packages = [
+  {
+    id: "city",
+    tag: "Most Brampton homes",
+    title: "City Water Softener",
+    best: "Homes on Region of Peel (Lake Ontario) water in Brampton, Mississauga and south Caledon",
+    includes: [
+      "High-efficiency softener sized to your household",
+      "Bypass valve so you can shut it off any time",
+      "Drain line with a proper air gap",
+      "Brine tank set up and first salt fill",
+      "Settings dialed in for your water hardness",
+    ],
+    art: "city",
+  },
+  {
+    id: "well",
+    tag: "Caledon and rural properties",
+    title: "Well Water System",
+    best: "Private wells with hard water, iron (orange stains), sulphur (rotten egg smell) or sediment",
+    includes: [
+      "Water test before we recommend anything",
+      "Iron / sulphur filter where your water needs it",
+      "Softener rated for higher hardness",
+      "Sediment prefilter to protect the system",
+      "Optional UV disinfection for well water",
+    ],
+    art: "well",
+    featured: true,
+  },
+  {
+    id: "combo",
+    tag: "Whole-home + drinking water",
+    title: "Softener + RO Combo",
+    best: "Families who want soft water for the house and filtered drinking water at the kitchen sink",
+    includes: [
+      "Whole-home softener for scale protection",
+      "Under-sink reverse osmosis drinking water system",
+      "Separate drinking water faucet",
+      "One visit, one clean installation",
+      "Filter change schedule explained",
+    ],
+    art: "combo",
+    link: { href: "reverse-osmosis-system.html", text: "More about RO systems" },
+  },
+];
+
+const steps = [
+  { title: "Free water test", text: "We test your hardness (and iron on well water) at the tap, so the system is sized to your water, not a guess." },
+  { title: "Size and recommend", text: "Household size, water use, hardness and space decide the right softener. You get a clear recommendation and price before any work." },
+  { title: "Clean installation", text: "Bypass valve, proper drain with an air gap, brine tank and connections installed by licensed plumbers, with the area left clean." },
+  { title: "Set up and show you", text: "We program the regeneration settings, fill the salt, test for soft water and show you how to look after it." },
+];
+
+const sizing = [
+  { people: "1–2 people", capacity: "About 24,000–32,000 grain", note: "Condos, townhomes, smaller households" },
+  { people: "3–4 people", capacity: "About 32,000–40,000 grain", note: "Most detached homes in Brampton" },
+  { people: "5–6 people", capacity: "About 40,000–48,000 grain", note: "Larger families, basement suites" },
+  { people: "Well water / iron", capacity: "Sized after testing", note: "Higher hardness and iron need a bigger or twin system" },
+];
+
+const compareRows = [
+  { label: "Removes hardness (scale)", softener: "Yes", salt: "No — reduces scale sticking", ro: "Yes, at one tap only" },
+  { label: "Treats the whole house", softener: "Yes", salt: "Yes", ro: "No — kitchen tap" },
+  { label: "Better drinking water taste", softener: "Not the main job", salt: "No", ro: "Yes" },
+  { label: "Uses salt", softener: "Yes", salt: "No", ro: "No" },
+  { label: "Good for", softener: "Scale, spots, appliances", salt: "Condos without a drain", ro: "Drinking and cooking water" },
+];
+
+const faqs = [
+  { q: "Is Brampton water hard?", a: "Yes. Brampton gets treated Lake Ontario water through the Region of Peel South Peel system. It is in the hard range, roughly 7 to 10 grains per gallon, which is enough to cause scale on fixtures, spots on dishes and buildup in water heaters. Peel Region publishes yearly water quality reports if you want the exact numbers." },
+  { q: "How much does a water softener cost in Brampton?", a: "It depends on your water hardness, household size, the system you choose and how much plumbing work the location needs. Contact us for a price. We test your water for free and give you a clear quote before any work starts." },
+  { q: "Do you offer a free water test?", a: "Yes. We test hardness at your tap for free, and check for iron on well water, so the softener is sized properly." },
+  { q: "How long does a water softener installation take?", a: "Most city water softener installations in a basement or utility room take about half a day. Well water systems with extra filters can take longer." },
+  { q: "Will a water softener make my water salty?", a: "No, softened water does not taste salty. A small amount of sodium is added during softening, which goes up with your water hardness. If you are on a low-sodium diet, many homes keep a hard water tap for drinking, add a reverse osmosis system at the kitchen sink, or use potassium chloride instead of salt." },
+  { q: "Do I need a softener and an RO system?", a: "They do different jobs. A softener protects the whole house from scale. An RO system filters drinking water at the kitchen sink. Many families use both, which is why we offer a Softener + RO combo." },
+  { q: "Can you install a softener for well water in Caledon?", a: "Yes. Well water often has higher hardness and can carry iron or sulphur. We test the water first and may add an iron or sulphur filter, sediment prefilter or UV before the softener." },
+  { q: "How often do I add salt?", a: "Most homes add a bag or two of softener salt every few weeks to a couple of months, depending on water use and hardness. We set the system up efficiently and show you what to check." },
+  { q: "Can you replace or fix my old water softener?", a: "Yes. We can repair, re-pipe, or replace an older softener, including the bypass, drain and connections, and remove the old unit." },
+  { q: "Does a softener help my water heater?", a: "Yes. Soft water reduces the scale that builds up inside tank and tankless water heaters, which helps them run more efficiently and can reduce descaling and repairs." },
+  { q: "Is a salt-free water conditioner the same as a softener?", a: "No. A salt-free conditioner does not remove hardness minerals; it changes them so they are less likely to stick as scale. It can suit condos without a drain, but a salt-based softener is the stronger choice for most Brampton homes." },
+];
+
+const areas = [
+  { name: "Brampton", href: "brampton-plumber.html" },
+  { name: "Mississauga", href: "mississauga-plumber.html" },
+  { name: "Caledon", href: "caledon-plumber.html" },
+  { name: "Vaughan", href: "vaughan-plumber.html" },
+  { name: "Etobicoke", href: "etobicoke-plumber.html" },
+  { name: "Markham", href: "markham-plumber.html" },
+];
+
+const neighbourhoods = ["Bramalea", "Springdale", "Castlemore", "Mount Pleasant", "Heart Lake", "Sandringham-Wellington", "Fletcher's Meadow", "Credit Valley", "Bram West", "Snelgrove"];
+
+const related = [
+  { title: "RO System Installation", href: "reverse-osmosis-system.html", text: "Under-sink reverse osmosis for clean drinking water." },
+  { title: "Water Heater Repair", href: "water-heater-repair.html", text: "No hot water, leaking tanks and scale-damaged heaters." },
+  { title: "Tankless Water Heater", href: "tankless-water-heater.html", text: "Tankless installs and descaling, where soft water helps most." },
+  { title: "Faucet Repair", href: "faucet-repair.html", text: "Scaled-up, dripping or low-flow faucets and aerators." },
+];
+
+const schemas = [
+  JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Plumber",
+    "@id": "https://fatehplumelec.com/#business",
+    name: "Fateh Plumbing & Electric",
+    url: "https://fatehplumelec.com/",
+    telephone: "+1-647-980-9211",
+    email: "info@fatehplumelec.com",
+    image: "https://fatehplumelec.com/assets/fateh-logo-clean.png",
+    logo: "https://fatehplumelec.com/assets/fateh-logo-clean.png",
+    address: { "@type": "PostalAddress", streetAddress: "5 Loomis Rd", addressLocality: "Brampton", addressRegion: "ON", postalCode: "L7A 4X9", addressCountry: "CA" },
+    areaServed: areas.map((a) => ({ "@type": "City", name: a.name })),
+    sameAs: ["https://www.facebook.com/fatehplumbing", "https://www.instagram.com/fateh_plumbing_electric", "https://www.tiktok.com/@fateh.plumbing"],
+  }),
+  JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Water Softener Installation in Brampton",
+    serviceType: "Water softener installation",
+    url: canonical,
+    description,
+    provider: { "@id": "https://fatehplumelec.com/#business" },
+    areaServed: areas.map((a) => ({ "@type": "City", name: a.name })),
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Water softener packages",
+      itemListElement: packages.map((p) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: p.title, description: p.best } })),
+    },
+  }),
+  JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  }),
+  JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://fatehplumelec.com/" },
+      { "@type": "ListItem", position: 2, name: "Services", item: "https://fatehplumelec.com/services.html" },
+      { "@type": "ListItem", position: 3, name: "Water Softener Brampton", item: canonical },
+    ],
+  }),
+];
+
+const wa = "https://wa.me/16479809211?text=" + encodeURIComponent("Hi Fateh, I'd like a free water test / water softener quote.");
 ---
 
-<BathroomPlumbingPage {...page} />
+<BaseLayout title={title} description={description} canonical={canonical} schemas={schemas}>
+  <SiteHeader />
+
+  <main class="ws">
+    <!-- HERO -->
+    <section class="ws-hero">
+      <div class="ws-hero-copy">
+        <p class="eyebrow">Water softener · Brampton &amp; GTA</p>
+        <h1>Water Softener Brampton</h1>
+        <p class="ws-lead">
+          Hard water is leaving scale on your taps, spots on your dishes and buildup in your water heater.
+          Fateh Plumbing &amp; Electric installs water softeners in Brampton for city water and well water, starting
+          with a <strong>free water hardness test</strong> so your system is sized right the first time.
+        </p>
+        <div class="ws-actions">
+          <a class="button" href="book-online.html">Book free water test</a>
+          <a class="button secondary" href="tel:+16479809211">Call 647-980-9211</a>
+        </div>
+        <a class="ws-wa" href={wa} target="_blank" rel="noopener">Ask a quick question on WhatsApp →</a>
+        <ul class="ws-proof">
+          <li>Licensed &amp; insured plumbers</li>
+          <li>City &amp; well water systems</li>
+          <li>Clean, code-aware installs</li>
+        </ul>
+      </div>
+      <figure class="ws-hero-art" aria-hidden="true">
+        <svg viewBox="0 0 420 340" role="img">
+          <defs>
+            <linearGradient id="wsTank" x1="0" x2="1"><stop offset="0" stop-color="#1f6fd6"/><stop offset=".55" stop-color="#3f8ff0"/><stop offset="1" stop-color="#1a5cb6"/></linearGradient>
+            <linearGradient id="wsBrine" x1="0" x2="1"><stop offset="0" stop-color="#e7eef7"/><stop offset=".6" stop-color="#ffffff"/><stop offset="1" stop-color="#d5dfec"/></linearGradient>
+            <linearGradient id="wsPipe" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#d9a066"/><stop offset="1" stop-color="#b9783f"/></linearGradient>
+          </defs>
+          <rect x="0" y="300" width="420" height="40" rx="6" fill="var(--paper)"/>
+          <rect x="20" y="40" width="380" height="12" rx="6" fill="url(#wsPipe)"/>
+          <rect x="128" y="40" width="12" height="70" fill="url(#wsPipe)"/>
+          <rect x="176" y="40" width="12" height="70" fill="url(#wsPipe)"/>
+          <rect x="146" y="56" width="24" height="16" rx="3" fill="#16a34a"/>
+          <rect x="118" y="104" width="80" height="34" rx="8" fill="#0f172a"/>
+          <rect x="130" y="113" width="34" height="14" rx="3" fill="#38bdf8"/>
+          <circle cx="182" cy="120" r="5" fill="#22c55e"/>
+          <rect x="120" y="138" width="76" height="160" rx="30" fill="url(#wsTank)"/>
+          <rect x="132" y="170" width="52" height="6" rx="3" fill="#ffffff" opacity=".35"/>
+          <text x="158" y="245" text-anchor="middle" font-size="13" font-weight="800" fill="#fff" font-family="Inter, Arial, sans-serif">SOFT</text>
+          <rect x="234" y="182" width="104" height="116" rx="12" fill="url(#wsBrine)" stroke="#b8c5d6" stroke-width="2"/>
+          <rect x="234" y="176" width="104" height="14" rx="6" fill="#cbd5e1"/>
+          <path d="M196 200 C 215 200 215 190 234 190" stroke="#94a3b8" stroke-width="5" fill="none"/>
+          <text x="286" y="248" text-anchor="middle" font-size="12" font-weight="800" fill="#475569" font-family="Inter, Arial, sans-serif">SALT</text>
+          <path d="M200 286 C 230 286 236 300 236 300" stroke="#94a3b8" stroke-width="4" fill="none" stroke-dasharray="2 5"/>
+          <g font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700">
+            <rect x="18" y="72" width="94" height="28" rx="14" fill="#fff" stroke="#dc2626"/>
+            <text x="65" y="91" text-anchor="middle" fill="#dc2626">Hard water in</text>
+            <rect x="300" y="72" width="104" height="28" rx="14" fill="#fff" stroke="#16a34a"/>
+            <text x="352" y="91" text-anchor="middle" fill="#16a34a">Soft water out</text>
+          </g>
+        </svg>
+        <figcaption>Illustration: softener (mineral) tank with control valve, bypass and brine tank.</figcaption>
+      </figure>
+    </section>
+
+    <!-- TRUST STRIP -->
+    <section class="ws-trust" aria-label="Why homeowners choose Fateh">
+      <div><strong>Free</strong><span>on-site water hardness test</span></div>
+      <div><strong>Licensed</strong><span>plumbers, WSIB covered</span></div>
+      <div><strong>$5M</strong><span>liability insurance</span></div>
+      <div><strong>15+ years</strong><span>serving Brampton &amp; the GTA</span></div>
+    </section>
+
+    <!-- QUICK ANSWER -->
+    <section class="ws-wrap ws-answer">
+      <h2>What does a water softener do?</h2>
+      <p>
+        A water softener removes the calcium and magnesium that make water "hard." Water passes through a tank of resin beads
+        that trap the hardness minerals and swap them for a small amount of sodium (or potassium). The result is soft water
+        throughout the house: less scale on fixtures, no spots on dishes, better lather, and less buildup inside your water heater,
+        dishwasher and washing machine.
+      </p>
+    </section>
+
+    <!-- SIGNS -->
+    <section class="ws-wrap">
+      <p class="eyebrow">Hard water signs</p>
+      <h2>Do you have hard water? Look for these signs</h2>
+      <div class="ws-signs">
+        {signs.map((s) => (
+          <article>
+            <span class={`ws-ico ws-ico-${s.icon}`} aria-hidden="true"></span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- BRAMPTON WATER -->
+    <section class="ws-band">
+      <div class="ws-wrap ws-local">
+        <div>
+          <p class="eyebrow">Brampton water hardness</p>
+          <h2>Why water softeners are common in Brampton homes</h2>
+          <p>
+            Brampton, Mississauga and south Caledon (including Bolton) get treated Lake Ontario water through the Region of Peel's
+            South Peel drinking water system. The water is safe to drink, but it is naturally <strong>hard</strong>: roughly
+            7 to 10 grains per gallon. That is enough to leave scale on fixtures, spots on glass and buildup inside water heaters
+            and appliances over time.
+          </p>
+          <p>
+            Many homes in north Caledon and rural areas are on private wells or smaller groundwater systems. Well water is often
+            harder than lake water and can also carry iron (orange or brown stains) or sulphur (a rotten egg smell), so it needs
+            testing before choosing a system.
+          </p>
+          <p class="ws-source">
+            Check your area's numbers in the <a href="https://www.peelregion.ca/water/drinking-water/water-quality/water-quality-reports" target="_blank" rel="noopener">Region of Peel water quality reports</a>,
+            and learn more about water hardness from <a href="https://www.canada.ca/en/health-canada/services/environmental-workplace-health/water-quality/drinking-water.html" target="_blank" rel="noopener">Health Canada</a>.
+          </p>
+        </div>
+        <div class="ws-table-card">
+          <table>
+            <caption>Typical water by area</caption>
+            <thead><tr><th>Area</th><th>Water source</th><th>What to expect</th></tr></thead>
+            <tbody>
+              <tr><td>Brampton</td><td>Lake Ontario (South Peel)</td><td>Hard, about 7–10 gpg</td></tr>
+              <tr><td>Mississauga</td><td>Lake Ontario (South Peel)</td><td>Hard, about 7–10 gpg</td></tr>
+              <tr><td>South Caledon / Bolton</td><td>Lake Ontario (South Peel)</td><td>Hard, about 7–10 gpg</td></tr>
+              <tr><td>North Caledon &amp; rural</td><td>Wells / groundwater</td><td>Often harder, may have iron</td></tr>
+            </tbody>
+          </table>
+          <p class="ws-small">gpg = grains per gallon. Every home is different; your free water test gives the real number.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CITY vs WELL -->
+    <section class="ws-wrap">
+      <p class="eyebrow">Choose your water type</p>
+      <h2>City water or well water?</h2>
+      <div class="ws-two">
+        <article class="ws-type">
+          <h3>City water</h3>
+          <p>Treated municipal water from Lake Ontario. The main problem is hardness, so a properly sized softener is usually all you need.</p>
+          <ul>
+            <li>Hardness: moderate to hard</li>
+            <li>Iron and sulphur: not usually a concern</li>
+            <li>Best fit: City Water Softener, or Softener + RO</li>
+          </ul>
+          <a class="ws-link" href="#city">See City Water Softener</a>
+        </article>
+        <article class="ws-type">
+          <h3>Well water</h3>
+          <p>Private well water can be very hard and may include iron, sulphur or sediment. The system is built in stages after a water test.</p>
+          <ul>
+            <li>Hardness: often higher than city water</li>
+            <li>Iron, manganese, sulphur and sediment: possible</li>
+            <li>Best fit: Well Water System (filter + softener)</li>
+          </ul>
+          <a class="ws-link" href="#well">See Well Water System</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section class="ws-band">
+      <div class="ws-wrap">
+        <p class="eyebrow">Water softener packages</p>
+        <h2>Pick the package that fits your home</h2>
+        <p class="ws-sub">Every package starts with a free water test. Pricing depends on your water, household size and installation space, so we quote after we see it.</p>
+        <div class="ws-packages">
+          {packages.map((p) => (
+            <article id={p.id} class={p.featured ? "ws-pkg is-featured" : "ws-pkg"}>
+              <span class="ws-tag">{p.tag}</span>
+              <div class="ws-pkg-art" aria-hidden="true">
+                {p.art === "city" && (
+                  <svg viewBox="0 0 160 110"><rect x="40" y="18" width="34" height="84" rx="15" fill="#2f80e8"/><rect x="38" y="8" width="38" height="16" rx="5" fill="#0f172a"/><rect x="88" y="52" width="40" height="50" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/><path d="M74 60 C 82 60 82 56 88 56" stroke="#94a3b8" stroke-width="3" fill="none"/></svg>
+                )}
+                {p.art === "well" && (
+                  <svg viewBox="0 0 160 110"><rect x="14" y="30" width="28" height="72" rx="12" fill="#c2410c"/><rect x="12" y="20" width="32" height="14" rx="5" fill="#0f172a"/><rect x="58" y="18" width="32" height="84" rx="14" fill="#2f80e8"/><rect x="56" y="8" width="36" height="16" rx="5" fill="#0f172a"/><rect x="104" y="52" width="40" height="50" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/><path d="M42 40 H58 M90 60 C 98 60 98 56 104 56" stroke="#94a3b8" stroke-width="3" fill="none"/></svg>
+                )}
+                {p.art === "combo" && (
+                  <svg viewBox="0 0 160 110"><rect x="18" y="18" width="32" height="84" rx="14" fill="#2f80e8"/><rect x="16" y="8" width="36" height="16" rx="5" fill="#0f172a"/><rect x="74" y="64" width="72" height="38" rx="5" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/><rect x="82" y="72" width="10" height="26" rx="4" fill="#38bdf8"/><rect x="98" y="72" width="10" height="26" rx="4" fill="#38bdf8"/><rect x="114" y="72" width="10" height="26" rx="4" fill="#38bdf8"/><path d="M128 64 V36 H112 V42" stroke="#64748b" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="112" cy="48" r="3" fill="#38bdf8"/></svg>
+                )}
+              </div>
+              <h3>{p.title}</h3>
+              <p class="ws-best"><strong>Best for:</strong> {p.best}</p>
+              <ul>{p.includes.map((i) => <li>{i}</li>)}</ul>
+              <p class="ws-price">Price: <strong>Contact us for price</strong></p>
+              <a class="button" href="book-online.html">Book free water test</a>
+              <a class="ws-link" href={wa} target="_blank" rel="noopener">Ask about this on WhatsApp</a>
+              {p.link && <a class="ws-link" href={p.link.href}>{p.link.text}</a>}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="ws-wrap ws-how">
+      <div>
+        <p class="eyebrow">How it works</p>
+        <h2>How a water softener works</h2>
+        <ol class="ws-numbered">
+          <li><strong>Hard water enters the tank.</strong> Water flows through a bed of resin beads inside the mineral tank.</li>
+          <li><strong>Minerals are swapped out.</strong> The beads grab calcium and magnesium and release a small amount of sodium or potassium.</li>
+          <li><strong>Soft water goes to the house.</strong> Every tap, shower and appliance gets softened water.</li>
+          <li><strong>The system cleans itself.</strong> When the beads are full, the softener rinses them with salty brine from the brine tank and sends the hardness down the drain. Modern units do this based on how much water you actually use.</li>
+        </ol>
+      </div>
+      <aside class="ws-note">
+        <h3>Why a licensed plumber matters</h3>
+        <ul>
+          <li>The drain line needs an <strong>air gap</strong> so wastewater can never back up into your water system.</li>
+          <li>A <strong>bypass valve</strong> lets you shut the softener off without shutting off the house.</li>
+          <li>Outdoor taps and the kitchen drinking line can be left on hard water if you want.</li>
+          <li>Connections are pressure-tested so there are no slow leaks behind the unit.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="ws-band">
+      <div class="ws-wrap">
+        <p class="eyebrow">Our installation process</p>
+        <h2>From free water test to soft water in four steps</h2>
+        <div class="ws-steps">
+          {steps.map((s, i) => (
+            <article><span>{i + 1}</span><h3>{s.title}</h3><p>{s.text}</p></article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- SIZING -->
+    <section class="ws-wrap">
+      <p class="eyebrow">Sizing guide</p>
+      <h2>What size water softener do I need?</h2>
+      <p class="ws-sub">Softeners are rated in "grains" — how much hardness they can remove before cleaning themselves. This is a rough guide for Brampton city water; your water test decides the final size.</p>
+      <div class="ws-table-card">
+        <table>
+          <thead><tr><th>Household</th><th>Typical softener size</th><th>Common for</th></tr></thead>
+          <tbody>
+            {sizing.map((r) => <tr><td>{r.people}</td><td>{r.capacity}</td><td>{r.note}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- COMPARE -->
+    <section class="ws-band">
+      <div class="ws-wrap">
+        <p class="eyebrow">Compare options</p>
+        <h2>Water softener vs salt-free conditioner vs reverse osmosis</h2>
+        <div class="ws-table-card ws-scroll">
+          <table>
+            <thead><tr><th></th><th>Water softener</th><th>Salt-free conditioner</th><th>Reverse osmosis</th></tr></thead>
+            <tbody>
+              {compareRows.map((r) => <tr><td>{r.label}</td><td>{r.softener}</td><td>{r.salt}</td><td>{r.ro}</td></tr>)}
+            </tbody>
+          </table>
+        </div>
+        <p class="ws-sub">Not sure? Most Brampton homes start with a softener. Add an <a href="reverse-osmosis-system.html">RO drinking water system</a> if taste is the main concern.</p>
+      </div>
+    </section>
+
+    <!-- WHY FATEH -->
+    <section class="ws-wrap">
+      <p class="eyebrow">Why Fateh</p>
+      <h2>Why Brampton homeowners call Fateh for water softeners</h2>
+      <div class="ws-why">
+        <article><h3>Plumbers, not just a sales visit</h3><p>Licensed plumbers do the install, so drains, bypasses and connections are done properly the first time.</p></article>
+        <article><h3>Free water test, honest sizing</h3><p>We size the system to your water and household, not the biggest unit on the truck.</p></article>
+        <article><h3>Any brand, new or existing</h3><p>New installs, replacements, re-piping and repairs on existing softeners.</p></article>
+        <article><h3>Plumbing + electrical in one call</h3><p>If the location needs an outlet or other work, one team can handle it.</p></article>
+      </div>
+    </section>
+
+    <!-- SERVICE AREA -->
+    <section class="ws-band">
+      <div class="ws-wrap ws-area">
+        <div>
+          <p class="eyebrow">Service area</p>
+          <h2>Water softener installation in Brampton and nearby GTA cities</h2>
+          <p>We install and service water softeners across Brampton, including {neighbourhoods.join(", ")}, and nearby cities:</p>
+          <ul class="ws-chips">
+            {areas.map((a) => <li><a href={a.href}>{a.name}</a></li>)}
+          </ul>
+        </div>
+        <div class="ws-related">
+          <h3>Related water services</h3>
+          {related.map((r) => (
+            <a href={r.href}><strong>{r.title}</strong><span>{r.text}</span></a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="ws-wrap ws-faq">
+      <p class="eyebrow">Water softener FAQ</p>
+      <h2>Water softener questions from Brampton homeowners</h2>
+      {faqs.map((f) => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <!-- CTA -->
+    <section class="ws-cta">
+      <div>
+        <h2>Tired of scale and spots? Start with a free water test.</h2>
+        <p>Book online, call, or send us a WhatsApp message. We'll test your water and recommend the right water softener for your Brampton home.</p>
+      </div>
+      <div class="ws-cta-actions">
+        <a class="button" href="book-online.html">Book free water test</a>
+        <a class="button secondary" href="tel:+16479809211">Call 647-980-9211</a>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .ws { --ws-blue: #2563eb; --ws-card: var(--white); min-width: 0; max-width: 100%; overflow-x: clip; }
+  .ws > *, .ws-wrap > *, .ws-local > *, .ws-area > *, .ws-how > * { min-width: 0; }
+  .ws-wrap { max-width: 1180px; margin: 0 auto; padding: 64px clamp(16px, 4vw, 32px); }
+  .ws h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.15; margin: 6px 0 14px; color: var(--ink); }
+  .ws h3 { color: var(--ink); }
+  .ws p, .ws li, .ws td { color: var(--muted); line-height: 1.6; }
+  .ws strong { color: var(--ink); }
+  .ws p a, .ws li a:not(.button), .ws-source a, .ws-sub a { color: var(--ws-blue); font-weight: 800; }
+  .ws-band { background: var(--paper); }
+  .ws-sub { max-width: 760px; }
+
+  /* Hero */
+  .ws-hero { max-width: 1180px; margin: 0 auto; padding: 56px clamp(16px, 4vw, 32px) 40px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+  .ws-hero h1 { font-size: clamp(2.3rem, 5.5vw, 4rem); line-height: 1.02; margin: 8px 0 16px; color: var(--ink); }
+  .ws-lead { font-size: 1.12rem; max-width: 620px; }
+  .ws-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0 10px; }
+  .ws-wa { display: inline-block; color: #16a34a; font-weight: 800; text-decoration: none; margin-bottom: 16px; }
+  .ws-proof { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+  .ws-proof li { border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: .9rem; color: var(--ink); background: var(--white); }
+  .ws-hero-art { margin: 0; background: linear-gradient(160deg, #eaf3ff, #ffffff); border: 1px solid var(--line); border-radius: 18px; padding: 18px; box-shadow: var(--shadow); }
+  .ws-hero-art svg { width: 100%; height: auto; display: block; }
+  .ws-hero-art figcaption { font-size: .78rem; color: var(--muted); text-align: center; margin-top: 6px; }
+
+  /* Trust */
+  .ws-trust { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .ws-trust div { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 16px; text-align: center; }
+  .ws-trust strong { display: block; font-size: 1.35rem; color: var(--ws-blue); }
+  .ws-trust span { color: var(--muted); font-size: .9rem; }
+
+  .ws-answer { padding-top: 48px; padding-bottom: 24px; }
+  .ws-answer p { border-left: 4px solid var(--ws-blue); padding: 6px 0 6px 18px; font-size: 1.08rem; max-width: 900px; }
+
+  /* Signs */
+  .ws-signs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 22px; }
+  .ws-signs article { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .ws-signs h3 { margin: 10px 0 6px; font-size: 1.08rem; }
+  .ws-signs p { margin: 0; }
+  .ws-ico { display: inline-block; width: 40px; height: 40px; border-radius: 10px; background: #e8f1ff; position: relative; }
+  .ws-ico::after { content: ""; position: absolute; inset: 11px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--ws-blue); }
+  .ws-ico-glass::after { border-radius: 2px 2px 8px 8px; transform: none; inset: 10px 12px; }
+  .ws-ico-soap::after { border-radius: 50%; inset: 12px; box-shadow: 8px -6px 0 -3px var(--ws-blue); }
+  .ws-ico-heater::after { border-radius: 6px; transform: none; inset: 9px 13px; }
+  .ws-ico-skin::after { border-radius: 50%; transform: none; inset: 11px; background: #f59e0b; }
+  .ws-ico-pipe::after { border-radius: 3px; transform: none; inset: 17px 8px; }
+
+  /* Local */
+  .ws-local { display: grid; grid-template-columns: 1.1fr .9fr; gap: 36px; align-items: start; }
+  .ws-source { font-size: .95rem; }
+  .ws-table-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 8px; margin-top: 16px; }
+  .ws-table-card table { width: 100%; border-collapse: collapse; }
+  .ws-table-card caption { text-align: left; font-weight: 800; color: var(--ink); padding: 10px 12px 4px; }
+  .ws-table-card th { text-align: left; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink); padding: 10px 12px; border-bottom: 2px solid var(--line); }
+  .ws-table-card td { padding: 10px 12px; border-bottom: 1px solid var(--line); font-size: .95rem; }
+  .ws-table-card tr:last-child td { border-bottom: 0; }
+  .ws-table-card td:first-child { font-weight: 700; color: var(--ink); }
+  .ws-small { font-size: .82rem; padding: 0 12px 6px; margin: 6px 0 0; }
+  .ws-scroll { overflow-x: auto; }
+  .ws-scroll table { min-width: 620px; }
+
+  /* Two types */
+  .ws-two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 20px; }
+  .ws-type { border: 1px solid var(--line); border-radius: 16px; padding: 24px; background: var(--white); }
+  .ws-type:first-child { border-top: 5px solid var(--ws-blue); }
+  .ws-type:last-child { border-top: 5px solid #c2410c; }
+  .ws-type h3 { font-size: 1.3rem; margin: 0 0 8px; }
+  .ws-type ul, .ws-pkg ul, .ws-note ul { padding-left: 20px; }
+  .ws-link { display: inline-block; margin-top: 8px; color: var(--ws-blue); font-weight: 800; text-decoration: none; }
+  .ws-link::after { content: " →"; }
+
+  /* Packages */
+  .ws-packages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; align-items: stretch; }
+  .ws-pkg { position: relative; display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--line); border-radius: 18px; padding: 24px; box-shadow: 0 10px 28px rgba(15, 23, 42, .06); }
+  .ws-pkg.is-featured { border: 2px solid var(--ws-blue); }
+  .ws-tag { align-self: flex-start; background: #e8f1ff; color: #1d4ed8; font-weight: 800; font-size: .78rem; padding: 4px 10px; border-radius: 999px; }
+  .ws-pkg-art { background: linear-gradient(160deg, #eef5ff, #ffffff); border-radius: 12px; margin: 14px 0 6px; padding: 10px; }
+  .ws-pkg-art svg { width: 100%; height: 120px; display: block; }
+  .ws-pkg h3 { font-size: 1.3rem; margin: 10px 0 6px; }
+  .ws-best { font-size: .95rem; }
+  .ws-pkg ul { margin: 6px 0 14px; flex: 1; }
+  .ws-pkg li { margin-bottom: 4px; }
+  .ws-price { border-top: 1px dashed var(--line); padding-top: 12px; margin: 0 0 12px; }
+  .ws-pkg .button { text-align: center; }
+
+  /* How */
+  .ws-how { display: grid; grid-template-columns: 1.2fr .8fr; gap: 32px; align-items: start; }
+  .ws-numbered { padding-left: 22px; }
+  .ws-numbered li { margin-bottom: 12px; }
+  .ws-note { background: var(--accent-soft); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+  .ws-note h3 { margin-top: 0; }
+
+  /* Steps */
+  .ws-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 22px; }
+  .ws-steps article { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .ws-steps span { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--ws-blue); color: #fff; font-weight: 900; }
+  .ws-steps h3 { margin: 12px 0 6px; }
+  .ws-steps p { margin: 0; }
+
+  /* Why */
+  .ws-why { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 20px; }
+  .ws-why article { border-left: 4px solid var(--ws-blue); padding: 6px 0 6px 16px; }
+  .ws-why h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  .ws-why p { margin: 0; }
+
+  /* Area */
+  .ws-area { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  .ws-chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; }
+  .ws-chips a { display: inline-block; padding: 8px 16px; border-radius: 999px; background: var(--white); border: 1px solid var(--line); text-decoration: none; }
+  .ws-related { display: grid; gap: 10px; }
+  .ws-related h3 { margin: 0 0 4px; }
+  .ws-related a { display: block; background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; text-decoration: none; }
+  .ws-related a strong { display: block; color: var(--ws-blue); font-weight: 800; }
+  .ws-related a span { color: var(--muted); font-size: .92rem; }
+
+  /* FAQ */
+  .ws-faq details { border: 1px solid var(--line); border-radius: 12px; padding: 0 18px; margin-bottom: 10px; background: var(--white); }
+  .ws-faq summary { cursor: pointer; padding: 16px 0; font-weight: 800; color: var(--ink); }
+  .ws-faq details p { margin: 0 0 16px; }
+
+  /* CTA */
+  .ws-cta { max-width: 1180px; margin: 0 auto 72px; padding: 36px clamp(20px, 4vw, 44px); border-radius: 20px; background: linear-gradient(135deg, #0f2d63, #1d4ed8); display: flex; gap: 24px; align-items: center; justify-content: space-between; }
+  .ws-cta h2, .ws-cta p { color: #fff; }
+  .ws-cta p { opacity: .9; margin: 0; }
+  .ws-cta-actions { display: flex; flex-wrap: wrap; gap: 12px; flex: 0 0 auto; }
+
+  /* Dark mode: keep illustration panels readable */
+  :global(.theme-dark) .ws-hero-art, :global(.theme-dark) .ws-pkg-art { background: linear-gradient(160deg, #13233d, #0b1220); }
+  :global(.theme-dark) .ws-tag, :global(.theme-dark) .ws-ico { background: #13233d; color: #8ec7ff; }
+  :global(.theme-dark) .ws { --ws-blue: #4aa3ff; }
+
+  @media (max-width: 980px) {
+    .ws-hero, .ws-local, .ws-how, .ws-area { grid-template-columns: 1fr; }
+    .ws-packages, .ws-signs { grid-template-columns: 1fr 1fr; }
+    .ws-steps, .ws-why, .ws-trust { grid-template-columns: 1fr 1fr; }
+    .ws-cta { flex-direction: column; align-items: flex-start; margin: 0 16px 56px; }
+  }
+  @media (max-width: 640px) {
+    .ws-wrap { padding-top: 44px; padding-bottom: 44px; }
+    .ws-packages, .ws-signs, .ws-two, .ws-steps, .ws-why { grid-template-columns: 1fr; }
+    .ws-actions .button { flex: 1 1 100%; text-align: center; }
+  }
+</style>
