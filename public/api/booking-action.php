@@ -59,12 +59,13 @@ $jobDetails = preg_match('/^Details:\s*\n(.*?)(?:\n\s*\nPhotos:|\z)/ms', $descTe
 $photoNote = preg_match('/^Photos:\s*(.+)$/m', $descText, $m) ? trim($m[1]) : '';
 if ($photoNote !== '' && $photoNote !== 'none') $photoNote = preg_replace('/ sent to .*/', ' (in the booking email)', $photoNote);
 
-$details = '<dl><dt>Job</dt><dd>' . ba_h($name) . '</dd><dt>When</dt><dd>' . ba_h($date . ', ' . $time) . '</dd>'
+$mkDetails = fn(string $st) => '<dl><dt>Job</dt><dd>' . ba_h($name) . '</dd><dt>When</dt><dd>' . ba_h($date . ', ' . $time) . '</dd>'
          . '<dt>Address</dt><dd>' . ba_h($addr) . '</dd><dt>Phone</dt><dd><a href="tel:' . ba_h(bk_e164($phone)) . '">' . ba_h($phone) . '</a></dd>'
          . ($email !== '' ? '<dt>Email</dt><dd><a href="mailto:' . ba_h($email) . '">' . ba_h($email) . '</a></dd>' : '')
          . ($jobDetails !== '' ? '<dt>Details</dt><dd style="font-weight:400;white-space:pre-line">' . ba_h($jobDetails) . '</dd>' : '')
          . ($photoNote !== '' ? '<dt>Photos</dt><dd style="font-weight:400">' . ba_h($photoNote) . '</dd>' : '')
-         . '<dt>Status</dt><dd>' . ($status === 'new' ? '🟡 Waiting for you to confirm' : '🟢 Confirmed') . '</dd></dl>';
+         . '<dt>Status</dt><dd>' . ($st === 'new' ? '🟡 Waiting for you to confirm' : ($st === 'declined' ? '❌ Declined' : '🟢 Confirmed')) . '</dd></dl>';
+$details = $mkDetails($status);
 
 // Distance from home + map + Directions (main page only; never blocks the page)
 $where = '';
@@ -106,12 +107,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
       if ($status !== 'new') ba_page('Already confirmed. No new message was sent.', $details, 'ok');
       bk_patch_event($id, ba_mark($ev));
       $warn = ba_send($phone, 'confirmed', [$first, $date, $time, $addr]);
-      ba_page('✅ Confirmed. The calendar entry is now green' . ($warn ? '.' : ' and the customer got the WhatsApp confirmation.'), $warn . $details, 'ok');
+      ba_page('✅ Confirmed. The calendar entry is now green' . ($warn ? '.' : ' and the customer got the WhatsApp confirmation.'), $warn . $mkDetails('confirmed'), 'ok');
     }
     if ($action === 'decline') {
       bk_delete_event($id);
       $warn = ba_send($phone, 'cancelled', [$first, $date, $time]);
-      ba_page('❌ Declined. Removed from the calendar' . ($warn ? '.' : ' and the customer got the WhatsApp cancellation.'), $warn . $details, 'warn');
+      ba_page('❌ Declined. Removed from the calendar' . ($warn ? '.' : ' and the customer got the WhatsApp cancellation.'), $warn . $mkDetails('declined'), 'warn');
     }
     if ($action === 'reschedule') {
       $win = bk_window((string) ($_POST['date'] ?? ''), (string) ($_POST['start'] ?? ''));
