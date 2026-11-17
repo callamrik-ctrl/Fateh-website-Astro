@@ -1,8 +1,423 @@
 ---
-import BathroomPlumbingPage from "../components/BathroomPlumbingPage.astro";
-import { waterSystemPages } from "../data/waterSystemPages.js";
+// Reverse Osmosis System Brampton — standalone service page, same design as water-softener.astro.
+// No prices on this page (site rule): every package uses "Contact us for price".
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import WaterPageStyles from "../components/WaterPageStyles.astro";
 
-const page = waterSystemPages.reverseOsmosisSystem;
+const title = "Reverse Osmosis System Brampton | RO Install | Fateh";
+const description = "Reverse osmosis system installation in Brampton. Under-sink and tankless RO for clean drinking water, free water check, licensed plumbers. 647-980-9211.";
+const canonical = "https://fatehplumelec.com/reverse-osmosis-system.html";
+const heroImage = "/assets/service-photos/reverse-osmosis-system-brampton.webp";
+
+const reasons = [
+  { icon: "glass", title: "Chlorine taste or smell", text: "Tap water that tastes or smells like a pool, especially in coffee, tea and ice cubes." },
+  { icon: "drop", title: "Earthy taste in summer", text: "Lake Ontario water can taste earthy or musty in warmer months. It's safe, but many people don't like it." },
+  { icon: "soap", title: "Buying bottled water", text: "Carrying cases of water home every week, and the plastic that comes with it." },
+  { icon: "heater", title: "Scale in kettles", text: "White flakes in the kettle and coffee maker from dissolved minerals in the water." },
+  { icon: "pipe", title: "Fridge and ice maker", text: "You want filtered water at the fridge dispenser and clear, better-tasting ice." },
+  { icon: "skin", title: "Well water peace of mind", text: "On a private well and want an extra treatment step at the drinking water tap (after testing)." },
+];
+
+const packages = [
+  {
+    id: "standard",
+    tag: "Most popular",
+    title: "Under-Sink RO System",
+    best: "Most kitchens that want clean drinking and cooking water at a separate faucet",
+    includes: [
+      "Multi-stage RO: sediment, carbon, membrane, polishing filter",
+      "Storage tank under the sink",
+      "Dedicated drinking water faucet",
+      "Drain connection with proper air gap",
+      "Flushed, tested and filter schedule explained",
+    ],
+    art: "tank",
+  },
+  {
+    id: "tankless",
+    tag: "Compact & faster flow",
+    title: "Tankless RO System",
+    best: "Smaller sinks and families who want faster flow without a storage tank",
+    includes: [
+      "Compact tankless RO unit, no storage tank",
+      "Faster flow at the drinking faucet",
+      "Easy-change filter cartridges",
+      "Outlet under the sink if needed (we're electricians too)",
+      "Flushed, tested and filter schedule explained",
+    ],
+    art: "tankless",
+    featured: true,
+  },
+  {
+    id: "mineral",
+    tag: "Better taste",
+    title: "RO + Remineralization",
+    best: "People who want RO-purified water with a smoother, mineral taste",
+    includes: [
+      "Everything in the under-sink RO system",
+      "Mineral (remineralization) stage after the membrane",
+      "Adds back calcium and magnesium for taste",
+      "Dedicated drinking water faucet",
+      "Flushed, tested and filter schedule explained",
+    ],
+    art: "mineral",
+  },
+];
+
+const addons = ["Fridge / ice maker line", "Second faucet or bar sink", "Filter change visits", "Pair with a water softener"];
+
+const stages = [
+  { title: "Sediment filter", text: "Catches sand, rust and particles that would clog the membrane." },
+  { title: "Carbon filter", text: "Reduces chlorine taste and smell and protects the membrane." },
+  { title: "RO membrane", text: "Water is pushed through a very fine membrane that holds back many dissolved solids. The rejected water goes to the drain." },
+  { title: "Polishing filter", text: "A final carbon stage for taste before the water reaches your drinking faucet." },
+];
+
+const steps = [
+  { title: "Free water check", text: "We check your water (including a TDS reading) and look at the space under your sink." },
+  { title: "Pick the right system", text: "Tank or tankless, mineral stage, fridge line: you get a clear recommendation and price before any work." },
+  { title: "Clean installation", text: "Feed valve, faucet, drain saddle with an air gap and all lines installed neatly by licensed plumbers." },
+  { title: "Flush, test, explain", text: "We flush the filters, check for leaks, test the water and show you when to change filters." },
+];
+
+const schedule = [
+  { part: "Sediment pre-filter", when: "About every 6–12 months" },
+  { part: "Carbon pre-filter", when: "About every 6–12 months" },
+  { part: "RO membrane", when: "About every 2–3 years" },
+  { part: "Polishing / mineral filter", when: "About every 12 months" },
+];
+
+const compareRows = [
+  { label: "Better drinking water taste", ro: "Yes", pitcher: "Some", softener: "Not the main job", fridge: "Some" },
+  { label: "Reduces dissolved solids", ro: "Yes", pitcher: "Limited", softener: "No", fridge: "Limited" },
+  { label: "Removes hardness for the house", ro: "No — one tap", pitcher: "No", softener: "Yes", fridge: "No" },
+  { label: "Filtered water on tap", ro: "Yes", pitcher: "No — refill", softener: "Whole house", fridge: "At the fridge" },
+  { label: "Good for", ro: "Drinking & cooking", pitcher: "Small households", softener: "Scale & spots", fridge: "Ice & cold water" },
+];
+
+const faqs = [
+  { q: "Do you install reverse osmosis systems in Brampton?", a: "Yes. Fateh Plumbing & Electric installs under-sink and tankless reverse osmosis systems for homes, rentals, offices and small businesses in Brampton and nearby GTA cities." },
+  { q: "How much does an RO system cost?", a: "It depends on the system (tank, tankless or mineral), the space under your sink, the faucet and any extras like a fridge line. Contact us for a price. We check your water for free and quote before any work starts." },
+  { q: "What does an RO system remove?", a: "A reverse osmosis system with carbon pre-filters reduces chlorine taste and odour and many dissolved solids such as salts and minerals. What a specific system reduces depends on its certification, so we recommend systems certified to NSF/ANSI 58." },
+  { q: "Is Brampton tap water safe without RO?", a: "Yes. Peel Region tap water meets Ontario drinking water standards. People add RO for better taste, to reduce chlorine and dissolved solids, and to stop buying bottled water." },
+  { q: "How long does RO installation take?", a: "Most under-sink RO installations take about two to three hours, including the faucet, drain connection and flushing the filters." },
+  { q: "Can you connect RO to my fridge or ice maker?", a: "Yes. We can run an RO line to most fridge water dispensers and ice makers so they get the same filtered water." },
+  { q: "How often do RO filters need to be changed?", a: "Pre-filters are usually changed every 6 to 12 months, the membrane every 2 to 3 years and the final filter about once a year. It depends on your water and how much you use." },
+  { q: "Do RO systems waste water?", a: "RO sends some water to the drain while it cleans the membrane. Newer, higher-efficiency and tankless systems waste less. We can recommend an efficient model." },
+  { q: "Is RO the same as a water softener?", a: "No. RO filters drinking water at one tap. A water softener removes hardness for the whole house to stop scale. Many homes use both." },
+  { q: "Do I need a hole in my countertop for the RO faucet?", a: "Many sinks already have a spare hole for the faucet. If not, we can drill one in most sinks and countertops, or use the soap dispenser hole." },
+];
+
+const areas = [
+  { name: "Brampton", href: "brampton-plumber.html" },
+  { name: "Mississauga", href: "mississauga-plumber.html" },
+  { name: "Caledon", href: "caledon-plumber.html" },
+  { name: "Vaughan", href: "vaughan-plumber.html" },
+  { name: "Etobicoke", href: "etobicoke-plumber.html" },
+  { name: "Markham", href: "markham-plumber.html" },
+];
+
+const neighbourhoods = ["Bramalea", "Springdale", "Castlemore", "Mount Pleasant", "Heart Lake", "Sandringham-Wellington", "Fletcher's Meadow", "Credit Valley", "Bram West", "Snelgrove"];
+
+const related = [
+  { title: "Water Softener", href: "water-softener.html", text: "Whole-home hardness removal for scale and spots." },
+  { title: "Faucet Repair", href: "faucet-repair.html", text: "Leaking, dripping or low-flow faucets." },
+  { title: "Water Heater Repair", href: "water-heater-repair.html", text: "No hot water, leaking tanks and scale problems." },
+  { title: "Kitchen Sink Installation", href: "kitchen-sink-installation.html", text: "New sinks, faucets and under-sink plumbing." },
+];
+
+const schemas = [
+  JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Plumber",
+    "@id": "https://fatehplumelec.com/#business",
+    name: "Fateh Plumbing & Electric",
+    url: "https://fatehplumelec.com/",
+    telephone: "+1-647-980-9211",
+    email: "info@fatehplumelec.com",
+    image: "https://fatehplumelec.com/assets/fateh-logo-clean.png",
+    logo: "https://fatehplumelec.com/assets/fateh-logo-clean.png",
+    address: { "@type": "PostalAddress", streetAddress: "5 Loomis Rd", addressLocality: "Brampton", addressRegion: "ON", postalCode: "L7A 4X9", addressCountry: "CA" },
+    areaServed: areas.map((a) => ({ "@type": "City", name: a.name })),
+    sameAs: ["https://www.facebook.com/fatehplumbing", "https://www.instagram.com/fateh_plumbing_electric", "https://www.tiktok.com/@fateh.plumbing"],
+  }),
+  JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Reverse Osmosis System Installation in Brampton",
+    serviceType: "Reverse osmosis system installation",
+    url: canonical,
+    description,
+    image: "https://fatehplumelec.com" + heroImage,
+    provider: { "@id": "https://fatehplumelec.com/#business" },
+    areaServed: areas.map((a) => ({ "@type": "City", name: a.name })),
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Reverse osmosis packages",
+      itemListElement: packages.map((p) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: p.title, description: p.best } })),
+    },
+  }),
+  JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  }),
+  JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://fatehplumelec.com/" },
+      { "@type": "ListItem", position: 2, name: "Services", item: "https://fatehplumelec.com/services.html" },
+      { "@type": "ListItem", position: 3, name: "Reverse Osmosis System Brampton", item: canonical },
+    ],
+  }),
+];
+
 ---
 
-<BathroomPlumbingPage {...page} />
+<BaseLayout title={title} description={description} canonical={canonical} schemas={schemas} ogImage={"https://fatehplumelec.com" + heroImage}>
+  <SiteHeader />
+
+  <main class="ws">
+    <!-- HERO -->
+    <section class="ws-hero">
+      <div class="ws-hero-copy">
+        <p class="eyebrow">RO system · Brampton &amp; GTA</p>
+        <h1>Reverse Osmosis System Brampton</h1>
+        <p class="ws-lead">
+          Get clean, great-tasting drinking water straight from your kitchen tap. Fateh Plumbing &amp; Electric installs
+          reverse osmosis (RO) systems in Brampton homes, rentals and offices: under-sink, tankless and mineral systems,
+          installed neatly by licensed plumbers with a <strong>free water check</strong> first.
+        </p>
+        <div class="ws-actions">
+          <a class="button" href="book-online.html">Book free water check</a>
+          <a class="button secondary" href="tel:+16479809211">Call 647-980-9211</a>
+        </div>
+        <ul class="ws-proof">
+          <li>Licensed &amp; insured plumbers</li>
+          <li>Tank &amp; tankless RO</li>
+          <li>Fridge / ice maker lines</li>
+        </ul>
+      </div>
+      <figure class="ws-hero-photo">
+        <img src={heroImage} alt="Reverse osmosis system with filters and storage tank installed under a kitchen sink in Brampton" width="1400" height="788" fetchpriority="high">
+      </figure>
+    </section>
+
+    <!-- TRUST STRIP -->
+    <section class="ws-trust" aria-label="Why homeowners choose Fateh">
+      <div><strong>Free</strong><span>water check &amp; quote</span></div>
+      <div><strong>Licensed</strong><span>plumbers, WSIB covered</span></div>
+      <div><strong>$5M</strong><span>liability insurance</span></div>
+      <div><strong>15+ years</strong><span>serving Brampton &amp; the GTA</span></div>
+    </section>
+
+    <!-- QUICK ANSWER -->
+    <section class="ws-wrap ws-answer">
+      <h2>What is a reverse osmosis system?</h2>
+      <p>
+        A reverse osmosis (RO) system is a drinking water filter installed under your kitchen sink. Water passes through a sediment filter,
+        a carbon filter and a very fine RO membrane that holds back many dissolved solids, then through a final polishing filter. The clean
+        water comes out of its own faucet beside your sink, ready for drinking, cooking, coffee and ice.
+      </p>
+    </section>
+
+    <!-- REASONS -->
+    <section class="ws-wrap">
+      <p class="eyebrow">Why people install RO</p>
+      <h2>Reasons Brampton homeowners add an RO system</h2>
+      <div class="ws-signs">
+        {reasons.map((s) => (
+          <article>
+            <span class={`ws-ico ws-ico-${s.icon}`} aria-hidden="true"></span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- LOCAL WATER -->
+    <section class="ws-band">
+      <div class="ws-wrap ws-local">
+        <div>
+          <p class="eyebrow">Brampton drinking water</p>
+          <h2>Safe tap water, better-tasting drinking water</h2>
+          <p>
+            Brampton gets treated Lake Ontario water through the Region of Peel's South Peel drinking water system, and it meets
+            Ontario drinking water standards. So why do so many families add RO? Mostly for <strong>taste</strong>: less chlorine,
+            fewer dissolved minerals, and no earthy taste when the lake changes in the summer.
+          </p>
+          <p>
+            RO is also a good extra step for homes on private wells in Caledon and rural areas, after the well water has been tested
+            and treated for the bigger problems like iron and hardness.
+          </p>
+          <p class="ws-source">
+            Read more in the <a href="https://www.peelregion.ca/water/drinking-water/water-quality/safe-to-drink/" target="_blank" rel="noopener">Region of Peel drinking water information</a>
+            and <a href="https://www.canada.ca/en/health-canada/services/environmental-workplace-health/water-quality/drinking-water.html" target="_blank" rel="noopener">Health Canada drinking water guidance</a>.
+          </p>
+        </div>
+        <div class="ws-table-card">
+          <table>
+            <caption>How an RO system cleans your water</caption>
+            <thead><tr><th>Stage</th><th>What it does</th></tr></thead>
+            <tbody>
+              {stages.map((s, i) => <tr><td>{i + 1}. {s.title}</td><td>{s.text}</td></tr>)}
+            </tbody>
+          </table>
+          <p class="ws-small">Look for systems certified to NSF/ANSI 58, the standard for reverse osmosis drinking water systems.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section class="ws-wrap">
+      <p class="eyebrow">RO system packages</p>
+      <h2>Choose the RO system that fits your kitchen</h2>
+      <p class="ws-sub">Every package starts with a free water check. The price depends on the system, your sink space and any extras, so we quote after we see it.</p>
+      <div class="ws-packages">
+        {packages.map((p) => (
+          <article id={p.id} class={p.featured ? "ws-pkg is-featured" : "ws-pkg"}>
+            <span class="ws-tag">{p.tag}</span>
+            <div class="ws-pkg-art" aria-hidden="true">
+              {p.art === "tank" && (
+                <svg viewBox="0 0 160 110"><rect x="14" y="20" width="16" height="70" rx="6" fill="#94a3b8"/><rect x="34" y="20" width="16" height="70" rx="6" fill="#94a3b8"/><rect x="54" y="20" width="16" height="70" rx="6" fill="#e2e8f0" stroke="#94a3b8"/><rect x="12" y="10" width="62" height="12" rx="4" fill="#2f80e8"/><rect x="92" y="38" width="48" height="62" rx="22" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/><path d="M74 16 H120 V6" stroke="#64748b" stroke-width="3" fill="none"/></svg>
+              )}
+              {p.art === "tankless" && (
+                <svg viewBox="0 0 160 110"><rect x="40" y="16" width="80" height="84" rx="12" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/><rect x="52" y="28" width="56" height="16" rx="4" fill="#0f172a"/><rect x="58" y="32" width="22" height="8" rx="2" fill="#38bdf8"/><circle cx="98" cy="36" r="3" fill="#22c55e"/><rect x="54" y="54" width="14" height="38" rx="5" fill="#2f80e8"/><rect x="73" y="54" width="14" height="38" rx="5" fill="#2f80e8"/><rect x="92" y="54" width="14" height="38" rx="5" fill="#2f80e8"/><path d="M120 60 H140 V40" stroke="#facc15" stroke-width="3" fill="none"/></svg>
+              )}
+              {p.art === "mineral" && (
+                <svg viewBox="0 0 160 110"><rect x="14" y="20" width="16" height="70" rx="6" fill="#94a3b8"/><rect x="34" y="20" width="16" height="70" rx="6" fill="#94a3b8"/><rect x="54" y="20" width="16" height="70" rx="6" fill="#e2e8f0" stroke="#94a3b8"/><rect x="74" y="20" width="16" height="70" rx="6" fill="#16a34a"/><rect x="12" y="10" width="80" height="12" rx="4" fill="#2f80e8"/><circle cx="118" cy="60" r="8" fill="#38bdf8"/><circle cx="134" cy="74" r="6" fill="#16a34a"/><circle cx="120" cy="84" r="5" fill="#2f80e8"/></svg>
+              )}
+            </div>
+            <h3>{p.title}</h3>
+            <p class="ws-best"><strong>Best for:</strong> {p.best}</p>
+            <ul>{p.includes.map((i) => <li>{i}</li>)}</ul>
+            <p class="ws-price">Price: <strong>Contact us for price</strong></p>
+            <a class="button" href="book-online.html">Book free water check</a>
+          </article>
+        ))}
+      </div>
+      <div class="ws-addons" aria-label="Popular add-ons">
+        {addons.map((a) => <span>+ {a}</span>)}
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="ws-band">
+      <div class="ws-wrap">
+        <p class="eyebrow">Our installation process</p>
+        <h2>From free water check to clean drinking water</h2>
+        <div class="ws-steps">
+          {steps.map((s, i) => (
+            <article><span>{i + 1}</span><h3>{s.title}</h3><p>{s.text}</p></article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- MAINTENANCE -->
+    <section class="ws-wrap ws-how">
+      <div>
+        <p class="eyebrow">Filter changes</p>
+        <h2>How often do RO filters need changing?</h2>
+        <p>Changing filters on time keeps the water tasting good and protects the membrane. These are typical times; your water and usage decide the exact schedule, and we'll tell you what fits your system.</p>
+        <div class="ws-table-card">
+          <table>
+            <thead><tr><th>Part</th><th>Typical change</th></tr></thead>
+            <tbody>
+              {schedule.map((r) => <tr><td>{r.part}</td><td>{r.when}</td></tr>)}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <aside class="ws-note">
+        <h3>Why a licensed plumber matters</h3>
+        <ul>
+          <li>The RO drain line needs an <strong>air gap</strong> so sink water can never back up into the system.</li>
+          <li>Feed valves and fittings are installed so there are <strong>no slow leaks</strong> inside your cabinet.</li>
+          <li>Tankless RO units need power. We can add an <strong>outlet under the sink</strong> in the same visit.</li>
+          <li>Fridge and ice maker lines are run neatly and tested.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- COMPARE -->
+    <section class="ws-band">
+      <div class="ws-wrap">
+        <p class="eyebrow">Compare options</p>
+        <h2>RO system vs pitcher filter vs water softener vs fridge filter</h2>
+        <div class="ws-table-card ws-scroll">
+          <table>
+            <thead><tr><th></th><th>RO system</th><th>Pitcher filter</th><th>Water softener</th><th>Fridge filter</th></tr></thead>
+            <tbody>
+              {compareRows.map((r) => <tr><td>{r.label}</td><td>{r.ro}</td><td>{r.pitcher}</td><td>{r.softener}</td><td>{r.fridge}</td></tr>)}
+            </tbody>
+          </table>
+        </div>
+        <p class="ws-sub">Seeing scale on taps and spots on dishes too? That's hard water. A <a href="water-softener.html">water softener</a> treats the whole house, and many families pair it with RO.</p>
+      </div>
+    </section>
+
+    <!-- WHY FATEH -->
+    <section class="ws-wrap">
+      <p class="eyebrow">Why Fateh</p>
+      <h2>Why Brampton families call Fateh for RO systems</h2>
+      <div class="ws-why">
+        <article><h3>Plumbers do the install</h3><p>Licensed plumbers install the feed, drain and faucet properly, so there are no leaks under your sink.</p></article>
+        <article><h3>Honest recommendation</h3><p>Tank, tankless or mineral: we recommend what fits your water, space and family.</p></article>
+        <article><h3>Plumbing + electrical</h3><p>Tankless RO needs an outlet. One team handles both.</p></article>
+        <article><h3>New, replace or service</h3><p>New installs, replacing old RO systems, and filter change visits.</p></article>
+      </div>
+    </section>
+
+    <!-- SERVICE AREA -->
+    <section class="ws-band">
+      <div class="ws-wrap ws-area">
+        <div>
+          <p class="eyebrow">Service area</p>
+          <h2>RO system installation in Brampton and nearby GTA cities</h2>
+          <p>We install reverse osmosis systems across Brampton, including {neighbourhoods.join(", ")}, and nearby cities:</p>
+          <ul class="ws-chips">
+            {areas.map((a) => <li><a href={a.href}>{a.name}</a></li>)}
+          </ul>
+        </div>
+        <div class="ws-related">
+          <h3>Related water services</h3>
+          {related.map((r) => (
+            <a href={r.href}><strong>{r.title}</strong><span>{r.text}</span></a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="ws-wrap ws-faq">
+      <p class="eyebrow">RO system FAQ</p>
+      <h2>Reverse osmosis questions from Brampton homeowners</h2>
+      {faqs.map((f) => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <!-- CTA -->
+    <section class="ws-cta">
+      <div>
+        <h2>Stop buying bottled water. Get RO at your kitchen tap.</h2>
+        <p>Book online or give us a call. We'll check your water and recommend the right reverse osmosis system for your Brampton home.</p>
+      </div>
+      <div class="ws-cta-actions">
+        <a class="button" href="book-online.html">Book free water check</a>
+        <a class="button secondary" href="tel:+16479809211">Call 647-980-9211</a>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+  <WaterPageStyles />
+</BaseLayout>

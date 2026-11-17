@@ -1,0 +1,151 @@
+---
+// Shared styles for the water treatment pages (water-softener, reverse-osmosis-system). All selectors start with .ws
+---
+<style is:global>
+  .ws { --ws-blue: #2563eb; --ws-card: var(--white); min-width: 0; max-width: 100%; overflow-x: clip; }
+  .ws > *, .ws-wrap > *, .ws-local > *, .ws-area > *, .ws-how > * { min-width: 0; }
+  .ws-wrap { max-width: 1180px; margin: 0 auto; padding: 64px clamp(16px, 4vw, 32px); }
+  .ws h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.15; margin: 6px 0 14px; color: var(--ink); }
+  .ws h3 { color: var(--ink); }
+  .ws p, .ws li, .ws td { color: var(--muted); line-height: 1.6; }
+  .ws strong { color: var(--ink); }
+  .ws p a, .ws li a:not(.button), .ws-source a, .ws-sub a { color: var(--ws-blue); font-weight: 800; }
+  .ws-band { background: var(--paper); }
+  .ws-sub { max-width: 760px; }
+
+  /* Hero */
+  .ws-hero { max-width: 1180px; margin: 0 auto; padding: 56px clamp(16px, 4vw, 32px) 40px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+  .ws-hero h1 { font-size: clamp(2.3rem, 5.5vw, 4rem); line-height: 1.02; margin: 8px 0 16px; color: var(--ink); }
+  .ws-lead { font-size: 1.12rem; max-width: 620px; }
+  .ws-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0 10px; }
+  .ws-wa { display: inline-block; color: #16a34a; font-weight: 800; text-decoration: none; margin-bottom: 16px; }
+  .ws-proof { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+  .ws-proof li { border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: .9rem; color: var(--ink); background: var(--white); }
+  .ws-hero-art { margin: 0; background: linear-gradient(160deg, #eaf3ff, #ffffff); border: 1px solid var(--line); border-radius: 18px; padding: 18px; box-shadow: var(--shadow); }
+  .ws-hero-art svg { width: 100%; height: auto; display: block; }
+  .ws-hero-art figcaption { font-size: .78rem; color: var(--muted); text-align: center; margin-top: 6px; }
+
+  .ws-hero-photo { margin: 0; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); background: var(--white); }
+  .ws-hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+  .ws-hero-photo figcaption { font-size: .8rem; color: var(--muted); padding: 8px 12px; }
+  .ws-addons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .ws-addons span { background: var(--white); border: 1px dashed var(--line); border-radius: 999px; padding: 8px 14px; font-weight: 700; color: var(--ink); font-size: .92rem; }
+
+  /* Trust */
+  .ws-trust { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .ws-trust div { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 16px; text-align: center; }
+  .ws-trust strong { display: block; font-size: 1.35rem; color: var(--ws-blue); }
+  .ws-trust span { color: var(--muted); font-size: .9rem; }
+
+  .ws-answer { padding-top: 48px; padding-bottom: 24px; }
+  .ws-answer p { border-left: 4px solid var(--ws-blue); padding: 6px 0 6px 18px; font-size: 1.08rem; max-width: 900px; }
+
+  /* Signs */
+  .ws-signs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 22px; }
+  .ws-signs article { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .ws-signs h3 { margin: 10px 0 6px; font-size: 1.08rem; }
+  .ws-signs p { margin: 0; }
+  .ws-ico { display: inline-block; width: 40px; height: 40px; border-radius: 10px; background: #e8f1ff; position: relative; }
+  .ws-ico::after { content: ""; position: absolute; inset: 11px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--ws-blue); }
+  .ws-ico-glass::after { border-radius: 2px 2px 8px 8px; transform: none; inset: 10px 12px; }
+  .ws-ico-soap::after { border-radius: 50%; inset: 12px; box-shadow: 8px -6px 0 -3px var(--ws-blue); }
+  .ws-ico-heater::after { border-radius: 6px; transform: none; inset: 9px 13px; }
+  .ws-ico-skin::after { border-radius: 50%; transform: none; inset: 11px; background: #f59e0b; }
+  .ws-ico-pipe::after { border-radius: 3px; transform: none; inset: 17px 8px; }
+
+  /* Local */
+  .ws-local { display: grid; grid-template-columns: 1.1fr .9fr; gap: 36px; align-items: start; }
+  .ws-source { font-size: .95rem; }
+  .ws-table-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 8px; margin-top: 16px; }
+  .ws-table-card table { width: 100%; border-collapse: collapse; }
+  .ws-table-card caption { text-align: left; font-weight: 800; color: var(--ink); padding: 10px 12px 4px; }
+  .ws-table-card th { text-align: left; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink); padding: 10px 12px; border-bottom: 2px solid var(--line); }
+  .ws-table-card td { padding: 10px 12px; border-bottom: 1px solid var(--line); font-size: .95rem; }
+  .ws-table-card tr:last-child td { border-bottom: 0; }
+  .ws-table-card td:first-child { font-weight: 700; color: var(--ink); }
+  .ws-small { font-size: .82rem; padding: 0 12px 6px; margin: 6px 0 0; }
+  .ws-scroll { overflow-x: auto; }
+  .ws-scroll table { min-width: 620px; }
+
+  /* Two types */
+  .ws-two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 20px; }
+  .ws-type { border: 1px solid var(--line); border-radius: 16px; padding: 24px; background: var(--white); }
+  .ws-type:first-child { border-top: 5px solid var(--ws-blue); }
+  .ws-type:last-child { border-top: 5px solid #c2410c; }
+  .ws-type h3 { font-size: 1.3rem; margin: 0 0 8px; }
+  .ws-type ul, .ws-pkg ul, .ws-note ul { padding-left: 20px; }
+  .ws-link { display: inline-block; margin-top: 8px; color: var(--ws-blue); font-weight: 800; text-decoration: none; }
+  .ws-link::after { content: " →"; }
+
+  /* Packages */
+  .ws-packages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; align-items: stretch; }
+  .ws-pkg { position: relative; display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--line); border-radius: 18px; padding: 24px; box-shadow: 0 10px 28px rgba(15, 23, 42, .06); }
+  .ws-pkg.is-featured { border: 2px solid var(--ws-blue); }
+  .ws-tag { align-self: flex-start; background: #e8f1ff; color: #1d4ed8; font-weight: 800; font-size: .78rem; padding: 4px 10px; border-radius: 999px; }
+  .ws-pkg-art { background: linear-gradient(160deg, #eef5ff, #ffffff); border-radius: 12px; margin: 14px 0 6px; padding: 10px; }
+  .ws-pkg-art svg { width: 100%; height: 120px; display: block; }
+  .ws-pkg h3 { font-size: 1.3rem; margin: 10px 0 6px; }
+  .ws-best { font-size: .95rem; }
+  .ws-pkg ul { margin: 6px 0 14px; flex: 1; }
+  .ws-pkg li { margin-bottom: 4px; }
+  .ws-price { border-top: 1px dashed var(--line); padding-top: 12px; margin: 0 0 12px; }
+  .ws-pkg .button { text-align: center; }
+
+  /* How */
+  .ws-how { display: grid; grid-template-columns: 1.2fr .8fr; gap: 32px; align-items: start; }
+  .ws-numbered { padding-left: 22px; }
+  .ws-numbered li { margin-bottom: 12px; }
+  .ws-note { background: var(--accent-soft); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+  .ws-note h3 { margin-top: 0; }
+
+  /* Steps */
+  .ws-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 22px; }
+  .ws-steps article { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .ws-steps span { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--ws-blue); color: #fff; font-weight: 900; }
+  .ws-steps h3 { margin: 12px 0 6px; }
+  .ws-steps p { margin: 0; }
+
+  /* Why */
+  .ws-why { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 20px; }
+  .ws-why article { border-left: 4px solid var(--ws-blue); padding: 6px 0 6px 16px; }
+  .ws-why h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  .ws-why p { margin: 0; }
+
+  /* Area */
+  .ws-area { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  .ws-chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; }
+  .ws-chips a { display: inline-block; padding: 8px 16px; border-radius: 999px; background: var(--white); border: 1px solid var(--line); text-decoration: none; }
+  .ws-related { display: grid; gap: 10px; }
+  .ws-related h3 { margin: 0 0 4px; }
+  .ws-related a { display: block; background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; text-decoration: none; }
+  .ws-related a strong { display: block; color: var(--ws-blue); font-weight: 800; }
+  .ws-related a span { color: var(--muted); font-size: .92rem; }
+
+  /* FAQ */
+  .ws-faq details { border: 1px solid var(--line); border-radius: 12px; padding: 0 18px; margin-bottom: 10px; background: var(--white); }
+  .ws-faq summary { cursor: pointer; padding: 16px 0; font-weight: 800; color: var(--ink); }
+  .ws-faq details p { margin: 0 0 16px; }
+
+  /* CTA */
+  .ws-cta { max-width: 1180px; margin: 0 auto 72px; padding: 36px clamp(20px, 4vw, 44px); border-radius: 20px; background: linear-gradient(135deg, #0f2d63, #1d4ed8); display: flex; gap: 24px; align-items: center; justify-content: space-between; }
+  .ws-cta h2, .ws-cta p { color: #fff; }
+  .ws-cta p { opacity: .9; margin: 0; }
+  .ws-cta-actions { display: flex; flex-wrap: wrap; gap: 12px; flex: 0 0 auto; }
+
+  /* Dark mode: keep illustration panels readable */
+  .theme-dark .ws-hero-art, .theme-dark .ws-pkg-art { background: linear-gradient(160deg, #13233d, #0b1220); }
+  .theme-dark .ws-tag, .theme-dark .ws-ico { background: #13233d; color: #8ec7ff; }
+  .theme-dark .ws { --ws-blue: #4aa3ff; }
+
+  @media (max-width: 980px) {
+    .ws-hero, .ws-local, .ws-how, .ws-area { grid-template-columns: 1fr; }
+    .ws-packages, .ws-signs { grid-template-columns: 1fr 1fr; }
+    .ws-steps, .ws-why, .ws-trust { grid-template-columns: 1fr 1fr; }
+    .ws-cta { flex-direction: column; align-items: flex-start; margin: 0 16px 56px; }
+  }
+  @media (max-width: 640px) {
+    .ws-wrap { padding-top: 44px; padding-bottom: 44px; }
+    .ws-packages, .ws-signs, .ws-two, .ws-steps, .ws-why { grid-template-columns: 1fr; }
+    .ws-actions .button { flex: 1 1 100%; text-align: center; }
+  }
+</style>
