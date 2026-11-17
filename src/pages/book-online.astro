@@ -21,7 +21,7 @@ const canonical = "https://fatehplumelec.com/book-online.html";
   <main class="bk-wrap">
     <p class="eyebrow">Online booking</p>
     <h1 class="bk-title">Book a plumber or electrician online</h1>
-    <p class="bk-lead">Book your visit in Brampton or across the GTA in about a minute. Pick a 2-hour arrival window, tell us about the job, and add a photo if you have one.</p>
+    <p class="bk-lead">Online booking is for service calls only. For projects like restaurants, new homes or basements, <a href="contact.html">contact us for a free quote</a>.</p>
 
     <form id="bk-form" class="bk-card" novalidate>
       <!-- 1. Time -->
@@ -158,17 +158,11 @@ const canonical = "https://fatehplumelec.com/book-online.html";
             var b = document.createElement("button");
             b.type = "button"; b.className = "bk-day"; b.setAttribute("role", "radio");
             b.dataset.date = day.date;
-            // Fill bar: how many of the day's windows are booked (2 of 4 = half full)
-            var total = day.windows.length || 1;
-            var booked = day.windows.filter(function (w) { return w.booked; }).length;
+            // Days with no open time stay visible as "Full" (no fill bars: same view for everyone)
             var open = day.windows.some(function (w) { return w.available; });
-            var pct = open ? Math.round(booked / total * 100) : 100;
             b.innerHTML = "<small>" + d.toLocaleDateString("en-CA", { weekday: "short" }) + "</small><strong>" + d.getDate() + "</strong><small>" +
-              (open ? d.toLocaleDateString("en-CA", { month: "short" }) : "Full") + "</small>" +
-              '<span class="bk-fill" aria-hidden="true"><span style="width:' + pct + '%"></span></span>';
-            b.setAttribute("aria-label", d.toLocaleDateString("en-CA", { weekday: "long", month: "long", day: "numeric" }) + (open ? ", " + booked + " of " + total + " times booked" : ", full"));
-            if (pct >= 75) b.classList.add("bk-busy");
-            if (!open) { b.disabled = true; b.classList.add("bk-full"); }
+              (open ? d.toLocaleDateString("en-CA", { month: "short" }) : "Full") + "</small>";
+            if (!open) { b.disabled = true; b.classList.add("bk-full"); b.setAttribute("aria-label", d.toLocaleDateString("en-CA", { weekday: "long", month: "long", day: "numeric" }) + ", full"); }
             b.addEventListener("click", function () { pickDay(b); });
             daysEl.appendChild(b);
             if (i === firstOpen) pickDay(b);
@@ -398,6 +392,7 @@ const canonical = "https://fatehplumelec.com/book-online.html";
   .bk-wrap { max-width: 760px; margin: 0 auto; padding: 48px 20px 64px; }
   .bk-title { margin: 0 0 8px; font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.1; }
   .bk-lead { margin: 0 0 28px; color: var(--muted); font-size: 1.08rem; }
+  .bk-lead a { color: #2563eb; font-weight: 700; }
   .bk-card { padding: 8px 24px 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
   .bk-step { border: 0; border-bottom: 1px solid var(--line); margin: 0; padding: 22px 0; min-width: 0; }
   .bk-step legend { display: flex; align-items: center; gap: 10px; padding: 0; margin-bottom: 14px; font-weight: 800; font-size: 1.1rem; color: var(--ink); }
@@ -415,13 +410,7 @@ const canonical = "https://fatehplumelec.com/book-online.html";
   .bk-day { flex: 0 0 auto; display: grid; justify-items: center; min-width: 62px; padding: 8px 6px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); color: var(--ink); cursor: pointer; font: inherit; }
   .bk-day strong { font-size: 1.25rem; line-height: 1.2; }
   .bk-day small { color: var(--muted); font-size: .75rem; }
-  .bk-fill { display: block; width: 100%; height: 5px; margin-top: 5px; border-radius: 3px; background: #e5e7eb; overflow: hidden; }
-  .bk-fill span { display: block; height: 100%; background: #16a34a; }
-  .bk-day.bk-busy .bk-fill span { background: #f59e0b; }
   .bk-day.bk-full { cursor: not-allowed; opacity: .55; }
-  .bk-day.bk-full .bk-fill span { background: #dc2626; }
-  .bk-day[aria-checked="true"] .bk-fill { background: rgba(255,255,255,.35); }
-  .bk-day[aria-checked="true"] .bk-fill span { background: #fff; }
   .bk-slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .bk-slot { padding: 12px 8px; border: 1px solid var(--brand); border-radius: var(--radius); background: var(--white); color: var(--brand); font: inherit; font-weight: 700; cursor: pointer; }
   .bk-slot:disabled { border-color: var(--line); color: var(--muted); text-decoration: line-through; cursor: not-allowed; opacity: .6; }
