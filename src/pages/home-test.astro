@@ -1,0 +1,699 @@
+---
+// PRIVATE TEST COPY of the home page (noindex, not in sitemap/search/menu).
+// New blocks to compare: Option A (full-width video hero) and Option B (offer slideshow).
+// When approved, move the chosen blocks into index.astro and delete this file.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+const title = "Plumbing & Electrical Services in Brampton | Fateh";
+const description = "Plumbing & electrical services Brampton and GTA. Licensed and insured help for repairs, emergencies, upgrades, and free on-site assessment.";
+const canonical = "https://fatehplumelec.com/";
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  name: "Fateh Plumbing & Electric",
+  url: canonical,
+  telephone: "647-980-9211",
+  email: "info@fatehplumelec.com",
+  image: "https://fatehplumelec.com/assets/fateh-logo-clean.png",
+  logo: "https://fatehplumelec.com/assets/fateh-logo-clean.png",
+  priceRange: "$$",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "5 Loomis Rd",
+    addressLocality: "Brampton",
+    postalCode: "L7A 4X9",
+    addressRegion: "ON",
+    addressCountry: "CA",
+  },
+  areaServed: ["Brampton", "Mississauga", "Vaughan", "Caledon", "Etobicoke", "Markham", "Greater Toronto Area"],
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "00:00",
+      closes: "23:59",
+    },
+  ],
+  sameAs: [
+    "https://www.facebook.com/fatehplumbing",
+    "https://www.instagram.com/fateh_plumbing_electric",
+    "https://www.tiktok.com/@fateh.plumbing",
+  ],
+  serviceType: [
+    "Plumbing services",
+    "Electrical services",
+    "Emergency plumbing",
+    "Emergency electrical service",
+    "Drain cleaning",
+    "Water heater repair",
+    "Electrical panel upgrades",
+    "EV charger installation",
+    "Lighting installation",
+    "Commercial plumbing and electrical service",
+  ],
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Do you provide plumbing and electrical services in Brampton?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Fateh Plumbing & Electric provides plumbing and electrical services from Brampton across nearby GTA communities for homeowners, landlords, businesses, restaurants, and property managers.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I call for emergency plumbing or electrical service?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Call 647-980-9211 for urgent plumbing or electrical issues such as active leaks, sewer backups, burst pipes, sparks, burning smells, power loss, or repeated breaker trips.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Which plumbing services do you handle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Plumbing services include emergency plumbing, drain cleaning, leak detection, pipe repair, sewer line repair, water heater repair, toilet and faucet repair, sump pump repair, and commercial plumbing.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Which electrical services do you handle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Electrical services include emergency electrician calls, electrical repairs, panel upgrades, EV charger installation, lighting installation, wiring, smart home setup, and troubleshooting.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do you serve areas outside Brampton?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Fateh is based in Brampton and serves nearby GTA communities. Call with your location and the service needed so we can help with the right plumbing or electrical service.",
+      },
+    },
+  ],
+};
+---
+
+<BaseLayout title={"TEST – " + title} description={description} canonical={canonical} noindex={true}>
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: "Fateh Plumbing & Electric", url: "https://fatehplumelec.com/" })} />
+
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <div class="top-left">
+        <a class="top-email" href="mailto:info@fatehplumelec.com">✉ info@fatehplumelec.com</a>
+        <span>Licensed & Insured • Serving Brampton & GTA</span>
+      </div>
+      <a class="emergency-pill" href="tel:+16479809211">24/7 EMERGENCY SERVICE</a>
+    </div>
+  </div>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Fateh Plumbing & Electric home">
+      <img class="brand-logo" src="assets/fateh-logo-clean.png" alt="Fateh Plumbing & Electric logo" width="242" height="120">
+    </a>
+    <button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+      <span class="switch-track" aria-hidden="true"><span class="switch-knob"></span></span>
+    </button>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span aria-hidden="true">☰</span></button>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+      <div class="mega-wrap">
+        <button class="mega-trigger" type="button" aria-expanded="false">Plumbing</button>
+        <div class="mega-menu plumbing-menu">
+          <div><h2><span class="menu-icon">♨</span> Kitchen & Laundry</h2>
+            <a href="kitchen-sink-installation.html">Kitchen Sink Installation</a>
+            <a href="clogged-kitchen-sink.html">Clogged Kitchen Sink</a>
+            <a href="faucet-repair.html">Kitchen Faucet Repair</a>
+            <a href="garbage-disposal-repair.html">Garbage Disposal Repair</a>
+            <a href="laundry-tub-installation.html">Laundry Tub Installation</a>
+          </div>
+          <div><h2><span class="menu-icon">♧</span> Bathroom & Fixtures</h2>
+            <a href="bathroom-plumbing.html">Bathroom Plumbing</a>
+            <a href="toilet-repair.html">Toilet Repair</a>
+            <a href="bidet-installation.html">Bidet Installation</a>
+            <a href="faucet-repair.html">Faucet Repair</a>
+            <a href="clogged-toilet.html">Clogged Toilet</a>
+            <a href="clogged-sink.html">Clogged Sink</a>
+          </div>
+          <div><h2><span class="menu-icon">♢</span> Drains & Sewers</h2>
+            <a href="drain-cleaning.html">Drain Cleaning</a>
+            <a href="sewer-line-repair.html">Sewer Line Repair</a>
+            <a href="sewer-camera-inspection.html">Sewer Camera Inspection</a>
+            <a href="backwater-valve.html">Backwater Valve</a>
+            <a href="basement-plumbing.html">Basement Plumbing</a>
+            <a href="new-construction-plumbing.html">New Construction Plumbing</a>
+          </div>
+          <div><h2><span class="menu-icon">♢</span> Water & Systems</h2>
+            <a href="water-heater-repair.html">Water Heater Repair</a>
+            <a href="tankless-water-heater.html">Tankless Water Heater</a>
+            <a href="reverse-osmosis-system.html">RO System Installation</a>
+            <a href="sump-pump-repair.html">Sump Pump Repair</a>
+            <a href="water-softener.html">Water Softener</a>
+            <a href="water-service-upgrade.html">Water Service Upgrade</a>
+          </div>
+          <div><h2><span class="menu-icon danger-icon">△</span> Emergencies</h2>
+            <a href="emergency-plumber.html">Emergency Plumber</a>
+            <a href="leak-detection.html">Leak Detection</a>
+            <a href="pipe-repair.html">Pipe Repair</a>
+            <a href="burst-pipe-repair.html">Burst Pipe Repair</a>
+            <a href="main-drain-backup.html">Main Drain Backup</a>
+          </div>
+          <div class="mega-cta">
+            <img src="assets/service-photos/water-heater-repair-brampton.webp" alt="Water heater repair by a Brampton plumber" width="360" height="190" loading="lazy">
+            <h2>24/7 Emergency</h2>
+            <p>Burst pipe? Major leak? We respond across Brampton and the GTA.</p>
+            <a class="button" href="tel:+16479809211">647-980-9211</a>
+            <small>Available right now</small>
+          </div>
+        </div>
+      </div>
+      <div class="mega-wrap">
+        <button class="mega-trigger" type="button" aria-expanded="false">Electrical</button>
+                <div class="mega-menu electrical-menu">
+          <div><h2>Panels & Power</h2>
+            <a href="panel-upgrade.html">Panel Upgrade</a>
+            <a href="ev-charger-installation.html">EV Charger Installation</a>
+            <a href="generator-installation.html">Generator Installation</a>
+            <a href="subpanel-installation.html">Subpanel Installation</a>
+            <a href="surge-protection.html">Surge Protection</a>
+          </div>
+          <div><h2>Wiring & Repair</h2>
+            <a href="electrical-repair.html">Electrical Repair</a>
+            <a href="new-construction-electrician.html">New Construction Electrician</a>
+            <a href="house-rewiring.html">House Rewiring</a>
+            <a href="outlet-switch-install.html">Outlet &amp; Switch Install</a>
+          </div>
+          <div><h2>Lighting &amp; Smart Home</h2>
+            <a href="pot-light-installation.html">Pot Light Installation</a>
+            <a href="lighting-smart-home.html">Lighting Installation</a>
+            <a href="ceiling-fan-installation.html">Ceiling Fan Installation</a>
+            <a href="smart-home-wiring.html">Smart Home Wiring</a>
+            <a href="outdoor-lighting.html">Outdoor Lighting</a>
+            <a href="driveway-lighting.html">Driveway Lighting</a>
+          </div>
+          <div><h2>Emergency &amp; Safety</h2>
+            <a href="emergency-electrician.html">Emergency Electrician</a>
+            <a href="electrical-safety-inspection.html">Electrical Safety Inspection</a>
+            <a href="smoke-co-detectors.html">Smoke &amp; CO Detectors</a>
+            <a class="all-electrical-link" href="electrical-services.html">All Electrical Services →</a>
+          </div>
+          <div class="mega-cta">
+            <h2>Electrical Service</h2>
+            <p>Panel, EV, wiring, lighting and emergency electrical support.</p>
+            <a class="button" href="contact.html">Free On-Site Assessment</a>
+          </div>
+        </div>
+      </div>
+      <div class="mega-wrap">
+        <button class="mega-trigger" type="button" aria-expanded="false">Commercial</button>
+        <div class="mega-menu commercial-menu">
+          <div><h2>Restaurant & Food Service</h2><a href="restaurant-plumbing.html">Restaurant Plumbing</a><a href="commercial-kitchen-plumbing.html">Commercial Kitchen Plumbing</a><a href="grease-trap-cleaning.html">Grease Trap Cleaning</a><a href="grease-trap-installation.html">Grease Trap Installation</a></div>
+          <div><h2>Property & General</h2><a href="commercial.html">All Commercial Services</a><a href="maintenance-contracts.html">Maintenance Contracts</a><a href="property-management-plumbing.html">Property Management</a><a href="property-management-plumbing.html">Strip Plaza Plumbing</a></div>
+          <div><h2>Inspections & Diagnostics</h2><a href="sewer-camera-inspection.html">Sewage Line Inspection</a><a href="sewer-camera-inspection.html">Video Camera Inspection</a><a href="commercial.html">Industrial Plumbing</a></div>
+          <div><h2>Compliance & Safety</h2><a href="backflow-prevention.html">Annual Inspections</a><a href="backflow-prevention.html">Backflow Prevention</a><a href="commercial-emergency.html">24/7 Commercial Emergency</a></div>
+          <div class="mega-cta">
+            <h2>Commercial Service</h2>
+            <p>Restaurants, retail, condos and property managers. Same-day response across the GTA.</p>
+            <a class="button" href="tel:+16479809211">647-980-9211</a>
+            <small>Get a free assessment</small>
+          </div>
+        </div>
+      </div>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a class="call-link" href="tel:+16479809211">Call 647-980-9211</a>
+  </header>
+
+  <main class="hero home-hero">
+    <div class="hero-copy reveal-on-scroll reveal-left">
+      <p class="eyebrow">24/7 Emergency Service • Licensed & Insured</p>
+      <h1>Plumbing & electrical services in Brampton</h1>
+      <p>Fateh Plumbing & Electric helps homeowners, landlords, restaurants, small businesses, and property managers with urgent repairs, planned upgrades, and everyday service calls from Brampton across nearby GTA communities. Looking for a <a href="brampton-plumber.html" style="font-weight:700;color:#2563eb;">plumber in Brampton</a> or an <a href="brampton-electrician.html" style="font-weight:700;color:#dc2626;">electrician in Brampton</a>? Start with our local service pages.</p>
+      <div class="hero-actions reveal-on-scroll reveal-up">
+        <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
+        <a class="button secondary" href="book-online.html">Book online</a>
+      </div>
+      <div class="hero-proof-row stagger-group" aria-label="Service highlights">
+        <span>Brampton based</span>
+        <span>Plumbing and electrical</span>
+        <span>Residential and commercial</span>
+      </div>
+    </div>
+    <div class="motion-home-panel video-home-panel reveal-on-scroll reveal-right soft-depth" aria-label="3D new construction plumbing and electrical rough-in video">
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-label="3D home cutaway showing plumbing and electrical rough-in">
+        <source src="assets/house-cutaway.mp4" type="video/mp4">
+      </video>
+      <div class="video-shade" aria-hidden="true"></div>
+      <div class="video-watermark-cover" aria-hidden="true">
+        <strong>Plumbing & electrical support</strong>
+        <span>Repairs, upgrades and service for the systems your property depends on</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== TEST OPTION A: full-width video hero with text ===== -->
+  <section class="ht-video" aria-label="Fateh Plumbing and Electric">
+    <span class="ht-label">Test option A</span>
+    <video class="ht-video-bg" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+      <source src="assets/house-cutaway.mp4" type="video/mp4">
+    </video>
+    <div class="ht-video-shade" aria-hidden="true"></div>
+    <div class="ht-video-copy">
+      <p class="ht-kicker">Licensed &amp; insured · Brampton &amp; the GTA</p>
+      <h2>Plumbing &amp; electrical, done right the first time.</h2>
+      <p>Repairs, upgrades and 24/7 emergency service for homes and businesses. One team for both trades.</p>
+      <div class="ht-video-actions">
+        <a class="button" href="book-online.html">Book online</a>
+        <a class="button secondary" href="tel:+16479809211">Call 647-980-9211</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TEST OPTION B: offer slideshow (5 slides, change any time) ===== -->
+  <section class="ht-offers" aria-label="Current offers" aria-roledescription="carousel">
+    <span class="ht-label">Test option B · sample offers, edit later</span>
+    <div class="ht-track" id="ht-track">
+      <article class="ht-slide ht-s1">
+        <div class="ht-slide-copy">
+          <p class="ht-kicker">Boxing Day offer</p>
+          <h3>Water softener installation special</h3>
+          <p>Free water test plus a special Boxing Day price on a new water softener for your Brampton home.</p>
+          <a class="button" href="water-softener.html">See the offer</a>
+          <small>Sample offer. Conditions apply.</small>
+        </div>
+        <div class="ht-slide-art"><img src="assets/service-photos/reverse-osmosis-system-brampton.webp" alt="Water treatment system installed in a Brampton home" loading="lazy"></div>
+      </article>
+      <article class="ht-slide ht-s2">
+        <div class="ht-slide-copy">
+          <p class="ht-kicker">Limited time</p>
+          <h3>Toilet installation from $99</h3>
+          <p>Swap your old toilet for a new one. You supply the toilet, we install it clean and leak-free.</p>
+          <a class="button" href="book-online.html">Book now</a>
+          <small>Sample offer. Labour only, standard install. Conditions apply.</small>
+        </div>
+        <div class="ht-slide-art"><img src="assets/service-photos/bidet-installation-brampton.webp" alt="New toilet and bidet installation in a Brampton bathroom" loading="lazy"></div>
+      </article>
+      <article class="ht-slide ht-s3">
+        <div class="ht-slide-copy">
+          <p class="ht-kicker">Winter ready</p>
+          <h3>Water heater check-up</h3>
+          <p>No hot water or a noisy tank? Get it checked before it fails in the cold.</p>
+          <a class="button" href="water-heater-repair.html">Learn more</a>
+          <small>Sample offer. Conditions apply.</small>
+        </div>
+        <div class="ht-slide-art"><img src="assets/service-photos/water-heater-repair-brampton.webp" alt="Water heater repair in Brampton" loading="lazy"></div>
+      </article>
+      <article class="ht-slide ht-s4">
+        <div class="ht-slide-copy">
+          <p class="ht-kicker">Electrical upgrade</p>
+          <h3>Panel upgrade &amp; EV charger</h3>
+          <p>Upgrade your panel and add an EV charger in one visit. Free on-site assessment.</p>
+          <a class="button" href="panel-upgrade.html">Learn more</a>
+          <small>Sample offer. Conditions apply.</small>
+        </div>
+        <div class="ht-slide-art"><img src="assets/service-photos/electrical-panel-upgrade-brampton.webp" alt="Electrical panel upgrade in Brampton" loading="lazy"></div>
+      </article>
+      <article class="ht-slide ht-s5">
+        <div class="ht-slide-copy">
+          <p class="ht-kicker">Peace of mind</p>
+          <h3>Home maintenance plan</h3>
+          <p>Yearly plumbing and electrical check-ups, priority booking and member discounts.</p>
+          <a class="button" href="contact.html">Ask about the plan</a>
+          <small>Sample offer. Details coming soon.</small>
+        </div>
+        <div class="ht-slide-art"><img src="assets/service-photos/sewer-camera-inspection-brampton.webp" alt="Sewer camera inspection during a maintenance visit" loading="lazy"></div>
+      </article>
+    </div>
+    <button class="ht-arrow ht-prev" type="button" aria-label="Previous offer">‹</button>
+    <button class="ht-arrow ht-next" type="button" aria-label="Next offer">›</button>
+    <div class="ht-dots" id="ht-dots"></div>
+  </section>
+
+  <style is:inline>
+    .ht-label { position: absolute; z-index: 5; top: 12px; left: 12px; background: #facc15; color: #111; font: 800 .75rem/1 Inter, Arial, sans-serif; padding: 6px 10px; border-radius: 999px; }
+    .ht-video { position: relative; min-height: min(78vh, 680px); display: grid; align-items: center; overflow: hidden; background: #0b1220; }
+    .ht-video-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .ht-video-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,10,20,.88) 0%, rgba(5,10,20,.6) 45%, rgba(5,10,20,.15) 100%); }
+    .ht-video-copy { position: relative; z-index: 2; max-width: 640px; padding: 60px clamp(20px, 6vw, 100px); color: #fff; }
+    .ht-video-copy h2 { color: #fff; font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.05; margin: 10px 0 14px; }
+    .ht-video-copy p { color: #dbe6f5; font-size: 1.1rem; }
+    .ht-kicker { text-transform: uppercase; letter-spacing: .08em; font-weight: 800; font-size: .8rem; color: #facc15 !important; margin: 0; }
+    .ht-video-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+    .ht-video .button.secondary { background: rgba(255,255,255,.12); color: #fff; border-color: rgba(255,255,255,.5); }
+
+    .ht-offers { position: relative; max-width: 1280px; margin: 48px auto; padding: 0 clamp(12px, 3vw, 32px); }
+    .ht-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; border-radius: 22px; scrollbar-width: none; }
+    .ht-track::-webkit-scrollbar { display: none; }
+    .ht-slide { flex: 0 0 100%; scroll-snap-align: start; display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 24px; min-height: 380px; padding: 44px clamp(24px, 5vw, 64px); color: #fff; }
+    .ht-s1 { background: linear-gradient(120deg, #0b3d91, #1d6fe0); }
+    .ht-s2 { background: linear-gradient(120deg, #7f1d1d, #dc2626); }
+    .ht-s3 { background: linear-gradient(120deg, #7c2d12, #ea580c); }
+    .ht-s4 { background: linear-gradient(120deg, #111827, #374151); }
+    .ht-s5 { background: linear-gradient(120deg, #065f46, #16a34a); }
+    .ht-slide h3 { color: #fff; font-size: clamp(1.7rem, 4vw, 2.8rem); line-height: 1.08; margin: 8px 0 12px; }
+    .ht-slide p { color: rgba(255,255,255,.9); font-size: 1.05rem; }
+    .ht-slide .button { margin-top: 10px; background: #fff; color: #0f172a; border-color: #fff; }
+    .ht-slide small { display: block; margin-top: 12px; color: rgba(255,255,255,.75); font-size: .78rem; }
+    .ht-slide-art img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,.35); display: block; }
+    .ht-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92); color: #0f172a; font-size: 1.8rem; line-height: 1; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,.25); }
+    .ht-prev { left: clamp(18px, 3.5vw, 44px); }
+    .ht-next { right: clamp(18px, 3.5vw, 44px); }
+    .ht-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+    .ht-dots button { width: 10px; height: 10px; border-radius: 999px; border: 0; background: #cbd5e1; cursor: pointer; padding: 0; transition: width .2s; }
+    .ht-dots button[aria-current="true"] { width: 28px; background: #1d4ed8; }
+    @media (max-width: 760px) {
+      .ht-slide { grid-template-columns: 1fr; min-height: 0; padding: 32px 22px 28px; }
+      .ht-slide-art { order: -1; }
+      .ht-arrow { display: none; }
+      .ht-video-shade { background: linear-gradient(180deg, rgba(5,10,20,.55), rgba(5,10,20,.9)); }
+    }
+  </style>
+  <script is:inline>
+    (function () {
+      var track = document.getElementById("ht-track"), dotsBox = document.getElementById("ht-dots");
+      if (!track) return;
+      var slides = track.children, n = slides.length, i = 0, timer;
+      for (var k = 0; k < n; k++) (function (k) {
+        var b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", "Show offer " + (k + 1));
+        b.onclick = function () { go(k); restart(); }; dotsBox.appendChild(b);
+      })(k);
+      function paint() { for (var k = 0; k < n; k++) dotsBox.children[k].setAttribute("aria-current", k === i ? "true" : "false"); }
+      function go(k) { i = (k + n) % n; track.scrollTo({ left: track.clientWidth * i, behavior: "smooth" }); paint(); }
+      function restart() { clearInterval(timer); timer = setInterval(function () { go(i + 1); }, 5000); }
+      document.querySelector(".ht-prev").onclick = function () { go(i - 1); restart(); };
+      document.querySelector(".ht-next").onclick = function () { go(i + 1); restart(); };
+      track.addEventListener("scroll", function () { var k = Math.round(track.scrollLeft / track.clientWidth); if (k !== i) { i = k; paint(); } }, { passive: true });
+      track.addEventListener("mouseenter", function () { clearInterval(timer); });
+      track.addEventListener("mouseleave", restart);
+      paint(); restart();
+    })();
+  </script>
+
+
+  <section class="home-trust-banner stagger-group" aria-label="Why choose Fateh Plumbing and Electric">
+    <article class="trust-feature premium-card hover-lift">
+      <span class="trust-feature-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M12 7v5l3 2"></path><path d="M4 4l3 3"></path><path d="m20 4-3 3"></path></svg>
+      </span>
+      <div>
+        <h2>Same-day service</h2>
+        <p>Ready to help with repairs, often the day you call.</p>
+      </div>
+    </article>
+    <article class="trust-feature premium-card hover-lift">
+      <span class="trust-feature-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="m9 12 2 2 4-5"></path><path d="M7 21h10"></path></svg>
+      </span>
+      <div>
+        <h2>90-day warranty</h2>
+        <p>Workmanship support for completed service, repairs and installations.</p>
+      </div>
+    </article>
+    <article class="trust-feature premium-card hover-lift">
+      <span class="trust-feature-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"></rect><path d="M8 9h5"></path><path d="M8 13h8"></path><path d="M8 17h6"></path><path d="m17 7 2 2 3-4"></path></svg>
+      </span>
+      <div>
+        <h2>Licensed & insured</h2>
+        <p>Professional plumbing and electrical service for local properties.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="home-pathways">
+    <div class="section-heading reveal-on-scroll reveal-up">
+      <p class="eyebrow">Choose your service</p>
+      <h2>One local team for the work that keeps your property running</h2>
+    </div>
+    <div class="home-path-grid stagger-group">
+      <a class="home-path-card premium-card hover-lift" href="brampton-plumber.html">
+        <span class="hub-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 5v6a5 5 0 0 0 5 5h1"></path><path d="M19 19v-6a5 5 0 0 0-5-5h-1"></path><path d="M8 19h8"></path><path d="M8 5h8"></path></svg>
+        </span>
+        <strong>Plumbing</strong>
+        <span>Leaks, clogs, drains, water heaters, fixtures, pipes, sewer lines, sump pumps and urgent plumbing calls.</span>
+      </a>
+      <a class="home-path-card electrical premium-card hover-lift" href="brampton-electrician.html">
+        <span class="hub-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 9-13h-6z"></path></svg>
+        </span>
+        <strong>Electrical</strong>
+        <span>Panel upgrades, EV chargers, lighting, outlets, switches, wiring, smart home setup and emergency electrician service.</span>
+      </a>
+      <a class="home-path-card commercial premium-card hover-lift" href="commercial.html">
+        <span class="hub-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 21V5a2 2 0 0 1 2-2h8v18"></path><path d="M14 8h4a2 2 0 0 1 2 2v11"></path><path d="M8 7h2"></path><path d="M8 11h2"></path><path d="M8 15h2"></path></svg>
+        </span>
+        <strong>Commercial</strong>
+        <span>Restaurants, retail units, offices, managed properties, maintenance calls and commercial emergency support.</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="band service-hub-band home-service-band">
+    <div class="section-heading reveal-on-scroll reveal-up">
+      <p class="eyebrow">Most requested services</p>
+      <h2>Find the service you need</h2>
+    </div>
+    <div class="service-hub-grid stagger-group">
+      <article class="premium-card hover-lift">
+        <span class="hub-icon emergency-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 9-13h-6z"></path></svg></span>
+        <h3><a href="emergency-plumber.html">Emergency Plumber</a></h3>
+        <p>For burst pipes, active leaks, sewer backups, overflowing fixtures and plumbing problems that need quick help.</p>
+        <a class="text-link" href="emergency-plumber.html">Get emergency plumbing help</a>
+      </article>
+      <article class="premium-card hover-lift">
+        <span class="hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5v6a5 5 0 0 0 5 5h1"></path><path d="M19 19v-6a5 5 0 0 0-5-5h-1"></path><path d="M8 19h8"></path><path d="M8 5h8"></path></svg></span>
+        <h3><a href="drain-cleaning.html">Drain Cleaning</a></h3>
+        <p>For clogged sinks, slow tubs, kitchen drains, blocked toilets, floor drains and recurring main drain issues.</p>
+        <a class="text-link" href="drain-cleaning.html">Get drain cleaning help</a>
+      </article>
+      <article class="premium-card hover-lift">
+        <span class="hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"></rect><path d="M10 7h4"></path><path d="M12 12c1.4 1.5 2 2.5 2 3.7a2 2 0 0 1-4 0c0-1.2.6-2.2 2-3.7z"></path></svg></span>
+        <h3><a href="water-heater-repair.html">Water Heater Repair</a></h3>
+        <p>For no hot water, leaking tanks, inconsistent temperature, replacement planning and water heater connections.</p>
+        <a class="text-link" href="water-heater-repair.html">Get water heater help</a>
+      </article>
+      <article class="premium-card hover-lift">
+        <span class="hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3s6 6 6 10a6 6 0 0 1-12 0c0-4 6-10 6-10z"></path><circle cx="16.5" cy="16.5" r="3"></circle><path d="m19 19 2 2"></path></svg></span>
+        <h3><a href="leak-detection.html">Leak Detection</a></h3>
+        <p>For hidden leaks, ceiling stains, damp cabinets, running meters, wet walls and water damage concerns.</p>
+        <a class="text-link" href="leak-detection.html">Get leak detection help</a>
+      </article>
+      <article class="premium-card hover-lift">
+        <span class="hub-icon emergency-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 9-13h-6z"></path><path d="M4 4l2 2"></path><path d="M20 4l-2 2"></path></svg></span>
+        <h3><a href="emergency-electrician.html">Emergency Electrician</a></h3>
+        <p>For sparks, burning smells, power loss, breaker trouble, unsafe outlets and electrical concerns that should not wait.</p>
+        <a class="text-link" href="emergency-electrician.html">Get emergency electrical help</a>
+      </article>
+      <article class="premium-card hover-lift">
+        <span class="hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 7h6"></path><path d="M9 11h2"></path><path d="M13 11h2"></path><path d="M9 15h2"></path><path d="M13 15h2"></path></svg></span>
+        <h3><a href="panel-upgrade.html">Panel Upgrade</a></h3>
+        <p>For older panels, breaker issues, renovations, added capacity, heavy appliances and safer power distribution.</p>
+        <a class="text-link" href="panel-upgrade.html">Plan a panel upgrade</a>
+      </article>
+      <article class="premium-card hover-lift">
+        <span class="hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 2v8"></path><path d="M17 2v8"></path><path d="M5 10h14"></path><path d="M8 22h8a3 3 0 0 0 3-3v-5H5v5a3 3 0 0 0 3 3z"></path></svg></span>
+        <h3><a href="ev-charger-installation.html">EV Charger Installation</a></h3>
+        <p>For Level 2 home chargers, garage charging, breaker work, wiring, load checks and clean charger setup.</p>
+        <a class="text-link" href="ev-charger-installation.html">Plan EV charger installation</a>
+      </article>
+      <article class="premium-card hover-lift">
+        <span class="hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 0-4 12c1 1 1 2 1 4h6c0-2 0-3 1-4a7 7 0 0 0-4-12z"></path></svg></span>
+        <h3><a href="lighting-smart-home.html">Lighting & Smart Home</a></h3>
+        <p>For pot lights, fixtures, smart switches, dimmers, exterior lighting and connected home device setup.</p>
+        <a class="text-link" href="lighting-smart-home.html">Plan lighting service</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="photo-feature-section home-photo-feature">
+    <div class="photo-feature-copy reveal-on-scroll reveal-left">
+      <p class="eyebrow">Local help when timing matters</p>
+      <h2>Repairs, upgrades and service calls without confusion</h2>
+      <p>When water is leaking, power is acting up, or a planned upgrade needs a clean installation, the first step should be simple. Call Fateh, describe the issue, and get practical guidance for the next service visit.</p>
+      <ul class="check-list">
+        <li>Emergency plumbing and emergency electrical calls</li>
+        <li>Residential, rental, restaurant, retail and small business service</li>
+        <li>Practical options for repairs, upgrades, troubleshooting and installations</li>
+      </ul>
+      <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
+    </div>
+    <div class="photo-feature-media reveal-on-scroll reveal-right soft-depth">
+      <img src="assets/service-photos/electrical-panel-upgrade-brampton.webp" alt="Electrician checking electrical panel wiring during a home service call" width="760" height="560">
+    </div>
+  </section>
+
+  <section class="proof-band home-proof-band reveal-on-scroll reveal-up">
+    <div>
+      <p class="eyebrow">Why homeowners call Fateh</p>
+      <h2>Practical service for homes and businesses</h2>
+      <p>Fateh Plumbing & Electric is built for customers who want one dependable contact for plumbing, electrical and commercial service. The focus is clear communication, careful work, and practical service options for the problem at hand.</p>
+    </div>
+    <div class="proof-grid stagger-group">
+      <article class="premium-card hover-lift"><strong>One call, two trades</strong><span>Plumbing and electrical support under one local company.</span></article>
+      <article class="premium-card hover-lift"><strong>Emergency ready</strong><span>Help for active leaks, backups, sparks, power loss and other urgent issues.</span></article>
+      <article class="premium-card hover-lift"><strong>Nearby GTA coverage</strong><span>Brampton based, with service support for nearby communities.</span></article>
+    </div>
+  </section>
+
+  <section class="content home-area-section">
+    <div class="reveal-on-scroll reveal-left">
+      <p class="eyebrow">Service area</p>
+      <h2>Based in Brampton, serving nearby GTA communities</h2>
+      <p>Fateh Plumbing & Electric operates from Brampton and helps customers in nearby communities. Tell us your city, the issue, and whether the call is urgent so we can prepare for the right plumbing or electrical service.</p>
+      <p>Whether you need plumbing, electrical, or commercial service support, the first step is simple: call, describe the issue, and get clear guidance for your location.</p>
+    </div>
+    <aside class="quick-card area-card premium-card hover-lift reveal-on-scroll reveal-right">
+      <h2>Quick links</h2>
+      <div class="area-tags">
+        <a href="brampton-plumber.html">Brampton plumber</a>
+        <a href="brampton-electrician.html">Brampton electrician</a>
+        <a href="services.html">Plumbing services</a>
+        <a href="electrical-services.html">Electrical services</a>
+        <a href="commercial.html">Commercial service</a>
+      </div>
+    </aside>
+  </section>
+
+  <section class="review-showcase" aria-labelledby="home-review-title">
+    <div class="review-showcase-head reveal-on-scroll reveal-up">
+      <div>
+        <p class="eyebrow">Customer feedback</p>
+        <h2 id="home-review-title">What people are saying about Fateh Plumbing & Electric</h2>
+      </div>
+      <div class="review-score-card" aria-label="Google Business Profile rating">
+        <span class="review-source">Google Business Profile</span>
+        <strong>4.8/5</strong>
+        <span class="stars" aria-label="Five star rating">★★★★★</span>
+        <small>Based on 182 Google reviews</small>
+      </div>
+    </div>
+    <div class="review-carousel reveal-on-scroll reveal-up" data-review-carousel>
+      <button class="review-nav review-prev" type="button" data-review-prev aria-label="Previous review">‹</button>
+      <div class="review-window">
+        <div class="review-track">
+          <article class="review-card">
+            <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Kulvinder S</strong></div>
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <p>Mika and his apprentice worked through a difficult kitchen sink blockage, explained the extra work clearly, and left the sink draining properly.</p>
+            <small>Kitchen sink drain service</small>
+          </article>
+          <article class="review-card">
+            <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Massagical C</strong></div>
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <p>They fit the job into a busy schedule, cleared the kitchen sink drain, helped with a faucet, and gave detailed answers.</p>
+            <small>Drain cleaning and faucet help</small>
+          </article>
+          <article class="review-card">
+            <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Jennifer M</strong></div>
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <p>Late-night faucet trouble was handled quickly and professionally, giving the homeowner timely help when the repair felt stressful.</p>
+            <small>Emergency faucet repair</small>
+          </article>
+          <article class="review-card">
+            <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Dipesh S</strong></div>
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <p>The technician arrived on time, explained the installation process, finished carefully, and left the workspace clean.</p>
+            <small>Faucet installation</small>
+          </article>
+          <article class="review-card">
+            <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Ama A</strong></div>
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <p>After a kitchen countertop upgrade, Fateh connected and tested the sink and faucet quickly so the kitchen could be used again.</p>
+            <small>Kitchen sink connection</small>
+          </article>
+          <article class="review-card">
+            <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Nav</strong></div>
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <p>The technician arrived fast, completed the work cleanly, and the customer felt the price was reasonable.</p>
+            <small>Fast repair visit</small>
+          </article>
+          <article class="review-card">
+            <div class="review-card-head"><span class="google-word" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><strong>Mellad A</strong></div>
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <p>An urgent water leak received a quick response, honest communication, and a repair the customer described as perfectly fixed.</p>
+            <small>Urgent water leak</small>
+          </article>
+        </div>
+      </div>
+      <button class="review-nav review-next" type="button" data-review-next aria-label="Next review">›</button>
+      <div class="review-dots" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="photo-feature-section home-photo-feature home-photo-feature-alt">
+    <div class="photo-feature-media reveal-on-scroll reveal-left soft-depth">
+      <img src="assets/service-photos/sewer-line-repair-brampton.webp" alt="Sewer and pipe repair by a Brampton plumber" width="760" height="560">
+    </div>
+    <div class="photo-feature-copy reveal-on-scroll reveal-right">
+      <p class="eyebrow">Plumbing, electrical and commercial</p>
+      <h2>Tell us what is happening, and we will guide the next step</h2>
+      <p>Most calls start with a symptom: water on the floor, a clogged drain, no hot water, power loss, a tripping breaker, a panel upgrade, or a charger installation. Fateh helps narrow down the service needed and gives you a clear path forward.</p>
+      <ul class="check-list">
+        <li>Plumbing help for urgent repairs and water-related problems</li>
+        <li>Electrical help for safety concerns, upgrades and installations</li>
+        <li>Commercial help for restaurants, retail spaces and property managers</li>
+      </ul>
+      <a class="button secondary" href="services.html">Explore all services</a>
+    </div>
+  </section>
+
+  <!-- SEO content block (test): more depth, internal links and trusted outbound links -->
+  <section class="content ht-seo">
+    <p class="eyebrow">Plumber &amp; electrician in Brampton</p>
+    <h2>Plumbing and electrical services for Brampton homes and businesses</h2>
+    <p>Fateh Plumbing &amp; Electric is a local, licensed and insured trades company based in Brampton, Ontario. We handle both plumbing and electrical work, so one call covers a leaking pipe, a tripping breaker, a new water heater or a panel upgrade. We work in houses, townhomes, basement apartments, condos, restaurants, plazas and offices across Brampton and nearby GTA cities, with 24/7 emergency service when something can't wait.</p>
+    <div class="ht-seo-grid">
+      <div>
+        <h3>Plumbing services</h3>
+        <p>Our <a class="ht-p" href="brampton-plumber.html">Brampton plumbers</a> fix the problems homeowners call about most: <a class="ht-p" href="drain-cleaning.html">clogged drains</a>, <a class="ht-p" href="water-heater-repair.html">no hot water</a>, <a class="ht-p" href="burst-pipe-repair.html">burst pipes</a>, <a class="ht-p" href="toilet-repair.html">running toilets</a> and <a class="ht-p" href="sump-pump-repair.html">sump pump failures</a>. We also install <a class="ht-p" href="water-softener.html">water softeners</a>, <a class="ht-p" href="reverse-osmosis-system.html">reverse osmosis systems</a>, <a class="ht-p" href="tankless-water-heater.html">tankless water heaters</a> and <a class="ht-p" href="backwater-valve.html">backwater valves</a> to protect your basement. For sewer problems, a <a class="ht-p" href="sewer-camera-inspection.html">sewer camera inspection</a> shows exactly what's wrong before any digging.</p>
+      </div>
+      <div>
+        <h3>Electrical services</h3>
+        <p>Our <a class="ht-e" href="brampton-electrician.html">Brampton electricians</a> handle <a class="ht-e" href="panel-upgrade.html">panel upgrades</a>, <a class="ht-e" href="ev-charger-installation.html">EV charger installation</a>, <a class="ht-e" href="pot-light-installation.html">pot lights</a>, <a class="ht-e" href="electrical-repair.html">electrical repairs</a>, <a class="ht-e" href="house-rewiring.html">rewiring</a> and <a class="ht-e" href="smoke-co-detectors.html">smoke and CO detectors</a>. Electrical work is completed in line with Electrical Safety Authority (ESA) requirements, with permits and inspections where required. You can learn more about home electrical safety from the <a href="https://esasafe.com/" target="_blank" rel="noopener">Electrical Safety Authority</a>.</p>
+      </div>
+    </div>
+    <h3>Why local homeowners choose Fateh</h3>
+    <ul class="check-list">
+      <li>Plumbing and electrical in one visit, from one licensed and insured team</li>
+      <li>Free on-site assessment and a clear quote before work starts</li>
+      <li>24/7 emergency service across Brampton and the GTA</li>
+      <li>Clean, code-aware work on homes, rentals and commercial properties</li>
+    </ul>
+    <h3>Helpful local resources</h3>
+    <p>Planning a renovation, basement apartment or bigger upgrade? These official resources are a good place to start: <a href="https://www.brampton.ca/EN/residents/Building-Permits/homeowners" target="_blank" rel="noopener">City of Brampton building permits</a>, <a href="https://www.peelregion.ca/water/" target="_blank" rel="noopener">Region of Peel water information</a>, the <a href="https://www.ontario.ca/page/ontarios-building-code" target="_blank" rel="noopener">Ontario Building Code</a> and <a href="https://esasafe.com/" target="_blank" rel="noopener">ESA electrical safety</a>. We serve <a class="ht-p" href="mississauga-plumber.html">Mississauga</a>, <a class="ht-p" href="caledon-plumber.html">Caledon</a>, <a class="ht-p" href="vaughan-plumber.html">Vaughan</a>, <a class="ht-p" href="etobicoke-plumber.html">Etobicoke</a> and <a class="ht-p" href="markham-plumber.html">Markham</a> too.</p>
+  </section>
+  <style is:inline>
+    .ht-seo { display: block; max-width: 1180px; margin: 0 auto; }
+    .ht-seo h3 { margin-top: 22px; }
+    .ht-seo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .ht-seo a { font-weight: 800; color: #2563eb; }
+    .ht-seo a.ht-e { color: #dc2626; }
+    @media (max-width: 760px) { .ht-seo-grid { grid-template-columns: 1fr; } }
+  </style>
+
+  <section class="band faq">
+    <div class="section-heading reveal-on-scroll reveal-up">
+      <p class="eyebrow">Common questions</p>
+      <h2>Before you call Fateh Plumbing & Electric</h2>
+    </div>
+    <details><summary>Do you provide plumbing and electrical services in Brampton?</summary><p>Yes. Fateh Plumbing & Electric provides plumbing and electrical services from Brampton across nearby GTA communities for homeowners, landlords, restaurants, retail units, small businesses and property managers.</p></details>
+    <details><summary>Can I call for emergency plumbing or electrical service?</summary><p>Yes. Call 647-980-9211 for urgent issues such as active leaks, sewer backups, burst pipes, sparks, burning smells, power loss, unsafe outlets or repeated breaker trips.</p></details>
+    <details><summary>Which plumbing services do you handle?</summary><p>Fateh helps with emergency plumbing, drain cleaning, leak detection, pipe repair, sewer line repair, water heater repair, toilet and faucet repair, sump pump repair, fixture service and commercial plumbing.</p></details>
+    <details><summary>Which electrical services do you handle?</summary><p>Fateh helps with emergency electrician calls, electrical repairs, panel upgrades, EV charger installation, lighting installation, wiring, smart home setup, troubleshooting and safety checks.</p></details>
+    <details><summary>Do you serve areas outside Brampton?</summary><p>Yes. Fateh is based in Brampton and serves nearby GTA communities. Call with your location and the service needed so we can help with the right plumbing or electrical service.</p></details>
+  </section>
+  <SiteFooter />
+</BaseLayout>
