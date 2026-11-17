@@ -361,8 +361,8 @@ const canonical = "https://fatehplumelec.com/book-online.html";
             var done = document.getElementById("bk-done");
             form.querySelectorAll(".bk-step, .bk-submit, .bk-small").forEach(function (el) { el.hidden = true; });
             done.hidden = false;
-            done.innerHTML = "<strong>Booking received ✓</strong><p>" + (res.when || "") + "<br>" + (res.address || "") +
-              "</p><p>We sent a confirmation to your email and will text you to confirm. Questions? Call 647-980-9211.</p>";
+            done.innerHTML = "<strong>Request received ✓ (not confirmed yet)</strong><p>" + (res.when || "") + "<br>" + (res.address || "") +
+              "</p><p>We will review your request and confirm your visit by WhatsApp shortly. We also sent a copy of your request to your email. Questions? Call or text 647-980-9211.</p>";
             done.scrollIntoView({ behavior: "smooth", block: "center" });
             return;
           }

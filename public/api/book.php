@@ -86,16 +86,16 @@ bk_mail(BK_NOTIFY_TO, 'New online booking: ' . $when . ' – ' . $b['firstName']
 )), $photos, $b['email'], $ownerHtml);
 
 // Confirmation to the customer
-bk_mail($b['email'], 'Your service visit request – ' . BK_BUSINESS, implode("\n", [
+bk_mail($b['email'], 'We received your request (not confirmed yet) – ' . BK_BUSINESS, implode("\n", [
   'Hi ' . $b['firstName'] . ',',
   '',
-  'Thanks for booking with ' . BK_BUSINESS . '. We received your request:',
+  'Thanks for choosing ' . BK_BUSINESS . '. We received your service request. It is not confirmed yet.',
   '',
-  'When: ' . $when . ' (2-hour arrival window)',
+  'Requested time: ' . $when . ' (2-hour arrival window)',
   'Address: ' . $addr,
   'Service: ' . $b['service'],
   '',
-  'We will text you at ' . $b['phone'] . ' to confirm. If we are arriving earlier or later within the day, we will text you.',
+  'Next step: we will review your request and confirm your visit by WhatsApp at ' . $b['phone'] . ' shortly. If that time does not work for us, we will offer you a new time.',
   '',
   'Need to change something? Call or text ' . BK_PHONE . '.',
   '',
