@@ -203,8 +203,12 @@ function bk_slots(): array {
 
 function bk_create_event(array $b, DateTimeImmutable $s, DateTimeImmutable $e): array {
   $addr = $b['address'] . ($b['unit'] ? ', ' . $b['unit'] : '') . ', ' . $b['city'] . ', ON ' . $b['postal'];
+  // Our own event id (Google allows 0-9 + a-v), so the signed owner link can go in the description
+  $id = 'bk' . bin2hex(random_bytes(10));
+  try { $link = bk_action_url($id); } catch (Throwable $e) { $link = ''; }
   $desc = implode("\n", [
-    'Booked online (website form). Confirm with the customer by text.',
+    $link ? 'Open booking (Confirm / Change time / Decline): ' . $link : 'Booked online (website form). Confirm with the customer by text.',
+    $link ? 'Make changes with this link, not in the calendar, so the customer gets the WhatsApp message.' : '',
     '',
     'Customer: ' . $b['firstName'] . ' ' . $b['lastName'],
     'Phone: ' . $b['phone'],
@@ -218,6 +222,7 @@ function bk_create_event(array $b, DateTimeImmutable $s, DateTimeImmutable $e): 
     'Photos: ' . ($b['photoCount'] ? $b['photoCount'] . ' sent to ' . BK_NOTIFY_TO : 'none'),
   ]);
   $event = [
+    'id' => $id,
     'summary' => 'NEW: ' . $b['service'] . ' – ' . $b['firstName'] . ' ' . $b['lastName'] . ' (' . $b['city'] . ')',
     'location' => $addr,
     'description' => $desc,
@@ -229,7 +234,7 @@ function bk_create_event(array $b, DateTimeImmutable $s, DateTimeImmutable $e): 
       'bkFirst' => $b['firstName'], 'bkPhone' => $b['phone'], 'bkStatus' => 'new',
     ] + ($b['lat'] !== '' ? ['bkLat' => $b['lat'], 'bkLng' => $b['lng']] : [])],
   ];
-  if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_events.log', json_encode($event) . "\n", FILE_APPEND); return ['id' => 'mock-' . uniqid()]; }
+  if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_events.log', json_encode($event) . "\n", FILE_APPEND); return ['id' => $id]; }
   return bk_api('POST', 'https://www.googleapis.com/calendar/v3/calendars/' . rawurlencode(BK_CALENDAR_ID) . '/events', $event);
 }
 
