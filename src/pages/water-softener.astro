@@ -1,7 +1,7 @@
 ---
 // Water Softener Brampton — standalone service page (city water, well water, softener + RO combo).
 // No prices on this page (site rule): every package uses "Contact us for price".
-// Illustrations are inline SVG drawings (no stock or competitor photos). Swap in real install photos later.
+// Hero and package cards use photos from /assets/service-photos/ (no stock or competitor photos). Swap in real install photos later.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
@@ -67,6 +67,8 @@ const packages = [
       "Filter change schedule explained",
     ],
     art: "combo",
+    photo: "/assets/service-photos/water-softener-reverse-osmosis-combo-brampton.webp",
+    photoAlt: "Water softener with brine tank in a basement and an under-sink reverse osmosis system with storage tank and separate drinking water faucet",
     link: { href: "reverse-osmosis-system.html", text: "More about RO systems" },
   },
 ];
@@ -315,9 +317,6 @@ const schemas = [
               <div class={p.photo ? "ws-pkg-art ws-pkg-tall has-photo" : "ws-pkg-art ws-pkg-tall"} aria-hidden={p.photo ? undefined : "true"}>
                 {p.photo && (
                   <img src={p.photo} alt={p.photoAlt} width="960" height="600" loading="lazy" decoding="async">
-                )}
-                {p.art === "combo" && (
-                  <svg viewBox="0 0 160 110"><rect x="18" y="18" width="32" height="84" rx="14" fill="#2f80e8"/><rect x="16" y="8" width="36" height="16" rx="5" fill="#0f172a"/><rect x="74" y="64" width="72" height="38" rx="5" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/><rect x="82" y="72" width="10" height="26" rx="4" fill="#38bdf8"/><rect x="98" y="72" width="10" height="26" rx="4" fill="#38bdf8"/><rect x="114" y="72" width="10" height="26" rx="4" fill="#38bdf8"/><path d="M128 64 V36 H112 V42" stroke="#64748b" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="112" cy="48" r="3" fill="#38bdf8"/></svg>
                 )}
               </div>
               <h3>{p.title}</h3>
