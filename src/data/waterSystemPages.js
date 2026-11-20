@@ -140,7 +140,8 @@ export const waterSystemPages = {
     eyebrow: "Tankless water heater",
     h1: "Tankless Water Heater Brampton",
     heroText: "Thinking about a tankless water heater or having trouble with an on-demand hot water system? Fateh Plumbing & Electric helps Brampton customers compare, install, repair, and service tankless water heater systems.",
-    heroAlt: "Tankless water heater installed on a wall",
+    heroImage: "/assets/service-photos/tankless-water-heater-installation-brampton.webp",
+    heroAlt: "Wall-mounted tankless water heater with PVC venting, hot and cold water shut-off valves and gas line",
     proof: ["Tankless water heater", "On-demand hot water", "Installation and service"],
     intro: {
       eyebrow: "On-demand hot water",
