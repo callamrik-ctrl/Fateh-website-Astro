@@ -23,8 +23,15 @@ if (bk_rate_limited()) bk_json(['ok' => false, 'error' => 'Too many bookings fro
 $b['photoCount'] = count($photos);
 
 try {
-  // Someone may have taken this window a moment ago
-  if (bk_overlaps($start, $end, bk_busy($start->modify('-1 minute'), $end->modify('+1 minute')))) {
+  // Someone may have taken this window a moment ago, or it isn't one of the windows offered to customers
+  $day = $start->setTime(0, 0);
+  $dayBusy = bk_busy($day, $day->modify('+1 day'));
+  $free = [];
+  foreach (bk_day_windows($day) as [$hm]) {
+    [$ws, $we] = bk_window($day->format('Y-m-d'), $hm);
+    if (bk_window_bookable($ws) && !bk_overlaps($ws, $we, $dayBusy)) $free[] = $hm;
+  }
+  if (bk_overlaps($start, $end, $dayBusy) || !in_array($b['start'], bk_customer_shown($day, $free), true)) {
     bk_json(['ok' => false, 'error' => 'Sorry, that time was just taken. Please pick another window.', 'fields' => ['slot' => 'Just taken. Please pick another.'], 'refresh' => true], 409);
   }
   $event = bk_create_event($b, $start, $end);

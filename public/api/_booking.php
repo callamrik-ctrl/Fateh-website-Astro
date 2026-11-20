@@ -196,6 +196,77 @@ function bk_window_bookable(DateTimeImmutable $s, bool $owner = false): bool {
   return true;
 }
 
+// ---------------- Slots shown to customers ----------------
+// Customers see only a few open windows per day (Mon–Fri 2, Saturday 1) so the page
+// doesn't look empty. The rest show as taken. When a shown window gets booked, the
+// next hidden one opens. The owner page and Google Calendar always show real times.
+const BK_SHOW_WEEKDAY  = 2;
+const BK_SHOW_SATURDAY = 1;
+// Patterns Fateh picked by hand: date => windows shown first. Other weeks are made automatically.
+const BK_SHOW_FIXED = [
+  '2026-11-23' => ['09:00', '15:00'], '2026-11-24' => ['11:00', '17:00'], '2026-11-25' => ['13:00', '17:00'],
+  '2026-11-26' => ['09:00', '13:00'], '2026-11-27' => ['11:00', '15:00'], '2026-11-28' => ['09:00'],
+];
+
+/** Same "random" number every time for the same seed, so everyone sees the same page. */
+function bk_seed_int(string $seed, int $max): int {
+  return hexdec(substr(hash('sha256', 'bk-show|' . $seed), 0, 8)) % $max;
+}
+
+/** Seeded shuffle: same seed → same order. */
+function bk_seed_shuffle(array $list, string $seed): array {
+  usort($list, fn($a, $b) => strcmp(hash('sha256', $seed . '|' . $a), hash('sha256', $seed . '|' . $b)));
+  return $list;
+}
+
+/** Windows shown first on each day of one week, e.g. ['2026-11-30' => ['09:00', '15:00'], ...]. */
+function bk_week_pattern(DateTimeImmutable $monday): array {
+  $week = $monday->format('o-W');
+  $morning = ['09:00', '11:00']; $afternoon = ['13:00', '15:00'];
+  // Two weekdays get the evening 5–7 window (paired with a morning or afternoon one);
+  // the other three get one morning + one afternoon, so each day's two are at different times.
+  $eveningDays = array_slice(bk_seed_shuffle(['0', '1', '2', '3', '4'], "$week|eve"), 0, 2);
+  $out = [];
+  for ($i = 0; $i < 5; $i++) {
+    $date = $monday->modify("+$i days")->format('Y-m-d');
+    if (in_array((string) $i, $eveningDays, true)) {
+      $other = array_merge($morning, $afternoon)[bk_seed_int("$date|o", 4)];
+      $out[$date] = [$other, '17:00'];
+    } else {
+      $out[$date] = [$morning[bk_seed_int("$date|m", 2)], $afternoon[bk_seed_int("$date|a", 2)]];
+    }
+  }
+  // Saturday swaps between 9–11 and 11–1 each week
+  $out[$monday->modify('+5 days')->format('Y-m-d')] = [((int) $monday->format('W')) % 2 === 0 ? '09:00' : '11:00'];
+  return $out;
+}
+
+/** Order in which a day's windows are offered to customers: the day's picks, then the rest in a mixed order. */
+function bk_show_order(DateTimeImmutable $d): array {
+  $date = $d->format('Y-m-d');
+  $all = array_column(bk_day_windows($d), 0);
+  if (isset(BK_SHOW_FIXED[$date])) {
+    $first = BK_SHOW_FIXED[$date];
+  } else {
+    $monday = $d->modify('-' . ((int) $d->format('N') - 1) . ' days');
+    $first = bk_week_pattern($monday)[$date] ?? [];
+  }
+  $first = array_values(array_intersect($first, $all));
+  $rest = bk_seed_shuffle(array_values(array_diff($all, $first)), "$date|rest");
+  return array_merge($first, $rest);
+}
+
+/** Start times ("HH:MM") a customer can book on this day, given the real free windows. */
+function bk_customer_shown(DateTimeImmutable $d, array $freeStarts): array {
+  $limit = (int) $d->format('N') === 6 ? BK_SHOW_SATURDAY : BK_SHOW_WEEKDAY;
+  $shown = [];
+  foreach (bk_show_order($d) as $hm) {
+    if (count($shown) >= $limit) break;
+    if (in_array($hm, $freeStarts, true)) $shown[] = $hm;
+  }
+  return $shown;
+}
+
 function bk_slots(bool $owner = false): array {
   $start = (new DateTimeImmutable('now', bk_tz()))->setTime(0, 0);
   $end = $start->modify('+' . (BK_DAYS_AHEAD + 1) . ' days');
@@ -210,6 +281,15 @@ function bk_slots(bool $owner = false): array {
       [$s, $e] = bk_window($d->format('Y-m-d'), $hm);
       $booked = bk_overlaps($s, $e, $busy);
       $wins[] = ['start' => $hm, 'label' => $label, 'available' => bk_window_bookable($s, $owner) && !$booked, 'booked' => $booked];
+    }
+    if (!$owner) {
+      // Customer page: only a few of the free windows are offered; the others look taken.
+      $free = array_column(array_filter($wins, fn($w) => $w['available']), 'start');
+      $shown = bk_customer_shown($d, $free);
+      foreach ($wins as &$w) {
+        if ($w['available'] && !in_array($w['start'], $shown, true)) { $w['available'] = false; $w['booked'] = true; }
+      }
+      unset($w);
     }
     // Every open day (Mon–Sat) is listed (full days too), so the page can show how busy each day is.
     // Days that are simply too soon (12-hour notice) are left out instead of looking "full".
