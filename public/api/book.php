@@ -40,22 +40,26 @@ $addr = $b['address'] . ($b['unit'] ? ', ' . $b['unit'] : '') . ', ' . $b['city'
 $manage = '';
 try { $manage = bk_action_url((string) ($event['id'] ?? '')); } catch (Throwable $e) { error_log('[booking] link: ' . $e->getMessage()); }
 
-// WhatsApp alert to the business number. A failed alert does not undo the booking.
-if ($manage && BK_WA_TEMPLATES['owner_alert'] !== '') {
-  try {
-    bk_whatsapp(BK_OWNER_WHATSAPP, 'owner_alert', [$b['firstName'] . ' ' . $b['lastName'], $b['phone'], $when, $addr, $b['service'], bk_link_code((string) $event['id'])]);
-  } catch (Throwable $e) { error_log('[booking] owner alert: ' . $e->getMessage()); }
-}
-
-// SMS alert with the link (works without Meta approval). A failed SMS does not undo the booking,
-// but the reason is shown at the top of the owner email.
+// WhatsApp alert to the business number (with the "Open booking" button).
+// If WhatsApp can't be sent, the old SMS alert with the link goes out instead.
+// A failed alert does not undo the booking; the reason is shown at the top of the owner email.
 $smsNote = '';
 if ($manage) {
+  $waError = '';
   try {
-    bk_sms(BK_OWNER_SMS, 'New booking: ' . $b['firstName'] . ' ' . $b['lastName'] . ', ' . str_replace('–', '-', $when) . ', ' . $b['service'] . ' (' . $b['city'] . '). Confirm / change / decline: ' . $manage);
+    bk_whatsapp(BK_OWNER_WHATSAPP, 'owner_alert', [$b['firstName'] . ' ' . $b['lastName'], $b['phone'], $when, $addr, $b['service'], bk_link_code((string) $event['id'])]);
   } catch (Throwable $e) {
-    error_log('[booking] owner sms: ' . $e->getMessage());
-    $smsNote = 'Note: the SMS alert to ' . BK_OWNER_SMS . ' failed: ' . $e->getMessage();
+    $waError = $e->getMessage();
+    error_log('[booking] owner whatsapp: ' . $waError);
+  }
+  if ($waError !== '') {
+    try {
+      bk_sms(BK_OWNER_SMS, 'New booking: ' . $b['firstName'] . ' ' . $b['lastName'] . ', ' . str_replace('–', '-', $when) . ', ' . $b['service'] . ' (' . $b['city'] . '). Confirm / change / decline: ' . $manage);
+      $smsNote = 'Note: the WhatsApp alert failed (' . $waError . '), so an SMS was sent to ' . BK_OWNER_SMS . ' instead.';
+    } catch (Throwable $e) {
+      error_log('[booking] owner sms: ' . $e->getMessage());
+      $smsNote = 'Note: the WhatsApp alert (' . $waError . ') and the SMS alert to ' . BK_OWNER_SMS . ' both failed: ' . $e->getMessage();
+    }
   }
 }
 

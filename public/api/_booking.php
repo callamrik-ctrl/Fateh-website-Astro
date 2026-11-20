@@ -37,11 +37,11 @@ const BK_WA_TEMPLATES = [
   'rescheduled' => 'HXc8a50436ce719284dfc4caaaa14b3174', // booking_rescheduled_v2 {{1}} name {{2}} date {{3}} time {{4}} address
   'cancelled'   => 'HXf45930ac0ea7a14a9b0124d054f3ae47', // booking_cancelled_v2   {{1}} name {{2}} date {{3}} time
   // owner_booking_alert: new-booking alert to the owner's business WhatsApp, with an "Open booking" button.
-  // {{1}} customer {{2}} phone {{3}} when {{4}} address {{5}} service {{6}} link code. Paste its HX… SID here once approved.
-  'owner_alert' => '',
+  // {{1}} customer {{2}} phone {{3}} when {{4}} address {{5}} service {{6}} link code. Approved Nov 2026.
+  'owner_alert' => 'HX228761227d133ac8d5acc976e73df131',
 ];
 const BK_OWNER_WHATSAPP = '647-980-9211'; // business WhatsApp that gets the new-booking alert
-const BK_OWNER_SMS      = '647-812-1111'; // phone that gets the new-booking SMS with the link
+const BK_OWNER_SMS      = '647-812-1111'; // backup: gets the new-booking SMS only if the WhatsApp alert fails
 const BK_HOME_ADDRESS   = '18 Donald Stewart Rd, Brampton, ON'; // distance on the owner page is measured from here
 
 date_default_timezone_set(BK_TZ);
