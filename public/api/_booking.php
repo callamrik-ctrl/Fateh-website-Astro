@@ -12,7 +12,9 @@ const BK_NOTIFY_TO   = 'info@fatehplumelec.com';   // where new-booking emails g
 const BK_FROM        = 'info@fatehplumelec.com';
 const BK_BUSINESS    = 'Fateh Plumbing & Electric';
 const BK_PHONE       = '647-980-9211';
-const BK_WINDOWS     = [['10:00', '10 AM–12 PM'], ['12:00', '12–2 PM'], ['14:00', '2–4 PM'], ['16:00', '4–6 PM']];
+// Mon–Fri: all five 2-hour windows. Saturday: only the morning ones (BK_SAT_WINDOWS). Sunday: closed.
+const BK_WINDOWS     = [['09:00', '9–11 AM'], ['11:00', '11 AM–1 PM'], ['13:00', '1–3 PM'], ['15:00', '3–5 PM'], ['17:00', '5–7 PM']];
+const BK_SAT_WINDOWS = ['09:00', '11:00'];
 const BK_WINDOW_HOURS = 2;
 const BK_LEAD_HOURS   = 12;   // same as the Google booking page
 const BK_DAYS_AHEAD   = 14;
@@ -163,10 +165,20 @@ function bk_overlaps(DateTimeImmutable $s, DateTimeImmutable $e, array $busy): b
   return false;
 }
 
-/** Window start for a date + "HH:MM", or null if that window does not exist. */
+/** Windows offered on a given day: Mon–Fri all, Saturday morning only, Sunday none. */
+function bk_day_windows(DateTimeImmutable $d): array {
+  $n = (int) $d->format('N');
+  if ($n === 7) return [];
+  if ($n === 6) return array_values(array_filter(BK_WINDOWS, fn($w) => in_array($w[0], BK_SAT_WINDOWS, true)));
+  return BK_WINDOWS;
+}
+
+/** Window start for a date + "HH:MM", or null if that window does not exist on that day. */
 function bk_window(string $date, string $start): ?array {
   if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) return null;
-  foreach (BK_WINDOWS as [$hm, $label]) {
+  $day = DateTimeImmutable::createFromFormat('Y-m-d H:i', "$date 00:00", bk_tz());
+  if (!$day) return null;
+  foreach (bk_day_windows($day) as [$hm, $label]) {
     if ($hm !== $start) continue;
     $s = DateTimeImmutable::createFromFormat('Y-m-d H:i', "$date $hm", bk_tz());
     if (!$s) return null;
@@ -178,7 +190,7 @@ function bk_window(string $date, string $start): ?array {
 /** $owner = true (owner "Change time" page): skip the 12-hour notice, so any window that has not started yet is offered. */
 function bk_window_bookable(DateTimeImmutable $s, bool $owner = false): bool {
   $now = new DateTimeImmutable('now', bk_tz());
-  if ((int) $s->format('N') >= 6) return false;
+  if (!in_array($s->format('H:i'), array_column(bk_day_windows($s), 0), true)) return false;
   if ($s < ($owner ? $now : $now->modify('+' . BK_LEAD_HOURS . ' hours'))) return false;
   if ($s > $now->setTime(0, 0)->modify('+' . (BK_DAYS_AHEAD + 1) . ' days')) return false;
   return true;
@@ -191,17 +203,18 @@ function bk_slots(bool $owner = false): array {
   $days = [];
   for ($i = 0; $i <= BK_DAYS_AHEAD; $i++) {
     $d = $start->modify("+$i days");
-    if ((int) $d->format('N') >= 6) continue;
+    $dayWins = bk_day_windows($d);
+    if (!$dayWins) continue;
     $wins = [];
-    foreach (BK_WINDOWS as [$hm, $label]) {
+    foreach ($dayWins as [$hm, $label]) {
       [$s, $e] = bk_window($d->format('Y-m-d'), $hm);
       $booked = bk_overlaps($s, $e, $busy);
       $wins[] = ['start' => $hm, 'label' => $label, 'available' => bk_window_bookable($s, $owner) && !$booked, 'booked' => $booked];
     }
-    // Every weekday is listed (full days too), so the page can show how busy each day is.
+    // Every open day (Mon–Sat) is listed (full days too), so the page can show how busy each day is.
     // Days that are simply too soon (12-hour notice) are left out instead of looking "full".
     $timeOk = false;
-    foreach (BK_WINDOWS as [$hm]) if (bk_window_bookable(bk_window($d->format('Y-m-d'), $hm)[0], $owner)) $timeOk = true;
+    foreach ($dayWins as [$hm]) if (bk_window_bookable(bk_window($d->format('Y-m-d'), $hm)[0], $owner)) $timeOk = true;
     if ($timeOk) $days[] = ['date' => $d->format('Y-m-d'), 'windows' => $wins];
   }
   return $days;
@@ -479,7 +492,7 @@ function bk_event_customer(array $ev): array {
   return [$first ?: 'there', $phone];
 }
 
-/** WhatsApp-friendly date + time for an event start, e.g. ["Wed, Nov 18", "10 AM–12 PM"] */
+/** WhatsApp-friendly date + time for an event start, e.g. ["Wed, Nov 18", "9–11 AM"] */
 function bk_when_parts(DateTimeImmutable $s): array {
   $time = $s->format('g:i A');
   foreach (BK_WINDOWS as [$hm, $label]) if ($hm === $s->format('H:i')) $time = $label;
