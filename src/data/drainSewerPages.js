@@ -372,8 +372,8 @@ export const drainSewerPages = {
     eyebrow: "New construction plumbing",
     h1: "New Construction Plumbing Brampton",
     heroText: "New construction plumbing in Brampton for new homes, additions, basement builds, and commercial units. Fateh Plumbing & Electric handles underground plumbing, drain and vent rough-in, water service, and final fixture installation, and works around your build schedule and inspections.",
-    heroImage: "assets/contractor-van-side.png",
-    heroAlt: "Fateh Plumbing & Electric service van for new construction plumbing in Brampton",
+    heroImage: "/assets/service-photos/new-construction-plumbing-rough-in-brampton.webp",
+    heroAlt: "Plumber checking a pressure test gauge on new construction drain, vent and PEX water rough-in plumbing before inspection",
     proof: ["Underground and rough-in plumbing", "Residential and commercial builds", "Inspection-ready work"],
     trust: [
       { title: "Build-stage planning", text: "We plan drains, vents, and water lines around your drawings before concrete, framing, and drywall close things in." },
