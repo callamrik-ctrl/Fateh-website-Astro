@@ -175,15 +175,16 @@ function bk_window(string $date, string $start): ?array {
   return null;
 }
 
-function bk_window_bookable(DateTimeImmutable $s): bool {
+/** $owner = true (owner "Change time" page): skip the 12-hour notice, so any window that has not started yet is offered. */
+function bk_window_bookable(DateTimeImmutable $s, bool $owner = false): bool {
   $now = new DateTimeImmutable('now', bk_tz());
   if ((int) $s->format('N') >= 6) return false;
-  if ($s < $now->modify('+' . BK_LEAD_HOURS . ' hours')) return false;
+  if ($s < ($owner ? $now : $now->modify('+' . BK_LEAD_HOURS . ' hours'))) return false;
   if ($s > $now->setTime(0, 0)->modify('+' . (BK_DAYS_AHEAD + 1) . ' days')) return false;
   return true;
 }
 
-function bk_slots(): array {
+function bk_slots(bool $owner = false): array {
   $start = (new DateTimeImmutable('now', bk_tz()))->setTime(0, 0);
   $end = $start->modify('+' . (BK_DAYS_AHEAD + 1) . ' days');
   $busy = bk_busy($start, $end);
@@ -195,12 +196,12 @@ function bk_slots(): array {
     foreach (BK_WINDOWS as [$hm, $label]) {
       [$s, $e] = bk_window($d->format('Y-m-d'), $hm);
       $booked = bk_overlaps($s, $e, $busy);
-      $wins[] = ['start' => $hm, 'label' => $label, 'available' => bk_window_bookable($s) && !$booked, 'booked' => $booked];
+      $wins[] = ['start' => $hm, 'label' => $label, 'available' => bk_window_bookable($s, $owner) && !$booked, 'booked' => $booked];
     }
     // Every weekday is listed (full days too), so the page can show how busy each day is.
     // Days that are simply too soon (12-hour notice) are left out instead of looking "full".
     $timeOk = false;
-    foreach (BK_WINDOWS as [$hm]) if (bk_window_bookable(bk_window($d->format('Y-m-d'), $hm)[0])) $timeOk = true;
+    foreach (BK_WINDOWS as [$hm]) if (bk_window_bookable(bk_window($d->format('Y-m-d'), $hm)[0], $owner)) $timeOk = true;
     if ($timeOk) $days[] = ['date' => $d->format('Y-m-d'), 'windows' => $wins];
   }
   return $days;

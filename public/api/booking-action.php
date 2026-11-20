@@ -118,6 +118,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
       $win = bk_window((string) ($_POST['date'] ?? ''), (string) ($_POST['start'] ?? ''));
       if (!$win) ba_page('Please pick a new time.', '<p><a href="' . ba_h($self) . '&a=reschedule">Go back</a></p>', 'bad');
       [$ns, $ne] = $win;
+      if (!bk_window_bookable($ns, true)) ba_page('That time has already passed. Pick another one.', '<p><a href="' . ba_h($self) . '&a=reschedule">Go back</a></p>', 'bad');
       if (bk_overlaps($ns, $ne, bk_busy($ns->modify('-1 minute'), $ne->modify('+1 minute')))) {
         ba_page('That time is already taken. Pick another one.', '<p><a href="' . ba_h($self) . '&a=reschedule">Go back</a></p>', 'bad');
       }
@@ -138,7 +139,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 
 // ---- Pick a new time ----
 if ($action === 'reschedule') {
-  try { $days = bk_slots(); } catch (Throwable $e) { $days = []; }
+  // Owner view: also shows short-notice open times (e.g. later today), not only 12+ hours ahead
+  try { $days = bk_slots(true); } catch (Throwable $e) { $days = []; }
   $opts = '';
   foreach ($days as $d) {
     $label = (new DateTimeImmutable($d['date'], bk_tz()))->format('D, M j');
