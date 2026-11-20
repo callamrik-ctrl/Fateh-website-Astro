@@ -308,9 +308,9 @@ const schemas = [
           {packages.map((p) => (
             <article id={p.id} class={p.featured ? "ws-pkg is-featured" : "ws-pkg"}>
               <span class="ws-tag">{p.tag}</span>
-              <div class="ws-pkg-art" aria-hidden="true">
+              <div class={p.art === "city" ? "ws-pkg-art has-photo" : "ws-pkg-art"} aria-hidden={p.art === "city" ? undefined : "true"}>
                 {p.art === "city" && (
-                  <svg viewBox="0 0 160 110"><rect x="40" y="18" width="34" height="84" rx="15" fill="#2f80e8"/><rect x="38" y="8" width="38" height="16" rx="5" fill="#0f172a"/><rect x="88" y="52" width="40" height="50" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/><path d="M74 60 C 82 60 82 56 88 56" stroke="#94a3b8" stroke-width="3" fill="none"/></svg>
+                  <img src="/assets/service-photos/city-water-softener-brampton.webp" alt="City water softener with mineral tank and brine tank installed on copper water lines in a basement" width="900" height="409" loading="lazy" decoding="async">
                 )}
                 {p.art === "well" && (
                   <svg viewBox="0 0 160 110"><rect x="14" y="30" width="28" height="72" rx="12" fill="#c2410c"/><rect x="12" y="20" width="32" height="14" rx="5" fill="#0f172a"/><rect x="58" y="18" width="32" height="84" rx="14" fill="#2f80e8"/><rect x="56" y="8" width="36" height="16" rx="5" fill="#0f172a"/><rect x="104" y="52" width="40" height="50" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/><path d="M42 40 H58 M90 60 C 98 60 98 56 104 56" stroke="#94a3b8" stroke-width="3" fill="none"/></svg>
