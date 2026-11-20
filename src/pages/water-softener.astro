@@ -34,6 +34,8 @@ const packages = [
       "Settings dialed in for your water hardness",
     ],
     art: "city",
+    photo: "/assets/service-photos/city-water-softener-brampton.webp",
+    photoAlt: "City water softener with mineral tank and brine tank installed on copper water lines in a basement",
   },
   {
     id: "well",
@@ -48,6 +50,8 @@ const packages = [
       "Optional UV disinfection for well water",
     ],
     art: "well",
+    photo: "/assets/service-photos/well-water-treatment-system-caledon.webp",
+    photoAlt: "Well water treatment system with sediment filter, iron and sulphur filter, water softener, brine tank and UV disinfection unit",
     featured: true,
   },
   {
@@ -308,12 +312,9 @@ const schemas = [
           {packages.map((p) => (
             <article id={p.id} class={p.featured ? "ws-pkg is-featured" : "ws-pkg"}>
               <span class="ws-tag">{p.tag}</span>
-              <div class={p.art === "city" ? "ws-pkg-art ws-pkg-tall has-photo" : "ws-pkg-art ws-pkg-tall"} aria-hidden={p.art === "city" ? undefined : "true"}>
-                {p.art === "city" && (
-                  <img src="/assets/service-photos/city-water-softener-brampton.webp" alt="City water softener with mineral tank and brine tank installed on copper water lines in a basement" width="960" height="600" loading="lazy" decoding="async">
-                )}
-                {p.art === "well" && (
-                  <svg viewBox="0 0 160 110"><rect x="14" y="30" width="28" height="72" rx="12" fill="#c2410c"/><rect x="12" y="20" width="32" height="14" rx="5" fill="#0f172a"/><rect x="58" y="18" width="32" height="84" rx="14" fill="#2f80e8"/><rect x="56" y="8" width="36" height="16" rx="5" fill="#0f172a"/><rect x="104" y="52" width="40" height="50" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/><path d="M42 40 H58 M90 60 C 98 60 98 56 104 56" stroke="#94a3b8" stroke-width="3" fill="none"/></svg>
+              <div class={p.photo ? "ws-pkg-art ws-pkg-tall has-photo" : "ws-pkg-art ws-pkg-tall"} aria-hidden={p.photo ? undefined : "true"}>
+                {p.photo && (
+                  <img src={p.photo} alt={p.photoAlt} width="960" height="600" loading="lazy" decoding="async">
                 )}
                 {p.art === "combo" && (
                   <svg viewBox="0 0 160 110"><rect x="18" y="18" width="32" height="84" rx="14" fill="#2f80e8"/><rect x="16" y="8" width="36" height="16" rx="5" fill="#0f172a"/><rect x="74" y="64" width="72" height="38" rx="5" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/><rect x="82" y="72" width="10" height="26" rx="4" fill="#38bdf8"/><rect x="98" y="72" width="10" height="26" rx="4" fill="#38bdf8"/><rect x="114" y="72" width="10" height="26" rx="4" fill="#38bdf8"/><path d="M128 64 V36 H112 V42" stroke="#64748b" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="112" cy="48" r="3" fill="#38bdf8"/></svg>
