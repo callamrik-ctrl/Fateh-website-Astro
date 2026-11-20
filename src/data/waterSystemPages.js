@@ -297,7 +297,8 @@ export const waterSystemPages = {
     eyebrow: "Sump pump repair",
     h1: "Sump Pump Repair Brampton",
     heroText: "A failed sump pump can turn basement moisture into a serious flood risk. Fateh Plumbing & Electric helps with sump pump repair, replacement planning, discharge concerns, and backup pump options in Brampton.",
-    heroAlt: "Basement sump pump and plumbing service",
+    heroImage: "/assets/service-photos/sump-pump-repair-brampton.webp",
+    heroAlt: "Submersible sump pump with float switch and PVC discharge pipe in a basement sump pit",
     proof: ["Sump pump repair", "Basement flood prevention", "Battery backup planning"],
     intro: {
       eyebrow: "Basement water protection",
