@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "./SiteHeader.astro";
 import SiteFooter from "./SiteFooter.astro";
 import LocalDetails from "./LocalDetails.astro";
+import ServiceExtras from "./ServiceExtras.astro";
 
 const {
   title,
@@ -260,6 +261,7 @@ const faqSchema = {
     </div>
   </section>
 
+  <ServiceExtras canonical={canonical} />
   <LocalDetails local={local} />
 
   <section class="brampton-cta-band">

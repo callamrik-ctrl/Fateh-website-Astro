@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import Credentials from "../components/Credentials.astro";
 import BusinessMap from "../components/BusinessMap.astro";
 
 const title = "Contact Us | Fateh Plumbing & Electric";
@@ -159,6 +160,7 @@ const faqSchema = {
         <p><strong>Email:</strong> <a href="mailto:info@fatehplumelec.com">info@fatehplumelec.com</a></p>
         <p><strong>Address:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Fateh+Plumbing+%26+Electric%2C+5+Loomis+Rd%2C+Brampton%2C+ON+L7A+4X9" target="_blank" rel="noopener">5 Loomis Rd, Brampton, ON L7A 4X9</a></p>
         <p><strong>Hours:</strong> Open 24 hours, 7 days a week</p>
+        <p><strong>Languages:</strong> English, Punjabi &amp; Hindi</p>
       </div>
       <BusinessMap showAddress={false} />
       <p>If water is actively leaking, shut off the nearest fixture valve or main water valve if it is safe to do so. For electrical emergencies, avoid touching unsafe wiring or sparking fixtures.</p>
@@ -178,6 +180,8 @@ const faqSchema = {
       </div>
     </aside>
   </section>
+
+  <Credentials />
 
   <section class="band">
     <div class="section-heading">

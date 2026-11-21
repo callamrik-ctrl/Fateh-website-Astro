@@ -1987,3 +1987,14 @@ a { text-decoration: none; }
   text-decoration-thickness: .08em;
   text-underline-offset: .18em;
 }
+
+/* Credentials strip + service extras (Nov 21, 2026) */
+.credentials-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; width: min(1180px, calc(100% - 32px)); margin: 22px auto; }
+.credential { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel, #fff); }
+.credential-icon { display: grid; place-items: center; flex: 0 0 38px; height: 38px; border-radius: 50%; background: rgba(37, 99, 235, .1); color: #2563eb; font-weight: 900; }
+.credential strong { display: block; color: var(--ink); }
+.credential small { display: block; color: var(--muted); }
+.theme-dark .credential { background: #111827; }
+.service-extras { width: min(1180px, calc(100% - 32px)); margin: 8px auto 22px; padding: 16px 20px; border: 1px solid var(--line); border-radius: var(--radius); }
+.service-extras p { margin: 6px 0; }
+@media (max-width: 760px) { .credentials-strip { grid-template-columns: 1fr; } }

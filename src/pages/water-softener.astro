@@ -5,6 +5,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import ServiceExtras from "../components/ServiceExtras.astro";
 import WaterPageStyles from "../components/WaterPageStyles.astro";
 
 const title = "Water Softener Brampton | Free Water Test | Fateh Plumbing";
@@ -455,6 +456,8 @@ const schemas = [
       </div>
     </section>
   </main>
+
+  <ServiceExtras canonical={canonical} />
 
   <SiteFooter />
   <WaterPageStyles />

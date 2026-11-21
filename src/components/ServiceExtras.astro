@@ -1,0 +1,30 @@
+---
+// Brand names (text only, no logos) and a financing note, chosen from the page URL.
+const { canonical = "" } = Astro.props;
+const page = canonical.split("/").pop().replace(".html", "");
+const groups = {
+  fixtures: ["Moen", "Delta", "Kohler", "American Standard"],
+  waterHeaters: ["Rheem", "Bradford White", "A.O. Smith", "Navien", "Rinnai"],
+  electrical: ["Square D", "Eaton", "Siemens"],
+  ev: ["Tesla", "ChargePoint", "Grizzl-E"],
+};
+const byPage = [
+  [/water-heater|tankless/, groups.waterHeaters, "plumbing"],
+  [/ev-charger/, groups.ev, "electrical"],
+  [/faucet|toilet|sink|bathroom|bidet|laundry|shower|kitchen|new-construction-plumbing|basement-plumbing/, groups.fixtures, "plumbing"],
+  [/panel|subpanel|rewiring|electrical|electrician|outlet|surge|generator|lighting|pot-light|ceiling-fan|smart-home|smoke|driveway/, groups.electrical, "electrical"],
+];
+const match = byPage.find(([re]) => re.test(page));
+const financing = /new-construction|basement-plumbing|panel-upgrade|house-rewiring|water-softener/.test(page);
+const color = match && match[2] === "electrical" ? "#dc2626" : "#2563eb";
+---
+{(match || financing) && (
+  <section class="service-extras" aria-label="Brands and financing">
+    {match && (
+      <p><strong style={`color:${color}`}>Brands we work with:</strong> We install and repair all major brands, including {match[1].slice(0, -1).join(", ")} and {match[1][match[1].length - 1]}.</p>
+    )}
+    {financing && (
+      <p><strong style={`color:${color}`}>Financing available:</strong> Ask about financing options for larger projects when you book your free on-site assessment.</p>
+    )}
+  </section>
+)}
