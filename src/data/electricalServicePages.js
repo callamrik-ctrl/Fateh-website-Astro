@@ -430,7 +430,7 @@ const pages = {
     ],
   },
   "ceiling-fan-installation": {
-    title: "Ceiling Fan Installation Brampton | Fateh",
+    title: "Ceiling Fan Installation Brampton | Fateh Electric",
     description: "Ceiling fan installation Brampton service for bedrooms, living rooms, boxes, switches, and safe mounting. Free on-site assessment.",
     canonical: `${siteUrl}/ceiling-fan-installation.html`,
     serviceName: "Professional Ceiling Fan Installation Services",
@@ -515,7 +515,7 @@ const pages = {
     ],
   },
   "smart-home-wiring": {
-    title: "Smart Home Wiring Brampton | Fateh",
+    title: "Smart Home Wiring Brampton | Fateh Electric",
     description: "Smart home wiring Brampton help for switches, controls, lighting, devices, and planned electrical upgrades. Free assessment.",
     canonical: `${siteUrl}/smart-home-wiring.html`,
     serviceName: "Smart Home Wiring and Electrical Installation Services",
@@ -600,7 +600,7 @@ const pages = {
     ],
   },
   "outdoor-lighting": {
-    title: "Outdoor Lighting Brampton | Fateh",
+    title: "Outdoor Lighting Brampton | Fateh Electric",
     description: "Outdoor lighting Brampton service for exterior fixtures, security lighting, patios, pathways, and wiring plans. Free assessment.",
     canonical: `${siteUrl}/outdoor-lighting.html`,
     serviceName: "Outdoor Lighting Installation Services",
@@ -853,7 +853,7 @@ const pages = {
     ],
   },
   "panel-upgrade": {
-    title: "Panel Upgrade Brampton | Fateh",
+    title: "Panel Upgrade Brampton | Fateh Electric",
     description: "Panel upgrade Brampton planning for capacity, renovations, EV chargers, and safer electrical service. Free on-site assessment.",
     canonical: `${siteUrl}/panel-upgrade.html`,
     serviceName: "Electrical Panel Upgrade Services",
@@ -1273,7 +1273,7 @@ const pages = {
     ],
   },
   "smoke-co-detectors": {
-    title: "Smoke & CO Detectors Brampton | Fateh",
+    title: "Smoke & CO Detectors Brampton | Fateh Electric",
     description: "Smoke & CO detectors Brampton service for placement, replacement, wiring, and safety upgrades. Free on-site assessment.",
     canonical: `${siteUrl}/smoke-co-detectors.html`,
     serviceName: "Smoke and CO Detector Installation",

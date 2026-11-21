@@ -134,7 +134,7 @@ export const waterSystemPages = {
   }),
 
   tanklessWaterHeater: makePage({
-    title: "Tankless Water Heater Brampton | Fateh",
+    title: "Tankless Water Heater Brampton | Fateh Plumbing",
     description: "Tankless water heater Brampton service for installs, repairs, flow issues, and hot water planning. Licensed and insured support.",
     canonical: "https://fatehplumelec.com/tankless-water-heater.html",
     eyebrow: "Tankless water heater",
@@ -213,7 +213,7 @@ export const waterSystemPages = {
   }),
 
   reverseOsmosisSystem: makePage({
-    title: "Reverse Osmosis System Brampton | Fateh",
+    title: "Reverse Osmosis System Brampton | Fateh Plumbing",
     description: "Reverse osmosis system Brampton installation for under-sink drinking water and RO faucet setup. Free on-site assessment.",
     canonical: "https://fatehplumelec.com/reverse-osmosis-system.html",
     eyebrow: "RO system installation",
@@ -292,7 +292,7 @@ export const waterSystemPages = {
   }),
 
   sumpPumpRepair: makePage({
-    title: "Sump Pump Repair Brampton | Fateh",
+    title: "Sump Pump Repair Brampton | Fateh Plumbing",
     description: "Sump pump repair Brampton for failed pumps, float switches, battery backup planning, and basement flood risk. Licensed and insured.",
     canonical: "https://fatehplumelec.com/sump-pump-repair.html",
     eyebrow: "Sump pump repair",
@@ -371,7 +371,7 @@ export const waterSystemPages = {
   }),
 
   waterSoftener: makePage({
-    title: "Water Softener Brampton | Fateh",
+    title: "Water Softener Brampton | Fateh Plumbing",
     description: "Water softener Brampton service for hard water, plumbing connections, setup, and replacement planning. Licensed and insured help.",
     canonical: "https://fatehplumelec.com/water-softener.html",
     eyebrow: "Water softener",
@@ -449,7 +449,7 @@ export const waterSystemPages = {
   }),
 
   waterServiceUpgrade: makePage({
-    title: "Water Service Upgrade Brampton | Fateh",
+    title: "Water Service Upgrade Brampton | Fateh Plumbing",
     description: "Water service upgrade Brampton help for old supply lines, pressure issues, and home plumbing demand. Free on-site assessment.",
     canonical: "https://fatehplumelec.com/water-service-upgrade.html",
     eyebrow: "Water service upgrade",

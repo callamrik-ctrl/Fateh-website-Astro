@@ -53,7 +53,7 @@ function makePage(config) {
 
 export const drainSewerPages = {
   sewerLineRepair: makePage({
-    title: "Sewer Line Repair Brampton | Fateh",
+    title: "Sewer Line Repair Brampton | Fateh Plumbing",
     description: "Sewer line repair Brampton and GTA for backups, sewer smell, roots, and damaged lines. Licensed and insured drain service.",
     canonical: "https://fatehplumelec.com/sewer-line-repair.html",
     eyebrow: "Sewer line repair",
@@ -132,7 +132,7 @@ export const drainSewerPages = {
   }),
 
   sewerCameraInspection: makePage({
-    title: "Sewer Camera Inspection Brampton | Fateh",
+    title: "Sewer Camera Inspection Brampton | Fateh Plumbing",
     description: "Sewer camera inspection Brampton for recurring clogs, sewer smell, roots, and main line diagnosis. Licensed and insured service.",
     canonical: "https://fatehplumelec.com/sewer-camera-inspection.html",
     eyebrow: "Sewer camera inspection",
@@ -211,7 +211,7 @@ export const drainSewerPages = {
   }),
 
   backwaterValve: makePage({
-    title: "Backwater Valve Brampton | Fateh",
+    title: "Backwater Valve Brampton | Fateh Plumbing",
     description: "Backwater valve Brampton service for sewer backup prevention, basement flood risk, and storm protection. Free on-site assessment.",
     canonical: "https://fatehplumelec.com/backwater-valve.html",
     eyebrow: "Backwater valve",
@@ -289,7 +289,7 @@ export const drainSewerPages = {
   }),
 
   basementPlumbing: makePage({
-    title: "Basement Plumbing Brampton | Fateh",
+    title: "Basement Plumbing Brampton | Fateh Plumbing",
     description: "Basement plumbing Brampton service for drains, rough-ins, sump pumps, leaks, and lower-level fixtures. Licensed and insured help.",
     canonical: "https://fatehplumelec.com/basement-plumbing.html",
     eyebrow: "Basement plumbing",
@@ -366,7 +366,7 @@ export const drainSewerPages = {
     ],
   }),
   newConstructionPlumbing: makePage({
-    title: "New Construction Plumbing Brampton | Fateh",
+    title: "New Construction Plumbing Brampton | Fateh Plumbing",
     description: "New construction plumbing in Brampton for new homes, additions, and commercial builds. Underground, rough-in, water service, and fixture installs.",
     canonical: "https://fatehplumelec.com/new-construction-plumbing.html",
     eyebrow: "New construction plumbing",

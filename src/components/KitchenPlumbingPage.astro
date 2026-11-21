@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "./SiteHeader.astro";
 import SiteFooter from "./SiteFooter.astro";
+import LocalDetails from "./LocalDetails.astro";
 
 const {
   title,
@@ -22,6 +23,7 @@ const {
   related = [],
   proofBand,
   faqs = [],
+  local = null,
 } = Astro.props;
 
 const plumberSchema = {
@@ -227,6 +229,8 @@ const faqSchema = {
       ))}
     </div>
   </section>
+
+  <LocalDetails local={local} />
 
   <section class="brampton-cta-band">
     <div>

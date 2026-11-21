@@ -1,0 +1,24 @@
+---
+// Brampton-specific section for service pages: heading, paragraphs (may hold links), checklist and neighbourhoods.
+const { local } = Astro.props;
+const areas = local?.areas || ["Bramalea", "Springdale", "Castlemore", "Mount Pleasant", "Heart Lake", "Fletcher's Meadow", "Credit Valley", "Peel Village", "Downtown Brampton"];
+---
+{local && (
+  <section class="content neighbourhood-section local-details-section">
+    <div>
+      <p class="eyebrow">{local.eyebrow || "Local service in Brampton"}</p>
+      <h2>{local.title}</h2>
+      {local.paragraphs.map((p) => <p set:html={p} />)}
+      {local.points && (
+        <>
+          <h3>{local.pointsTitle || "What we do"}</h3>
+          <ul class="check-list">{local.points.map((p) => <li>{p}</li>)}</ul>
+        </>
+      )}
+    </div>
+    <aside class="quick-card area-card">
+      <h2>Brampton areas we serve</h2>
+      <div class="area-tags">{areas.map((a) => <span>{a}</span>)}</div>
+    </aside>
+  </section>
+)}

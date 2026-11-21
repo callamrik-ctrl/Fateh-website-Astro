@@ -48,16 +48,36 @@ function makePage(config) {
     faqEyebrow: "Emergency plumber FAQ",
     faqTitle: config.faqTitle,
     faqs: config.faqs,
+    local: config.local || null,
   };
 }
 
 export const emergencyRepairPages = {
   emergencyPlumbing: makePage({
-    title: "Emergency Plumber Brampton | Same Day & 24 Hour Plumbing",
+    local: {
+      "eyebrow": "24/7 emergency plumber in Brampton",
+      "title": "Burst pipes, backups and urgent plumbing in Brampton",
+      "paragraphs": [
+        "Plumbing emergencies in Brampton tend to follow the weather. In winter we get calls for frozen and burst pipes in garages, crawl spaces and outside walls. In spring and after heavy rain, basements in low-lying areas see sewer backups and sump pump trouble. All year round, water heaters fail and supply lines split without warning.",
+        "If a pipe has burst, shut off the main water valve, usually in the basement near the front wall where the water line enters the house. Turn off power to any area where water is near outlets or appliances, and move valuables away from the water. Then call us right away so the damage does not spread.",
+        "We handle burst pipe repair, sewer and <a href=\"main-drain-backup.html\" style=\"font-weight:700;color:#2563eb;\">main drain backups</a>, overflowing toilets, leaking water heaters and hidden leaks found through <a href=\"leak-detection.html\" style=\"font-weight:700;color:#2563eb;\">leak detection</a>. For backups that keep coming back, a <a href=\"backwater-valve.html\" style=\"font-weight:700;color:#2563eb;\">backwater valve</a> can help protect your basement.",
+        "While you wait, open the cold taps on the lowest floor to drain the remaining water from the lines, and use towels or a wet vacuum to keep water off flooring if it is safe. Take photos of the damage for your insurance company. If sewage is backing up, stop using sinks, toilets and the washing machine until the drain is cleared. Our team will tell you what to check over the phone and arrive ready to stop the water.",
+        "Brampton neighbourhoods we reach often include Bramalea, Springdale, Castlemore, Heart Lake and Fletcher's Meadow, along with nearby Mississauga, Caledon and Vaughan. Tell us your address and what is happening so we can give you clear steps on the phone while we are on the way.",
+        "Fateh Plumbing & Electric is licensed and insured and has served Brampton neighbourhoods for 10+ years. Call 647-980-9211, 24/7."
+      ],
+      "points": [
+        "Burst and frozen pipes",
+        "Sewer and main drain backups",
+        "Overflowing toilets",
+        "Leaking water heaters",
+        "Basement flooding from plumbing"
+      ]
+    },
+    title: "Emergency Plumber Brampton | Burst Pipes | Fateh Plumbing",
     description: "Emergency plumber in Brampton for active leaks, burst pipes, sewer backups, overflowing toilets, main drain backup, and urgent same day plumbing service.",
     canonical: "https://fatehplumelec.com/emergency-plumber.html",
     eyebrow: "Emergency plumber",
-    h1: "Emergency Plumber Brampton",
+    h1: "24/7 Emergency Plumber in Brampton",
     heroText: "Water moving fast, sewage backing up, a toilet overflowing, or a pipe leaking behind a wall? Fateh Plumbing & Electric helps with urgent plumbing problems in Brampton and nearby GTA communities.",
     heroAlt: "Emergency plumber checking urgent pipe repair",
     proof: ["Emergency plumber", "Same day plumber", "24 hour plumber"],
@@ -132,11 +152,29 @@ export const emergencyRepairPages = {
   }),
 
   leakDetection: makePage({
-    title: "Leak Detection Brampton | Water Leak Detection & Repair",
+    local: {
+      "eyebrow": "Leak detection plumber in Brampton",
+      "title": "Finding and fixing water leaks in Brampton homes",
+      "paragraphs": [
+        "Not every leak drips where you can see it. In Brampton homes we often find leaks behind finished basement walls, under bathroom floors, inside kitchen cabinets, around water heaters and on supply lines that run through ceilings. A small hidden leak can soak drywall and flooring for weeks before a stain appears.",
+        "Many neighbourhoods such as Springdale, Castlemore and Mount Pleasant have homes with finished basements and second units, so a leak upstairs can show up on a basement ceiling. Older areas like Bramalea and Peel Village can have ageing pipes, valves and fittings that start to weep with age. Cold Brampton winters also put pipes in garages and outside walls at risk of splitting.",
+        "We trace the water back to the source, whether that is a fixture, a supply pipe, a drain or a valve, then repair it. If the leak comes from a cracked or corroded line, we can move straight to <a href=\"pipe-repair.html\" style=\"font-weight:700;color:#2563eb;\">pipe repair</a>. If water is spreading fast, call our <a href=\"emergency-plumber.html\" style=\"font-weight:700;color:#2563eb;\">emergency plumber</a> line.",
+        "Signs worth a call include a water bill that suddenly goes up, a meter that keeps turning when every tap is off, a musty smell in the basement, bubbling paint, warped baseboards, or a ceiling stain that slowly grows. Taking a photo of the stain or meter and noting when it started helps us narrow down the source faster. Fixing a small leak early is far less disruptive than replacing soaked drywall, flooring and insulation later.",
+        "Our licensed and insured plumbers have served Brampton for 10+ years. Call 647-980-9211 for a free on-site assessment, and tell us where you see water, how fast it is moving and whether you can shut it off."
+      ],
+      "points": [
+        "Ceiling stains and damp drywall",
+        "Leaks under sinks, vanities and tubs",
+        "Water heater and valve leaks",
+        "Running water meter with fixtures off",
+        "Repair once the source is found"
+      ]
+    },
+    title: "Leak Detection & Repair Brampton | Fateh Plumbing",
     description: "Leak detection in Brampton for hidden pipe leaks, water leak repair, ceiling stains, damp walls, running meters, and urgent plumbing leak service.",
     canonical: "https://fatehplumelec.com/leak-detection.html",
     eyebrow: "Leak detection",
-    h1: "Leak Detection Brampton",
+    h1: "Leak Detection & Repair in Brampton",
     heroText: "Water stain on the ceiling, damp drywall, a running meter, or water appearing where it should not? Fateh Plumbing & Electric helps find and repair plumbing leaks in Brampton.",
     heroAlt: "Plumber checking pipework for water leak detection",
     proof: ["Leak detection", "Water leak repair", "Pipe leak repair"],
@@ -367,7 +405,7 @@ export const emergencyRepairPages = {
   }),
 
   mainDrainBackup: makePage({
-    title: "Main Drain Backup Brampton | Fateh",
+    title: "Main Drain Backup Brampton | Fateh Plumbing",
     description: "Main drain backup Brampton service for sewer smell, basement backups, and slow whole-home drainage. 24/7 emergency help.",
     canonical: "https://fatehplumelec.com/main-drain-backup.html",
     eyebrow: "Main drain backup",
