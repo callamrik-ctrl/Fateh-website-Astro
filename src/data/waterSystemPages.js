@@ -32,7 +32,7 @@ function makePage(config) {
     eyebrow: config.eyebrow,
     h1: config.h1,
     heroText: config.heroText,
-    heroImage: config.heroImage || "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&w=1400&q=80",
+    heroImage: config.heroImage || "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&w=900&q=70",
     heroAlt: config.heroAlt || config.h1,
     proof: config.proof,
     trust: config.trust || baseTrust,
