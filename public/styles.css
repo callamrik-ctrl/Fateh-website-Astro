@@ -1978,3 +1978,12 @@ body.theme-dark .blog-post-meta span { background: rgba(255, 255, 255, .06); col
 @media (min-width: 981px) and (max-width: 1180px) {
   .site-header .book-online-desktop { display: none; }
 }
+
+/* Text links: same colours, no underline until hover / keyboard focus (Nov 21, 2026) */
+a { text-decoration: none; }
+:is(p, li, td, dd, small, summary, blockquote, figcaption, .blog-article, .electrical-category-card) a:not(.button):not(.call-link):hover,
+:is(p, li, td, dd, small, summary, blockquote, figcaption, .blog-article, .electrical-category-card) a:not(.button):not(.call-link):focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: .08em;
+  text-underline-offset: .18em;
+}
