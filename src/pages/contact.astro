@@ -105,8 +105,11 @@ const faqSchema = {
   </main>
 
   <section class="content contact-section">
+    <div class="contact-main">
+    <Credentials inline />
     <form class="contact-form contact-card" name="service-request">
-      <p class="form-note">Send your request below. We will review it and contact you back as soon as possible.</p>
+      <!-- Bot trap: hidden from people; bots fill it -->
+      <div class="hp-field" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 
       <label>
         Name
@@ -145,12 +148,19 @@ const faqSchema = {
 
       <label>
         Message
-        <textarea name="message" rows="6" placeholder="Describe the problem, location, and urgency." required></textarea>
+        <textarea name="message" rows="4" placeholder="Describe the problem, location, and urgency." required></textarea>
       </label>
 
-      <button class="button" type="submit">Send service request</button>
+      <div class="contact-form-actions">
+        <button class="button" type="submit">Send service request</button>
+        <a class="button whatsapp-button" href="https://wa.me/16479809211?text=Hi%20Fateh%20Plumbing%20%26%20Electric%2C%20I%20need%20help%20with%20a%20service." target="_blank" rel="noopener">
+          <img loading="lazy" src="assets/whatsapp-chat-icon.webp" alt="" width="22" height="22"> Quick reply on WhatsApp
+        </a>
+      </div>
+      <p class="form-error" hidden></p>
       <p class="success-message" hidden>Thanks. Your request has been sent. Fateh Plumbing & Electric will contact you soon.</p>
     </form>
+    </div>
 
     <aside class="quick-card contact-details-card">
       <p class="eyebrow">Business details</p>
@@ -180,8 +190,6 @@ const faqSchema = {
       </div>
     </aside>
   </section>
-
-  <Credentials />
 
   <section class="band">
     <div class="section-heading">

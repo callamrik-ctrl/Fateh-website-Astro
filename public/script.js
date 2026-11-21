@@ -718,12 +718,37 @@ function renderRequests() {
 
 renderRequests();
 
+// Spam filter for the contact form: bot trap field, too-fast submits, sales pitches and links.
+const contactFormLoadedAt = Date.now();
+const salesPitchPattern = /\b(seo|backlinks?|link building|guest post|web ?design(er)?|website (design|redesign|development)|redesign your website|digital marketing|marketing (agency|services)|social media (marketing|management)|lead generation|google (ranking|first page)|first page of google|rank(ing)? (your|higher|on google)|ppc|ad campaigns?|virtual assistant|outsourc\w*|app development|crypto|bitcoin|business loan|funding offer)\b/i;
+function contactSpamCheck(data) {
+  if (String(data.get("website") || "").trim()) return "bot";
+  if (Date.now() - contactFormLoadedAt < 4000) return "bot";
+  const text = [data.get("name"), data.get("email"), data.get("message")].join(" ");
+  if (/https?:\/\/|www\.|\[url|<a\s/i.test(text)) return "pitch";
+  if (salesPitchPattern.test(text)) return "pitch";
+  if (String(data.get("phone") || "").replace(/\D/g, "").length < 10) return "phone";
+  return "";
+}
+
 if (form) {
   const success = form.querySelector(".success-message");
+  const formError = form.querySelector(".form-error");
   if (success) success.textContent = contactThankYouText;
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(form);
+    if (formError) formError.hidden = true;
+    const spam = contactSpamCheck(data);
+    if (spam === "bot") { if (success) success.hidden = false; form.reset(); return; }
+    if (spam && formError) {
+      formError.textContent = spam === "phone"
+        ? "Please enter a 10-digit phone number so we can call you back."
+        : "This form is for plumbing and electrical service requests only. We do not accept sales, marketing or SEO offers.";
+      formError.hidden = false;
+      return;
+    }
+    if (spam) return;
     const request = {
       sourceForm: "Contact Form",
       name: String(data.get("name") || "").trim(),
