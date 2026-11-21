@@ -36,8 +36,10 @@ const provider = {
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
+    streetAddress: "5 Loomis Rd",
     addressLocality: "Brampton",
     addressRegion: "ON",
+    postalCode: "L7A 4X9",
     addressCountry: "CA",
   },
   areaServed: areas,

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import BusinessMap from "../components/BusinessMap.astro";
 
 const title = "Electrician in Brampton | Fateh";
 const description = "Electrician in Brampton for repairs, panels, EV chargers, lighting, and wiring help. Free on-site assessment for electrical work.";
@@ -18,8 +19,10 @@ const electricianSchema = {
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
+    streetAddress: "5 Loomis Rd",
     addressLocality: "Brampton",
     addressRegion: "ON",
+    postalCode: "L7A 4X9",
     addressCountry: "CA",
   },
   areaServed: [
@@ -567,6 +570,7 @@ const faqSchema = {
       <h2>Electrical help across Brampton neighbourhoods</h2>
       <p>Fateh Plumbing & Electric operates from Brampton and helps customers across nearby neighbourhoods. If you are dealing with a power issue, outlet problem, panel concern, lighting upgrade, EV charger plan, or urgent electrical situation, tell us your area and what is happening so we can guide the next step.</p>
       <p>We serve homes, rental units, restaurants, retail spaces, small businesses, and managed properties across Brampton and nearby GTA communities.</p>
+      <BusinessMap title="Fateh Plumbing & Electric, Brampton electrician at 5 Loomis Rd" />
     </div>
     <aside class="quick-card area-card">
       <h2>Areas we serve</h2>

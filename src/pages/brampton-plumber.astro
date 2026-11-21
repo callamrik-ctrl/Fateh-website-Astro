@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import BusinessMap from "../components/BusinessMap.astro";
 
 const title = "Plumber in Brampton, Ontario | 24/7 Emergency Plumber | Fateh";
 const description = "Plumber in Brampton for leaks, drains, water heaters, sewer backups, and urgent repairs. Licensed and insured, 24/7 emergency service.";
@@ -18,8 +19,10 @@ const plumberSchema = {
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
+    streetAddress: "5 Loomis Rd",
     addressLocality: "Brampton",
     addressRegion: "ON",
+    postalCode: "L7A 4X9",
     addressCountry: "CA",
   },
   areaServed: [
@@ -567,6 +570,7 @@ const faqSchema = {
       <h2>Plumbing help across Brampton neighbourhoods</h2>
       <p>Fateh Plumbing & Electric operates from Brampton and helps customers across nearby neighbourhoods. If you are dealing with a leak, clog, backup, no hot water, or a fixture problem, tell us your area and what is happening so we can guide the next step.</p>
       <p>We serve homes, rental units, restaurants, retail spaces, small businesses, and managed properties across Brampton and nearby GTA communities.</p>
+      <BusinessMap title="Fateh Plumbing & Electric, Brampton plumber at 5 Loomis Rd" />
     </div>
     <aside class="quick-card area-card">
       <h2>Areas we serve</h2>

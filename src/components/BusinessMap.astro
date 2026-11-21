@@ -1,0 +1,26 @@
+---
+// Google Map of the business address (no API key needed). Loads only when scrolled into view.
+const { title = "Fateh Plumbing & Electric on Google Maps", showAddress = true } = Astro.props;
+const query = encodeURIComponent("Fateh Plumbing & Electric, 5 Loomis Rd, Brampton, ON L7A 4X9");
+---
+<div class="business-map">
+  {showAddress && <p class="business-map-address">
+    <strong>Fateh Plumbing &amp; Electric</strong><br>
+    <a href={`https://www.google.com/maps/search/?api=1&query=${query}`} target="_blank" rel="noopener">5 Loomis Rd, Brampton, ON L7A 4X9</a>
+  </p>}
+  <iframe
+    src={`https://www.google.com/maps?q=${query}&output=embed`}
+    title={title}
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    width="600"
+    height="320"
+  ></iframe>
+</div>
+
+<style>
+  .business-map { margin-top: 18px; }
+  .business-map-address { margin: 0 0 10px; line-height: 1.5; }
+  .business-map-address a { font-weight: 600; }
+  .business-map iframe { display: block; width: 100%; height: 320px; border: 0; border-radius: 12px; }
+</style>

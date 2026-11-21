@@ -8,7 +8,7 @@ const canonical = "https://fatehplumelec.com/";
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": "HomeAndConstructionBusiness",
+  "@type": ["Plumber", "Electrician"],
   name: "Fateh Plumbing & Electric",
   url: canonical,
   telephone: "647-980-9211",
@@ -18,8 +18,10 @@ const localBusinessSchema = {
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
+    streetAddress: "5 Loomis Rd",
     addressLocality: "Brampton",
     addressRegion: "ON",
+    postalCode: "L7A 4X9",
     addressCountry: "CA",
   },
   areaServed: ["Brampton", "Mississauga", "Vaughan", "Caledon", "Etobicoke", "Markham", "Greater Toronto Area"],

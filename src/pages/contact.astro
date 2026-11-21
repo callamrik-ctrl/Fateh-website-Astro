@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import BusinessMap from "../components/BusinessMap.astro";
 
 const title = "Contact Fateh Plumbing & Electric | Fateh";
 const description = "Contact Fateh Plumbing & Electric in Brampton for plumbing, electrical, and commercial service. Free on-site assessment available.";
@@ -9,7 +10,7 @@ const canonical = "https://fatehplumelec.com/contact.html";
 
 const businessSchema = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": ["Plumber", "Electrician"],
   name: "Fateh Plumbing & Electric",
   url: canonical,
   telephone: "647-980-9211",
@@ -19,8 +20,10 @@ const businessSchema = {
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
+    streetAddress: "5 Loomis Rd",
     addressLocality: "Brampton",
     addressRegion: "ON",
+    postalCode: "L7A 4X9",
     addressCountry: "CA",
   },
   areaServed: ["Brampton", "Mississauga", "Vaughan", "Caledon", "Etobicoke", "Markham", "Greater Toronto Area"],
@@ -154,9 +157,10 @@ const faqSchema = {
       <div class="contact-detail-list">
         <p><strong>Phone:</strong> <a href="tel:+16479809211">647-980-9211</a></p>
         <p><strong>Email:</strong> <a href="mailto:info@fatehplumelec.com">info@fatehplumelec.com</a></p>
-        <p><strong>Location:</strong> Brampton, Ontario</p>
+        <p><strong>Address:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Fateh+Plumbing+%26+Electric%2C+5+Loomis+Rd%2C+Brampton%2C+ON+L7A+4X9" target="_blank" rel="noopener">5 Loomis Rd, Brampton, ON L7A 4X9</a></p>
         <p><strong>Hours:</strong> Open 24 hours, 7 days a week</p>
       </div>
+      <BusinessMap showAddress={false} />
       <p>If water is actively leaking, shut off the nearest fixture valve or main water valve if it is safe to do so. For electrical emergencies, avoid touching unsafe wiring or sparking fixtures.</p>
       <div class="contact-link-cards" aria-label="Helpful contact links">
         <a href="emergency-plumber.html">
