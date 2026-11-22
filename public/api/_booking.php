@@ -308,6 +308,7 @@ function bk_create_event(array $b, DateTimeImmutable $s, DateTimeImmutable $e): 
   $desc = implode("\n", [
     $link ? 'Open booking (Confirm / Change time / Decline): ' . $link : 'Booked online (website form). Confirm with the customer by text.',
     $link ? 'Make changes with this link, not in the calendar, so the customer gets the WhatsApp message.' : '',
+    !empty($b['source']) ? 'Booked by: ' . $b['source'] : '',
     '',
     'Customer: ' . $b['firstName'] . ' ' . $b['lastName'],
     'Phone: ' . $b['phone'],
