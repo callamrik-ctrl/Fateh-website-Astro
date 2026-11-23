@@ -110,6 +110,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
       ba_page('✅ Confirmed. The calendar entry is now green' . ($warn ? '.' : ' and the customer got the WhatsApp confirmation.'), $warn . $mkDetails('confirmed'), 'ok');
     }
     if ($action === 'decline') {
+      // Second step required: the first Decline press only opens the "Are you sure?" page
+      if (($_POST['sure'] ?? '') !== 'yes') { header('Location: ' . $self . '&a=decline', true, 303); exit; }
       bk_delete_event($id);
       $warn = ba_send($phone, 'cancelled', [$first, $date, $time]);
       ba_page('❌ Declined. Removed from the calendar' . ($warn ? '.' : ' and the customer got the WhatsApp cancellation.'), $warn . $mkDetails('declined'), 'warn');
@@ -137,6 +139,16 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
   ba_page('Unknown action.', '', 'bad');
 }
 
+// ---- Decline: ask "Are you sure?" first ----
+if ($action === 'decline') {
+  ba_page('Are you sure you want to decline this appointment?', $details
+    . '<p style="color:#991b1b;font-weight:600">It will be removed from the calendar and the customer will get a WhatsApp cancellation message. This cannot be undone.</p>'
+    . '<a href="' . ba_h($self) . '"><button class="g" type="button">↩️ No, keep this booking</button></a>'
+    . '<form method="post" action="' . ba_h($self) . '" onsubmit="this.querySelector(\'button\').disabled=true">'
+    . '<input type="hidden" name="a" value="decline"><input type="hidden" name="sure" value="yes">'
+    . '<button class="r" type="submit">❌ Yes, decline and cancel</button></form>', 'warn');
+}
+
 // ---- Pick a new time ----
 if ($action === 'reschedule') {
   // Owner view: also shows short-notice open times (e.g. later today), not only 12+ hours ahead
@@ -161,5 +173,5 @@ $btn = fn($a, $cls, $label, $confirm = '') => '<form method="post" action="' . b
 ba_page('Online booking', $details . $where . '<hr style="border:0;border-top:1px solid #e5e7eb;margin:16px 0 6px">'
   . ($status === 'new' ? $btn('confirm', 'g', '✅ Confirm and send WhatsApp') : '')
   . '<a href="' . ba_h($self) . '&a=reschedule"><button class="b" type="button">🔁 Change time</button></a>'
-  . $btn('decline', 'r', '❌ Decline / cancel', 'Remove this booking and send the customer a cancellation message?')
+  . '<a href="' . ba_h($self) . '&a=decline"><button class="r" type="button">❌ Decline / cancel</button></a>'
   . '<p class="small">The customer gets the WhatsApp message from ' . ba_h(BK_TWILIO_FROM) . '.</p>');
