@@ -233,6 +233,34 @@ const faqSchema = {
     <a class="call-link" href="tel:+16479809211">Call 647-980-9211</a>
   </header>
 
+
+  <main class="hero home-hero">
+    <div class="hero-copy reveal-on-scroll reveal-left">
+      <p class="eyebrow">24/7 Emergency Service • Licensed & Insured</p>
+      <h1>Plumbing & electrical services in Brampton</h1>
+      <p>Fateh Plumbing & Electric helps homeowners, landlords, restaurants, small businesses, and property managers with urgent repairs, planned upgrades, and everyday service calls from Brampton across nearby GTA communities. Looking for a <a href="brampton-plumber.html" style="font-weight:700;color:#2563eb;">plumber in Brampton</a> or an <a href="brampton-electrician.html" style="font-weight:700;color:#dc2626;">electrician in Brampton</a>? Start with our local service pages.</p>
+      <div class="hero-actions reveal-on-scroll reveal-up">
+        <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
+        <a class="button secondary" href="contact.html">Get a free quote</a>
+      </div>
+      <div class="hero-proof-row stagger-group" aria-label="Service highlights">
+        <span>Brampton based</span>
+        <span>Plumbing and electrical</span>
+        <span>Residential and commercial</span>
+      </div>
+    </div>
+    <div class="motion-home-panel video-home-panel reveal-on-scroll reveal-right soft-depth" aria-label="3D new construction plumbing and electrical rough-in video">
+      <video class="hero-video" poster="assets/house-cutaway-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="3D home cutaway showing plumbing and electrical rough-in">
+        <source src="assets/house-cutaway.mp4" type="video/mp4">
+      </video>
+      <div class="video-shade" aria-hidden="true"></div>
+      <div class="video-watermark-cover" aria-hidden="true">
+        <strong>Plumbing & electrical support</strong>
+        <span>Repairs, upgrades and service for the systems your property depends on</span>
+      </div>
+    </div>
+  </main>
+
   <!-- Promo slideshow: phones and tablets only (hidden above 1024px for now) -->
   <section class="promo-slider" aria-label="Current offers" aria-roledescription="carousel">
     <div class="promo-heading"><span class="promo-kicker">Fateh Plumbing &amp; Electric</span><h2>Featured Services &amp; Offers</h2></div>
@@ -249,7 +277,7 @@ const faqSchema = {
   <style>
     .promo-slider { display: none; }
     @media (max-width: 1024px) {
-      .promo-slider { --slide-w: min(54vw, 300px); display: block; position: relative; padding: 18px 0 10px; }
+      .promo-slider { --slide-w: min(54vw, 300px); display: block; position: relative; padding: 26px 0 14px; }
       .promo-track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
         padding: 4px calc((100% - var(--slide-w)) / 2) 12px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
       .promo-track::-webkit-scrollbar { display: none; }
@@ -308,33 +336,6 @@ const faqSchema = {
       if (document.readyState === "complete") init(); else window.addEventListener("load", init);
     })();
   </script>
-
-  <main class="hero home-hero">
-    <div class="hero-copy reveal-on-scroll reveal-left">
-      <p class="eyebrow">24/7 Emergency Service • Licensed & Insured</p>
-      <h1>Plumbing & electrical services in Brampton</h1>
-      <p>Fateh Plumbing & Electric helps homeowners, landlords, restaurants, small businesses, and property managers with urgent repairs, planned upgrades, and everyday service calls from Brampton across nearby GTA communities. Looking for a <a href="brampton-plumber.html" style="font-weight:700;color:#2563eb;">plumber in Brampton</a> or an <a href="brampton-electrician.html" style="font-weight:700;color:#dc2626;">electrician in Brampton</a>? Start with our local service pages.</p>
-      <div class="hero-actions reveal-on-scroll reveal-up">
-        <a class="button" href="tel:+16479809211">Call 647-980-9211</a>
-        <a class="button secondary" href="contact.html">Get a free quote</a>
-      </div>
-      <div class="hero-proof-row stagger-group" aria-label="Service highlights">
-        <span>Brampton based</span>
-        <span>Plumbing and electrical</span>
-        <span>Residential and commercial</span>
-      </div>
-    </div>
-    <div class="motion-home-panel video-home-panel reveal-on-scroll reveal-right soft-depth" aria-label="3D new construction plumbing and electrical rough-in video">
-      <video class="hero-video" poster="assets/house-cutaway-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="3D home cutaway showing plumbing and electrical rough-in">
-        <source src="assets/house-cutaway.mp4" type="video/mp4">
-      </video>
-      <div class="video-shade" aria-hidden="true"></div>
-      <div class="video-watermark-cover" aria-hidden="true">
-        <strong>Plumbing & electrical support</strong>
-        <span>Repairs, upgrades and service for the systems your property depends on</span>
-      </div>
-    </div>
-  </main>
 
   <section class="home-trust-banner stagger-group" aria-label="Why choose Fateh Plumbing and Electric">
     <article class="trust-feature premium-card hover-lift">
