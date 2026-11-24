@@ -235,6 +235,7 @@ const faqSchema = {
 
   <!-- Promo slideshow: phones and tablets only (hidden above 1024px for now) -->
   <section class="promo-slider" aria-label="Current offers" aria-roledescription="carousel">
+    <div class="promo-heading"><span class="promo-kicker">Fateh Plumbing &amp; Electric</span><h2>Featured Services &amp; Offers</h2></div>
     <div class="promo-track" tabindex="0">
       <a class="promo-slide" href="water-softener.html"><img src="assets/promos/black-friday-water-softener-ro-package.webp" alt="Black Friday deal: $500 off a whole house water package with a water softener and kitchen RO system, equipment and installation included" width="720" height="1279" fetchpriority="high" decoding="async"></a>
       <a class="promo-slide" href="faucet-repair.html"><img src="assets/promos/kitchen-faucet-installation-offer.webp" alt="Kitchen faucets starting from $89 plus labour" width="720" height="1279" loading="lazy" decoding="async"></a>
@@ -248,7 +249,7 @@ const faqSchema = {
   <style>
     .promo-slider { display: none; }
     @media (max-width: 1024px) {
-      .promo-slider { --slide-w: min(76vw, 400px); display: block; position: relative; padding: 16px 0 8px; }
+      .promo-slider { --slide-w: min(54vw, 300px); display: block; position: relative; padding: 18px 0 10px; }
       .promo-track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
         padding: 4px calc((100% - var(--slide-w)) / 2) 12px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
       .promo-track::-webkit-scrollbar { display: none; }
@@ -259,6 +260,12 @@ const faqSchema = {
       .promo-arrow { position: absolute; top: 45%; transform: translateY(-50%); width: 40px; height: 40px; border: 0; border-radius: 50%;
         background: rgba(255,255,255,.92); color: #0f172a; font-size: 28px; line-height: 1; box-shadow: 0 4px 12px rgba(0,0,0,.2); cursor: pointer; z-index: 2; }
       .promo-prev { left: 8px; } .promo-next { right: 8px; }
+      .promo-heading { text-align: center; padding: 0 16px 10px; }
+      .promo-kicker { display: block; font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #dc2626; }
+      .promo-heading h2 { display: inline-flex; align-items: center; gap: 10px; margin: 4px 0 0; font-size: clamp(1.15rem, 4.6vw, 1.5rem); line-height: 1.2; color: var(--ink, #0f172a); }
+      .promo-heading h2::before, .promo-heading h2::after { content: ""; width: 22px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, #2563eb, #dc2626); }
+      .theme-dark .promo-heading h2 { color: #f8fafc; }
+      .promo-arrow { top: calc(50% + 18px); width: 34px; height: 34px; font-size: 24px; }
       .promo-dots { display: flex; justify-content: center; gap: 8px; }
       .promo-dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 50%; background: #cbd5e1; cursor: pointer; }
       .promo-dots button.is-active { width: 22px; border-radius: 6px; background: #dc2626; }
