@@ -276,24 +276,36 @@ const faqSchema = {
       const root = document.querySelector(".promo-slider");
       if (!root) return;
       const track = root.querySelector(".promo-track");
-      const slides = [...root.querySelectorAll(".promo-slide")];
+      const real = [...track.querySelectorAll(".promo-slide")];
+      const n = real.length;
       const dots = [...root.querySelectorAll(".promo-dots button")];
-      let current = 0, timer = null;
-      const go = (i) => { current = (i + slides.length) % slides.length; const s = slides[current];
-        track.scrollTo({ left: s.offsetLeft - (track.clientWidth - s.clientWidth) / 2, behavior: "smooth" }); };
-      const mark = () => { const mid = track.scrollLeft + track.clientWidth / 2;
-        let best = 0, dist = Infinity;
-        slides.forEach((s, i) => { const d = Math.abs(s.offsetLeft + s.clientWidth / 2 - mid); if (d < dist) { dist = d; best = i; } });
-        current = best; slides.forEach((s, i) => s.classList.toggle("is-active", i === best)); dots.forEach((d, i) => d.classList.toggle("is-active", i === best)); };
-      const start = () => { stop(); timer = setInterval(() => go(current + 1), 5000); };
+      // Endless loop: put a copy of all slides before and after the real ones.
+      const makeClone = (el) => { const c = el.cloneNode(true); c.setAttribute("aria-hidden", "true"); c.tabIndex = -1;
+        const img = c.querySelector("img"); img.removeAttribute("loading"); img.removeAttribute("fetchpriority"); return c; };
+      real.slice().reverse().forEach((el) => track.prepend(makeClone(el)));
+      real.forEach((el) => track.append(makeClone(el)));
+      const all = [...track.querySelectorAll(".promo-slide")]; // [copy | real | copy]
+      let pos = n, timer = null, settle = null;
+      const leftOf = (i) => all[i].offsetLeft - (track.clientWidth - all[i].clientWidth) / 2;
+      const jump = (i) => { track.style.scrollBehavior = "auto"; track.scrollLeft = leftOf(i); track.style.scrollBehavior = ""; };
+      const go = (i) => { pos = i; track.scrollTo({ left: leftOf(i), behavior: "smooth" }); };
+      const nearest = () => { const mid = track.scrollLeft + track.clientWidth / 2; let best = 0, dist = Infinity;
+        all.forEach((s, i) => { const d = Math.abs(s.offsetLeft + s.clientWidth / 2 - mid); if (d < dist) { dist = d; best = i; } }); return best; };
+      const mark = () => { const i = nearest(); pos = i; const r = i % n;
+        all.forEach((s, k) => s.classList.toggle("is-active", k === i)); dots.forEach((d, k) => d.classList.toggle("is-active", k === r)); };
+      // After scrolling stops on a copy, slip back to the same real slide without animation.
+      const recentre = () => { const i = nearest(); if (i < n || i >= 2 * n) { jump(n + (i % n)); } mark(); };
+      const start = () => { stop(); timer = setInterval(() => go(pos + 1), 5000); };
       const stop = () => { if (timer) clearInterval(timer); timer = null; };
-      track.addEventListener("scroll", () => requestAnimationFrame(mark), { passive: true });
-      root.querySelector(".promo-prev").addEventListener("click", () => { go(current - 1); start(); });
-      root.querySelector(".promo-next").addEventListener("click", () => { go(current + 1); start(); });
-      dots.forEach((d, i) => d.addEventListener("click", () => { go(i); start(); }));
+      track.addEventListener("scroll", () => { requestAnimationFrame(mark); clearTimeout(settle); settle = setTimeout(recentre, 160); }, { passive: true });
+      root.querySelector(".promo-prev").addEventListener("click", () => { go(pos - 1); start(); });
+      root.querySelector(".promo-next").addEventListener("click", () => { go(pos + 1); start(); });
+      dots.forEach((d, k) => d.addEventListener("click", () => { go(n + k); start(); }));
       track.addEventListener("touchstart", stop, { passive: true });
       track.addEventListener("touchend", () => setTimeout(start, 4000), { passive: true });
-      window.addEventListener("load", () => { go(0); mark(); if (!matchMedia("(prefers-reduced-motion: reduce)").matches) start(); });
+      window.addEventListener("resize", () => jump(pos));
+      const init = () => { jump(n); mark(); if (!matchMedia("(prefers-reduced-motion: reduce)").matches) start(); };
+      if (document.readyState === "complete") init(); else window.addEventListener("load", init);
     })();
   </script>
 
