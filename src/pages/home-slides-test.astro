@@ -288,6 +288,9 @@ const faqSchema = {
       .promo-arrow { position: absolute; top: 45%; transform: translateY(-50%); width: 40px; height: 40px; border: 0; border-radius: 50%;
         background: rgba(255,255,255,.92); color: #0f172a; font-size: 28px; line-height: 1; box-shadow: 0 4px 12px rgba(0,0,0,.2); cursor: pointer; z-index: 2; }
       .promo-prev { left: 8px; } .promo-next { right: 8px; }
+      /* Phones/tablets: hide the hero video so the offers start right after the hero text */
+      .home-hero .video-home-panel { display: none; }
+      .home-hero { min-height: 0; padding-bottom: 8px; }
       .promo-heading { text-align: center; padding: 0 16px 10px; }
       .promo-kicker { display: block; font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #dc2626; }
       .promo-heading h2 { display: inline-flex; align-items: center; gap: 10px; margin: 4px 0 0; font-size: clamp(1.15rem, 4.6vw, 1.5rem); line-height: 1.2; color: var(--ink, #0f172a); }
@@ -301,6 +304,10 @@ const faqSchema = {
   </style>
   <script is:inline>
     (() => {
+      if (matchMedia("(max-width: 1024px)").matches) {
+        const v = document.querySelector(".home-hero .hero-video");
+        if (v) { v.removeAttribute("autoplay"); v.preload = "none"; v.pause(); }
+      }
       const root = document.querySelector(".promo-slider");
       if (!root) return;
       const track = root.querySelector(".promo-track");
