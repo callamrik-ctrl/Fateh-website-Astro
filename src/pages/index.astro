@@ -248,7 +248,7 @@ const faqSchema = {
       </div>
     </div>
     <div class="motion-home-panel video-home-panel reveal-on-scroll reveal-right soft-depth" aria-label="3D new construction plumbing and electrical rough-in video">
-      <video class="hero-video" poster="assets/house-cutaway-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="3D home cutaway showing plumbing and electrical rough-in">
+      <video class="hero-video" poster="assets/house-cutaway-poster.webp" muted loop playsinline preload="none" aria-label="3D home cutaway showing plumbing and electrical rough-in">
         <source src="assets/house-cutaway.mp4" type="video/mp4">
       </video>
       <div class="video-shade" aria-hidden="true"></div>
@@ -257,7 +257,163 @@ const faqSchema = {
         <span>Repairs, upgrades and service for the systems your property depends on</span>
       </div>
     </div>
+    <!-- Desktop: offers panel in place of the hero video (test) -->
+    <aside class="offers-panel" aria-label="Featured services and offers" aria-roledescription="carousel">
+      <div class="offers-head">
+        <p class="offers-title">Featured Services &amp; Offers</p>
+        <div class="offers-arrows">
+          <button type="button" class="offers-prev" aria-label="Previous offers">‹</button>
+          <button type="button" class="offers-next" aria-label="Next offers">›</button>
+        </div>
+      </div>
+      <div class="offers-window">
+        <div class="offers-track">
+          <a class="offer-card" aria-hidden="true" tabindex="-1" href="water-softener.html"><img src="assets/promos/black-friday-water-softener-ro-package.webp" alt="Black Friday deal: $500 off a whole house water package with a water softener and kitchen RO system" width="720" height="1279" loading="lazy" decoding="async"></a>
+          <a class="offer-card" aria-hidden="true" tabindex="-1" href="faucet-repair.html"><img src="assets/promos/kitchen-faucet-installation-offer.webp" alt="Kitchen faucets starting from $89 plus labour" width="720" height="1279" loading="lazy" decoding="async"></a>
+          <a class="offer-card" aria-hidden="true" tabindex="-1" href="contact.html"><img src="assets/promos/5-visit-plumbing-electrical-service-package.webp" alt="5-visit service package for minor plumbing and electrical repairs, $399.50 plus tax" width="720" height="1279" loading="lazy" decoding="async"></a>
+          <a class="offer-card" aria-hidden="true" tabindex="-1" href="ev-charger-installation.html"><img src="assets/promos/ev-charger-installation-offer.webp" alt="EV charger installation starting from $1,199" width="720" height="1279" loading="lazy" decoding="async"></a>
+          <a class="offer-card" href="water-softener.html"><img src="assets/promos/black-friday-water-softener-ro-package.webp" alt="Black Friday deal: $500 off a whole house water package with a water softener and kitchen RO system" width="720" height="1279" loading="lazy" decoding="async"></a>
+          <a class="offer-card" href="faucet-repair.html"><img src="assets/promos/kitchen-faucet-installation-offer.webp" alt="Kitchen faucets starting from $89 plus labour" width="720" height="1279" loading="lazy" decoding="async"></a>
+          <a class="offer-card" href="contact.html"><img src="assets/promos/5-visit-plumbing-electrical-service-package.webp" alt="5-visit service package for minor plumbing and electrical repairs, $399.50 plus tax" width="720" height="1279" loading="lazy" decoding="async"></a>
+          <a class="offer-card" href="ev-charger-installation.html"><img src="assets/promos/ev-charger-installation-offer.webp" alt="EV charger installation starting from $1,199" width="720" height="1279" loading="lazy" decoding="async"></a>
+          <a class="offer-card" aria-hidden="true" tabindex="-1" href="water-softener.html"><img src="assets/promos/black-friday-water-softener-ro-package.webp" alt="Black Friday deal: $500 off a whole house water package with a water softener and kitchen RO system" width="720" height="1279" loading="lazy" decoding="async"></a>
+          <a class="offer-card" aria-hidden="true" tabindex="-1" href="faucet-repair.html"><img src="assets/promos/kitchen-faucet-installation-offer.webp" alt="Kitchen faucets starting from $89 plus labour" width="720" height="1279" loading="lazy" decoding="async"></a>
+          <a class="offer-card" aria-hidden="true" tabindex="-1" href="contact.html"><img src="assets/promos/5-visit-plumbing-electrical-service-package.webp" alt="5-visit service package for minor plumbing and electrical repairs, $399.50 plus tax" width="720" height="1279" loading="lazy" decoding="async"></a>
+          <a class="offer-card" aria-hidden="true" tabindex="-1" href="ev-charger-installation.html"><img src="assets/promos/ev-charger-installation-offer.webp" alt="EV charger installation starting from $1,199" width="720" height="1279" loading="lazy" decoding="async"></a>
+        </div>
+      </div>
+    </aside>
   </main>
+
+  <style is:inline>
+    .offers-panel { display: none; }
+    @media (min-width: 1025px) {
+      .home-hero .video-home-panel { display: none; }
+      .offers-panel { --per: 3; --gap: 14px; display: flex; flex-direction: column; gap: 14px; align-self: center; min-width: 0;
+        padding: 20px 20px 22px; border-radius: 22px; color: #fff;
+        background: linear-gradient(135deg, #0f172a 0%, #172554 60%, #3b0a0a 130%); box-shadow: 0 24px 60px rgba(15, 23, 42, .28); }
+      .offers-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-left: 2px; }
+      .offers-title { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 1.45rem; line-height: 1.2; color: #fff; }
+      .offers-title::before { content: ""; width: 4px; height: 1.2em; border-radius: 3px; background: linear-gradient(180deg, #3b82f6, #ef4444); }
+      .offers-arrows { display: flex; gap: 8px; }
+      .offers-arrows button { width: 38px; height: 38px; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; background: rgba(255,255,255,.1);
+        color: #fff; font-size: 24px; line-height: 1; cursor: pointer; transition: background .2s; }
+      .offers-arrows button:hover { background: rgba(255,255,255,.25); }
+      .offers-window { overflow: hidden; border-radius: 14px; }
+      .offers-track { display: flex; gap: var(--gap); transition: transform .5s ease; will-change: transform; }
+      .offer-card { flex: 0 0 calc((100% - (var(--per) - 1) * var(--gap)) / var(--per)); border-radius: 14px; overflow: hidden; background: #fff;
+        box-shadow: 0 8px 18px rgba(0,0,0,.25); transition: transform .25s ease; }
+      .offer-card:hover { transform: translateY(-4px); }
+      .offer-card img { display: block; width: 100%; height: auto; aspect-ratio: 720 / 1279; }
+    }
+    @media (min-width: 1025px) and (max-width: 1279px) { .offers-panel { --per: 2; } }
+  </style>
+  <script is:inline>
+    (() => {
+      const panel = document.querySelector(".offers-panel");
+      if (!panel || !matchMedia("(min-width: 1025px)").matches) return;
+      const track = panel.querySelector(".offers-track");
+      const n = track.querySelectorAll(".offer-card:not([aria-hidden])").length;
+      let pos = n, timer = null;
+      const step = () => { const c = track.children[0]; return c.getBoundingClientRect().width + parseFloat(getComputedStyle(track).gap || 0); };
+      const place = (animate) => { track.style.transition = animate ? "" : "none"; track.style.transform = `translateX(${-pos * step()}px)`; if (!animate) track.offsetHeight; };
+      const go = (d) => { pos += d; place(true); };
+      track.addEventListener("transitionend", () => { if (pos >= 2 * n) { pos -= n; place(false); } else if (pos < n) { pos += n; place(false); } });
+      const start = () => { stop(); timer = setInterval(() => go(1), 5000); };
+      const stop = () => { if (timer) clearInterval(timer); timer = null; };
+      panel.querySelector(".offers-prev").addEventListener("click", () => { go(-1); start(); });
+      panel.querySelector(".offers-next").addEventListener("click", () => { go(1); start(); });
+      panel.addEventListener("mouseenter", stop); panel.addEventListener("mouseleave", start);
+      window.addEventListener("resize", () => place(false));
+      place(false);
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) start();
+    })();
+  </script>
+
+  <!-- Promo slideshow: phones and tablets only (hidden above 1024px for now) -->
+  <section class="promo-slider" aria-label="Current offers" aria-roledescription="carousel">
+    <div class="promo-heading"><h2>Featured Services &amp; Offers</h2></div>
+    <div class="promo-track" tabindex="0">
+      <a class="promo-slide" aria-hidden="true" tabindex="-1" href="water-softener.html"><img src="assets/promos/black-friday-water-softener-ro-package.webp" alt="Black Friday deal: $500 off a whole house water package with a water softener and kitchen RO system, equipment and installation included" width="720" height="1279" loading="lazy" decoding="async"></a>
+      <a class="promo-slide" aria-hidden="true" tabindex="-1" href="faucet-repair.html"><img src="assets/promos/kitchen-faucet-installation-offer.webp" alt="Kitchen faucets starting from $89 plus labour" width="720" height="1279" loading="lazy" decoding="async"></a>
+      <a class="promo-slide" aria-hidden="true" tabindex="-1" href="contact.html"><img src="assets/promos/5-visit-plumbing-electrical-service-package.webp" alt="5-visit service package for minor plumbing and electrical repairs, $399.50 plus tax, save $200, no expiry" width="720" height="1279" loading="lazy" decoding="async"></a>
+      <a class="promo-slide" aria-hidden="true" tabindex="-1" href="ev-charger-installation.html"><img src="assets/promos/ev-charger-installation-offer.webp" alt="EV charger installation starting from $1,199" width="720" height="1279" loading="lazy" decoding="async"></a>
+      <a class="promo-slide" href="water-softener.html"><img src="assets/promos/black-friday-water-softener-ro-package.webp" alt="Black Friday deal: $500 off a whole house water package with a water softener and kitchen RO system, equipment and installation included" width="720" height="1279" fetchpriority="high" decoding="async"></a>
+      <a class="promo-slide" href="faucet-repair.html"><img src="assets/promos/kitchen-faucet-installation-offer.webp" alt="Kitchen faucets starting from $89 plus labour" width="720" height="1279" loading="lazy" decoding="async"></a>
+      <a class="promo-slide" href="contact.html"><img src="assets/promos/5-visit-plumbing-electrical-service-package.webp" alt="5-visit service package for minor plumbing and electrical repairs, $399.50 plus tax, save $200, no expiry" width="720" height="1279" loading="lazy" decoding="async"></a>
+      <a class="promo-slide" href="ev-charger-installation.html"><img src="assets/promos/ev-charger-installation-offer.webp" alt="EV charger installation starting from $1,199" width="720" height="1279" loading="lazy" decoding="async"></a>
+      <a class="promo-slide" aria-hidden="true" tabindex="-1" href="water-softener.html"><img src="assets/promos/black-friday-water-softener-ro-package.webp" alt="Black Friday deal: $500 off a whole house water package with a water softener and kitchen RO system, equipment and installation included" width="720" height="1279" loading="lazy" decoding="async"></a>
+      <a class="promo-slide" aria-hidden="true" tabindex="-1" href="faucet-repair.html"><img src="assets/promos/kitchen-faucet-installation-offer.webp" alt="Kitchen faucets starting from $89 plus labour" width="720" height="1279" loading="lazy" decoding="async"></a>
+      <a class="promo-slide" aria-hidden="true" tabindex="-1" href="contact.html"><img src="assets/promos/5-visit-plumbing-electrical-service-package.webp" alt="5-visit service package for minor plumbing and electrical repairs, $399.50 plus tax, save $200, no expiry" width="720" height="1279" loading="lazy" decoding="async"></a>
+      <a class="promo-slide" aria-hidden="true" tabindex="-1" href="ev-charger-installation.html"><img src="assets/promos/ev-charger-installation-offer.webp" alt="EV charger installation starting from $1,199" width="720" height="1279" loading="lazy" decoding="async"></a>
+    </div>
+    <button class="promo-arrow promo-prev" type="button" aria-label="Previous offer">‹</button>
+    <button class="promo-arrow promo-next" type="button" aria-label="Next offer">›</button>
+    <div class="promo-dots"><button type="button" aria-label="Go to offer 1"></button><button type="button" aria-label="Go to offer 2"></button><button type="button" aria-label="Go to offer 3"></button><button type="button" aria-label="Go to offer 4"></button></div>
+  </section>
+  <style is:inline>
+    .promo-slider { display: none; }
+    @media (max-width: 1024px) {
+      .promo-slider { --slide-w: min(54vw, 300px); display: block; position: relative; padding: 26px 0 14px; }
+      .promo-track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+        padding: 4px calc((100% - var(--slide-w)) / 2) 12px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .promo-track::-webkit-scrollbar { display: none; }
+      .promo-slide { flex: 0 0 var(--slide-w); scroll-snap-align: center; border-radius: 16px; overflow: hidden;
+        box-shadow: 0 10px 26px rgba(15, 23, 42, .18); transition: transform .3s ease, opacity .3s ease; opacity: .55; transform: scale(.94); }
+      .promo-slide.is-active { opacity: 1; transform: scale(1); }
+      .promo-slide img { display: block; width: 100%; height: auto; aspect-ratio: 720 / 1279; }
+      .promo-arrow { position: absolute; top: 45%; transform: translateY(-50%); width: 40px; height: 40px; border: 0; border-radius: 50%;
+        background: rgba(255,255,255,.92); color: #0f172a; font-size: 28px; line-height: 1; box-shadow: 0 4px 12px rgba(0,0,0,.2); cursor: pointer; z-index: 2; }
+      .promo-prev { left: 8px; } .promo-next { right: 8px; }
+      /* Phones/tablets: hide the hero video so the offers start right after the hero text */
+      .home-hero .video-home-panel { display: none; }
+      .home-hero { min-height: 0; padding-bottom: 8px; }
+      .promo-heading { text-align: center; padding: 0 16px 14px; }
+      .promo-heading h2 { display: inline-flex; align-items: center; gap: 12px; margin: 0; font-size: clamp(1.25rem, 5.2vw, 1.6rem); letter-spacing: -.01em; line-height: 1.2; color: var(--ink, #0f172a); }
+      .promo-heading h2::before, .promo-heading h2::after { content: ""; width: 28px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #2563eb, #dc2626); }
+      .theme-dark .promo-heading h2 { color: #f8fafc; }
+      .promo-arrow { top: calc(50% + 18px); width: 34px; height: 34px; font-size: 24px; }
+      .promo-dots { display: flex; justify-content: center; gap: 8px; }
+      .promo-dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 50%; background: #cbd5e1; cursor: pointer; }
+      .promo-dots button.is-active { width: 22px; border-radius: 6px; background: #dc2626; }
+    }
+  </style>
+  <script is:inline>
+    (() => {
+      if (matchMedia("(max-width: 1024px)").matches) {
+        const v = document.querySelector(".home-hero .hero-video");
+        if (v) { v.removeAttribute("autoplay"); v.preload = "none"; v.pause(); }
+      }
+      const root = document.querySelector(".promo-slider");
+      if (!root) return;
+      const track = root.querySelector(".promo-track");
+      const n = track.querySelectorAll(".promo-slide:not([aria-hidden])").length;
+      const dots = [...root.querySelectorAll(".promo-dots button")];
+      // Endless loop: the page has a copy of all slides before and after the real ones.
+      const all = [...track.querySelectorAll(".promo-slide")]; // [copy | real | copy]
+      let pos = n, timer = null, settle = null;
+      const leftOf = (i) => all[i].offsetLeft - (track.clientWidth - all[i].clientWidth) / 2;
+      const jump = (i) => { track.style.scrollBehavior = "auto"; track.scrollLeft = leftOf(i); track.style.scrollBehavior = ""; };
+      const go = (i) => { pos = i; track.scrollTo({ left: leftOf(i), behavior: "smooth" }); };
+      const nearest = () => { const mid = track.scrollLeft + track.clientWidth / 2; let best = 0, dist = Infinity;
+        all.forEach((s, i) => { const d = Math.abs(s.offsetLeft + s.clientWidth / 2 - mid); if (d < dist) { dist = d; best = i; } }); return best; };
+      const mark = () => { const i = nearest(); pos = i; const r = i % n;
+        all.forEach((s, k) => s.classList.toggle("is-active", k === i)); dots.forEach((d, k) => d.classList.toggle("is-active", k === r)); };
+      // After scrolling stops on a copy, slip back to the same real slide without animation.
+      const recentre = () => { const i = nearest(); if (i < n || i >= 2 * n) { jump(n + (i % n)); } mark(); };
+      const start = () => { stop(); timer = setInterval(() => go(pos + 1), 5000); };
+      const stop = () => { if (timer) clearInterval(timer); timer = null; };
+      track.addEventListener("scroll", () => { requestAnimationFrame(mark); clearTimeout(settle); settle = setTimeout(recentre, 160); }, { passive: true });
+      root.querySelector(".promo-prev").addEventListener("click", () => { go(pos - 1); start(); });
+      root.querySelector(".promo-next").addEventListener("click", () => { go(pos + 1); start(); });
+      dots.forEach((d, k) => d.addEventListener("click", () => { go(n + k); start(); }));
+      track.addEventListener("touchstart", stop, { passive: true });
+      track.addEventListener("touchend", () => setTimeout(start, 4000), { passive: true });
+      window.addEventListener("resize", () => jump(pos));
+      const init = () => { jump(n); mark(); if (!matchMedia("(prefers-reduced-motion: reduce)").matches) start(); };
+      if (document.readyState === "complete") init(); else window.addEventListener("load", init);
+    })();
+  </script>
 
   <section class="home-trust-banner stagger-group" aria-label="Why choose Fateh Plumbing and Electric">
     <article class="trust-feature premium-card hover-lift">
