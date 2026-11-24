@@ -262,10 +262,7 @@ const faqSchema = {
     <!-- Desktop: offers panel in place of the hero video (test) -->
     <aside class="offers-panel" aria-label="Featured services and offers" aria-roledescription="carousel">
       <div class="offers-head">
-        <div>
-          <span class="offers-kicker">Fateh Plumbing &amp; Electric</span>
-          <h2>Featured Services &amp; Offers</h2>
-        </div>
+        <h2>Featured Services &amp; Offers</h2>
         <div class="offers-arrows">
           <button type="button" class="offers-prev" aria-label="Previous offers">‹</button>
           <button type="button" class="offers-next" aria-label="Next offers">›</button>
@@ -289,9 +286,9 @@ const faqSchema = {
       .offers-panel { --per: 3; --gap: 14px; display: flex; flex-direction: column; gap: 14px; align-self: center; min-width: 0;
         padding: 20px 20px 22px; border-radius: 22px; color: #fff;
         background: linear-gradient(135deg, #0f172a 0%, #172554 60%, #3b0a0a 130%); box-shadow: 0 24px 60px rgba(15, 23, 42, .28); }
-      .offers-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
-      .offers-kicker { display: block; font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #f87171; }
-      .offers-head h2 { margin: 2px 0 0; font-size: 1.35rem; line-height: 1.2; color: #fff; }
+      .offers-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-left: 2px; }
+      .offers-head h2 { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 1.45rem; line-height: 1.2; color: #fff; }
+      .offers-head h2::before { content: ""; width: 4px; height: 1.2em; border-radius: 3px; background: linear-gradient(180deg, #3b82f6, #ef4444); }
       .offers-arrows { display: flex; gap: 8px; }
       .offers-arrows button { width: 38px; height: 38px; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; background: rgba(255,255,255,.1);
         color: #fff; font-size: 24px; line-height: 1; cursor: pointer; transition: background .2s; }
@@ -332,7 +329,7 @@ const faqSchema = {
 
   <!-- Promo slideshow: phones and tablets only (hidden above 1024px for now) -->
   <section class="promo-slider" aria-label="Current offers" aria-roledescription="carousel">
-    <div class="promo-heading"><span class="promo-kicker">Fateh Plumbing &amp; Electric</span><h2>Featured Services &amp; Offers</h2></div>
+    <div class="promo-heading"><h2>Featured Services &amp; Offers</h2></div>
     <div class="promo-track" tabindex="0">
       <a class="promo-slide" href="water-softener.html"><img src="assets/promos/black-friday-water-softener-ro-package.webp" alt="Black Friday deal: $500 off a whole house water package with a water softener and kitchen RO system, equipment and installation included" width="720" height="1279" fetchpriority="high" decoding="async"></a>
       <a class="promo-slide" href="faucet-repair.html"><img src="assets/promos/kitchen-faucet-installation-offer.webp" alt="Kitchen faucets starting from $89 plus labour" width="720" height="1279" loading="lazy" decoding="async"></a>
@@ -360,10 +357,9 @@ const faqSchema = {
       /* Phones/tablets: hide the hero video so the offers start right after the hero text */
       .home-hero .video-home-panel { display: none; }
       .home-hero { min-height: 0; padding-bottom: 8px; }
-      .promo-heading { text-align: center; padding: 0 16px 10px; }
-      .promo-kicker { display: block; font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #dc2626; }
-      .promo-heading h2 { display: inline-flex; align-items: center; gap: 10px; margin: 4px 0 0; font-size: clamp(1.15rem, 4.6vw, 1.5rem); line-height: 1.2; color: var(--ink, #0f172a); }
-      .promo-heading h2::before, .promo-heading h2::after { content: ""; width: 22px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, #2563eb, #dc2626); }
+      .promo-heading { text-align: center; padding: 0 16px 14px; }
+      .promo-heading h2 { display: inline-flex; align-items: center; gap: 12px; margin: 0; font-size: clamp(1.25rem, 5.2vw, 1.6rem); letter-spacing: -.01em; line-height: 1.2; color: var(--ink, #0f172a); }
+      .promo-heading h2::before, .promo-heading h2::after { content: ""; width: 28px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #2563eb, #dc2626); }
       .theme-dark .promo-heading h2 { color: #f8fafc; }
       .promo-arrow { top: calc(50% + 18px); width: 34px; height: 34px; font-size: 24px; }
       .promo-dots { display: flex; justify-content: center; gap: 8px; }
