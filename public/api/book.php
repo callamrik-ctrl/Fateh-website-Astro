@@ -35,6 +35,7 @@ try {
     bk_json(['ok' => false, 'error' => 'Sorry, that time was just taken. Please pick another window.', 'fields' => ['slot' => 'Just taken. Please pick another.'], 'refresh' => true], 409);
   }
   $event = bk_create_event($b, $start, $end);
+  bk_sheet_log($event, 'New (yellow)');
 } catch (Throwable $e) {
   error_log('[booking] book: ' . $e->getMessage());
   bk_json(['ok' => false, 'error' => 'We could not save your booking. Please call ' . BK_PHONE . '.'], 503);

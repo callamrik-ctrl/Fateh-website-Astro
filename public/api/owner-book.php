@@ -176,6 +176,7 @@ try {
     bk_json(['ok' => false, 'error' => 'That window is already taken in the calendar.', 'fields' => ['free' => 'Free that day: ' . ($free ? implode(', ', $free) : 'none')]], 409);
   }
   $event = bk_create_event($b, $start, $end);
+  bk_sheet_log($event, 'New (yellow)');
 } catch (Throwable $e) {
   error_log('[booking] owner-book: ' . $e->getMessage());
   bk_json(['ok' => false, 'error' => 'Could not save to the calendar: ' . $e->getMessage()], 503);

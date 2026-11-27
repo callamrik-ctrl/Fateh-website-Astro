@@ -43,6 +43,9 @@ try {
   ba_page('This booking could not be found.', '<p>It may have been deleted from the calendar already.</p>', 'bad');
 }
 if (($ev['status'] ?? '') === 'cancelled') ba_page('This booking was already declined and removed from the calendar.', '', 'warn');
+if (($ev['extendedProperties']['private']['bkStatus'] ?? '') === 'declined') {
+  ba_page('This booking was cancelled. It stays on the calendar in grey for the record.', '<p>To book this customer again, make a new booking (ask Claude or use the owner booking page).</p>', 'warn');
+}
 
 $start = new DateTimeImmutable($ev['start']['dateTime'] ?? 'now', bk_tz());
 $start = $start->setTimezone(bk_tz());
@@ -105,16 +108,22 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
   try {
     if ($action === 'confirm') {
       if ($status !== 'new') ba_page('Already confirmed. No new message was sent.', $details, 'ok');
-      bk_patch_event($id, ba_mark($ev));
+      bk_sheet_log(array_replace_recursive($ev, bk_patch_event($id, ba_mark($ev))), 'Confirmed (green)');
       $warn = ba_send($phone, 'confirmed', [$first, $date, $time, $addr]);
       ba_page('✅ Confirmed. The calendar entry is now green' . ($warn ? '.' : ' and the customer got the WhatsApp confirmation.'), $warn . $mkDetails('confirmed'), 'ok');
     }
     if ($action === 'decline') {
       // Second step required: the first Decline press only opens the "Are you sure?" page
       if (($_POST['sure'] ?? '') !== 'yes') { header('Location: ' . $self . '&a=decline', true, 303); exit; }
-      bk_delete_event($id);
+      // Kept on the calendar in grey (marked "free", so the time opens up again for bookings)
+      $priv = $ev['extendedProperties']['private'] ?? [];
+      $priv['bkStatus'] = 'declined';
+      $summary = preg_replace('/^(NEW|CONFIRMED|RESCHEDULED|CANCELLED):\s*/', '', (string) ($ev['summary'] ?? ''));
+      bk_patch_event($id, ['colorId' => BK_COLOR_CANCELLED, 'summary' => 'CANCELLED: ' . $summary, 'transparency' => 'transparent',
+                           'extendedProperties' => ['private' => $priv]]);
+      bk_sheet_log($ev, 'Cancelled (grey)');
       $warn = ba_send($phone, 'cancelled', [$first, $date, $time]);
-      ba_page('❌ Declined. Removed from the calendar' . ($warn ? '.' : ' and the customer got the WhatsApp cancellation.'), $warn . $mkDetails('declined'), 'warn');
+      ba_page('❌ Cancelled. The entry stays on the calendar in grey and the time is free again' . ($warn ? '.' : '. The customer got the WhatsApp cancellation.'), $warn . $mkDetails('declined'), 'warn');
     }
     if ($action === 'reschedule') {
       $win = bk_window((string) ($_POST['date'] ?? ''), (string) ($_POST['start'] ?? ''));
@@ -124,10 +133,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
       if (bk_overlaps($ns, $ne, bk_busy($ns->modify('-1 minute'), $ne->modify('+1 minute')))) {
         ba_page('That time is already taken. Pick another one.', '<p><a href="' . ba_h($self) . '&a=reschedule">Go back</a></p>', 'bad');
       }
-      bk_patch_event($id, ba_mark($ev, [
+      $moved = [
         'start' => ['dateTime' => $ns->format(DATE_RFC3339), 'timeZone' => BK_TZ],
         'end' => ['dateTime' => $ne->format(DATE_RFC3339), 'timeZone' => BK_TZ],
-      ]));
+      ];
+      bk_patch_event($id, ba_mark($ev, $moved));
+      bk_sheet_log(array_replace($ev, $moved), 'Rescheduled (green)');
       [$nd, $nt] = bk_when_parts($ns);
       $warn = ba_send($phone, 'rescheduled', [$first, $nd, $nt, $addr]);
       ba_page('🔁 Moved to ' . $nd . ', ' . $nt . '. The calendar entry is green' . ($warn ? '.' : ' and the customer got the WhatsApp message.'), $warn, 'ok');
@@ -142,7 +153,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 // ---- Decline: ask "Are you sure?" first ----
 if ($action === 'decline') {
   ba_page('Are you sure you want to decline this appointment?', $details
-    . '<p style="color:#991b1b;font-weight:600">It will be removed from the calendar and the customer will get a WhatsApp cancellation message. This cannot be undone.</p>'
+    . '<p style="color:#991b1b;font-weight:600">The entry will turn grey on the calendar (kept for the record, time freed up) and the customer will get a WhatsApp cancellation message. This cannot be undone.</p>'
     . '<a href="' . ba_h($self) . '"><button class="g" type="button">↩️ No, keep this booking</button></a>'
     . '<form method="post" action="' . ba_h($self) . '" onsubmit="this.querySelector(\'button\').disabled=true">'
     . '<input type="hidden" name="a" value="decline"><input type="hidden" name="sure" value="yes">'

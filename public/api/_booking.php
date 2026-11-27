@@ -28,6 +28,13 @@ const BK_RATE_LIMIT   = 5;    // bookings per IP per hour
 const BK_SITE         = 'https://fatehplumelec.com';
 const BK_COLOR_NEW       = '5';   // Google Calendar "Banana" (yellow): waiting for owner to confirm
 const BK_COLOR_CONFIRMED = '10';  // Google Calendar "Basil" (green): confirmed, WhatsApp sent
+const BK_COLOR_CANCELLED = '8';   // Google Calendar "Graphite" (grey): declined/cancelled, kept for the record, slot free again
+
+// Google Sheet that logs every booking (one row per booking, status kept up to date).
+// The service account must be an Editor on the sheet, and the Google Sheets API must be
+// enabled in its Google Cloud project. Empty = logging off. A failed log never blocks a booking.
+const BK_SHEET_ID  = '1uLvMSr-6OfiWMuWvZXQLhEAm8o_0cGfjysHmUu3pkPY'; // "Fateh Bookings Log" (owned by callamrik@gmail.com)
+const BK_SHEET_TAB = 'Bookings';
 
 // ---------------- Twilio WhatsApp ----------------
 // Account SID + Auth Token live in booking-private/twilio.json, next to
@@ -112,7 +119,7 @@ function bk_http(string $method, string $url, $body = null, array $headers = [])
 function bk_token(): string {
   static $token = null;
   if ($token) return $token;
-  $cache = sys_get_temp_dir() . '/bk_tok_' . md5(__DIR__) . '.json';
+  $cache = sys_get_temp_dir() . '/bk_tok2_' . md5(__DIR__) . '.json';
   if (@is_readable($cache)) {
     $c = json_decode((string) file_get_contents($cache), true);
     if (!empty($c['token']) && ($c['exp'] ?? 0) > time() + 120) return $token = $c['token'];
@@ -122,7 +129,7 @@ function bk_token(): string {
   $now = time();
   $aud = $k['token_uri'] ?? 'https://oauth2.googleapis.com/token';
   $jwt = bk_b64url(json_encode(['alg' => 'RS256', 'typ' => 'JWT'])) . '.' . bk_b64url(json_encode([
-    'iss' => $k['client_email'], 'scope' => 'https://www.googleapis.com/auth/calendar',
+    'iss' => $k['client_email'], 'scope' => 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/spreadsheets',
     'aud' => $aud, 'iat' => $now, 'exp' => $now + 3600,
   ]));
   if (!openssl_sign($jwt, $sig, $k['private_key'], 'sha256WithRSAEncryption')) throw new RuntimeException('Could not sign token');
@@ -334,7 +341,7 @@ function bk_create_event(array $b, DateTimeImmutable $s, DateTimeImmutable $e): 
       'bkFirst' => $b['firstName'], 'bkPhone' => $b['phone'], 'bkStatus' => 'new',
     ] + ($b['lat'] !== '' ? ['bkLat' => $b['lat'], 'bkLng' => $b['lng']] : [])],
   ];
-  if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_events.log', json_encode($event) . "\n", FILE_APPEND); return ['id' => $id]; }
+  if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_events.log', json_encode($event) . "\n", FILE_APPEND); return $event + ['created' => date(DATE_RFC3339)]; }
   return bk_api('POST', 'https://www.googleapis.com/calendar/v3/calendars/' . rawurlencode(BK_CALENDAR_ID) . '/events', $event);
 }
 
@@ -622,4 +629,55 @@ function bk_distance(array $ev): ?array {
 
 function bk_directions_url(string $address): string {
   return 'https://www.google.com/maps/dir/?' . http_build_query(['api' => 1, 'origin' => BK_HOME_ADDRESS, 'destination' => $address, 'travelmode' => 'driving']);
+}
+
+// ---------------- Booking log (Google Sheet) ----------------
+// Columns A–N: Booking ID | Booked at | Source | Status | Status changed | Job date | Arrival window |
+//              Customer | Phone | Email | Address | Service | Details | Open booking link
+function bk_sheet_url(string $range, string $suffix = ''): string {
+  return 'https://sheets.googleapis.com/v4/spreadsheets/' . rawurlencode(BK_SHEET_ID) . '/values/' . rawurlencode($range) . $suffix;
+}
+
+/** Row number (1-based) of a booking ID in column A, or 0 if it is not in the sheet. */
+function bk_sheet_row(string $id): int {
+  $r = bk_api('GET', bk_sheet_url(BK_SHEET_TAB . '!A:A'));
+  foreach ($r['values'] ?? [] as $i => $v) if (($v[0] ?? '') === $id) return $i + 1;
+  return 0;
+}
+
+function bk_sheet_now(): string { return (new DateTimeImmutable('now', bk_tz()))->format('Y-m-d H:i'); }
+
+/** Full row for a booking, read from its calendar event. */
+function bk_sheet_row_from_event(array $ev, string $status): array {
+  $desc = (string) ($ev['description'] ?? '');
+  $get = fn($label) => preg_match('/^' . $label . ':[ \t]*(.*)$/m', $desc, $m) ? trim($m[1]) : '';
+  $details = preg_match('/^Details:\s*\n(.*?)(?:\n\s*\nPhotos:|\z)/ms', $desc, $m) ? trim($m[1]) : '';
+  $s = (new DateTimeImmutable($ev['start']['dateTime'] ?? 'now'))->setTimezone(bk_tz());
+  $e = (new DateTimeImmutable($ev['end']['dateTime'] ?? 'now'))->setTimezone(bk_tz());
+  $id = (string) ($ev['id'] ?? '');
+  try { $link = bk_action_url($id); } catch (Throwable $x) { $link = ''; }
+  $created = isset($ev['created']) ? (new DateTimeImmutable($ev['created']))->setTimezone(bk_tz())->format('Y-m-d H:i') : bk_sheet_now();
+  return [$id, $created, strpos($desc, 'Booked by: Owner') !== false ? 'Owner (phone/WhatsApp)' : 'Website',
+          $status, bk_sheet_now(), $s->format('D, M j, Y'), $s->format('g:i A') . '–' . $e->format('g:i A'),
+          $get('Customer'), $get('Phone'), $get('Email'), (string) ($ev['location'] ?? $get('Address')), $get('Service'),
+          str_replace("\r", '', $details), $link];
+}
+
+/** Add the booking, or update its status (and time) if it is already in the sheet. Never throws. */
+function bk_sheet_log(array $ev, string $status): void {
+  if (BK_SHEET_ID === '' || bk_mock()) {
+    if (bk_mock()) @file_put_contents(sys_get_temp_dir() . '/bk_mock_sheet.log', json_encode(bk_sheet_row_from_event($ev, $status), JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
+    return;
+  }
+  try {
+    $row = bk_sheet_row_from_event($ev, $status);
+    $n = bk_sheet_row($row[0]);
+    if ($n === 0) {
+      bk_api('POST', bk_sheet_url(BK_SHEET_TAB . '!A1', ':append?valueInputOption=RAW&insertDataOption=INSERT_ROWS'), ['values' => [$row]]);
+    } else {
+      bk_api('PUT', bk_sheet_url(BK_SHEET_TAB . "!D$n:G$n", '?valueInputOption=RAW'), ['values' => [array_slice($row, 3, 4)]]);
+    }
+  } catch (Throwable $e) {
+    error_log('[booking] sheet log: ' . $e->getMessage());
+  }
 }
