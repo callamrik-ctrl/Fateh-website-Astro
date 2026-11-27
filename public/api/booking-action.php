@@ -130,9 +130,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
       if (!$win) ba_page('Please pick a new time.', '<p><a href="' . ba_h($self) . '&a=reschedule">Go back</a></p>', 'bad');
       [$ns, $ne] = $win;
       if (!bk_window_bookable($ns, true)) ba_page('That time has already passed. Pick another one.', '<p><a href="' . ba_h($self) . '&a=reschedule">Go back</a></p>', 'bad');
-      if (bk_overlaps($ns, $ne, bk_busy($ns->modify('-1 minute'), $ne->modify('+1 minute')))) {
-        ba_page('That time is already taken. Pick another one.', '<p><a href="' . ba_h($self) . '&a=reschedule">Go back</a></p>', 'bad');
-      }
+      // Overlapping another job is allowed here: the owner picked it on purpose (busy times are marked in the list)
       $moved = [
         'start' => ['dateTime' => $ns->format(DATE_RFC3339), 'timeZone' => BK_TZ],
         'end' => ['dateTime' => $ne->format(DATE_RFC3339), 'timeZone' => BK_TZ],
@@ -167,7 +165,12 @@ if ($action === 'reschedule') {
   $opts = '';
   foreach ($days as $d) {
     $label = (new DateTimeImmutable($d['date'], bk_tz()))->format('D, M j');
-    foreach ($d['windows'] as $w) if ($w['available']) $opts .= '<option value="' . ba_h($d['date'] . '|' . $w['start']) . '">' . ba_h($label . ', ' . $w['label']) . '</option>';
+    foreach ($d['windows'] as $w) {
+      // Owner can also pick a time that overlaps another job (shown as busy); times already started are left out
+      $free = $w['available'];
+      if (!$free && !($w['booked'] && bk_window_bookable(bk_window($d['date'], $w['start'])[0], true))) continue;
+      $opts .= '<option value="' . ba_h($d['date'] . '|' . $w['start']) . '">' . ba_h($label . ', ' . $w['label'] . ($free ? '' : '  ⚠️ busy – overlaps another job')) . '</option>';
+    }
   }
   if ($opts === '') ba_page('No open times in the next 2 weeks.', '<p>Call the customer to set a time: <a href="tel:' . ba_h(bk_e164($phone)) . '">' . ba_h($phone) . '</a></p>', 'warn');
   ba_page('Change the time', $details
