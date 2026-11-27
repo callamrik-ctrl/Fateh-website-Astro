@@ -146,7 +146,9 @@ $b = [
   'phone' => $phone, 'email' => $t('email', 120),
   'address' => $t('address', 160), 'unit' => $t('unit', 60), 'city' => $t('city', 40), 'postal' => $postal,
   'service' => $t('service', 80), 'details' => $t('details', 2000) ?: '(none given)',
-  'lat' => '', 'lng' => '', 'photoCount' => 0, 'source' => 'Owner (phone/WhatsApp booking)',
+  'lat' => '', 'lng' => '', 'photoCount' => 0,
+  // Who made it: Claude passes by=claude; the form page used by hand = owner
+  'source' => (($_POST['by'] ?? '') === 'claude') ? 'Booked by Claude' : 'Owner page – by owner',
 ];
 $date = $t('date', 10);
 $startHm = ob_window_start($t('window', 20) ?: $t('start', 5));

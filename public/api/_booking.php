@@ -657,7 +657,11 @@ function bk_sheet_row_from_event(array $ev, string $status): array {
   $id = (string) ($ev['id'] ?? '');
   try { $link = bk_action_url($id); } catch (Throwable $x) { $link = ''; }
   $created = isset($ev['created']) ? (new DateTimeImmutable($ev['created']))->setTimezone(bk_tz())->format('Y-m-d H:i') : bk_sheet_now();
-  return [$id, $created, strpos($desc, 'Booked by: Owner') !== false ? 'Owner (phone/WhatsApp)' : 'Website',
+  // Source: "Booked by:" line in the event (owner page / Claude); none = website form; not made by the booking system = manual
+  $src = $get('Booked by');
+  if ($src === '' ) $src = strpos($id, 'bk') === 0 ? 'Website – by customer' : 'Manual – by owner';
+  elseif (strpos($src, 'Owner (phone') === 0) $src = 'Booked by Claude'; // older owner-page bookings
+  return [$id, $created, $src,
           $status, bk_sheet_now(), $s->format('D, M j, Y'), $s->format('g:i A') . '–' . $e->format('g:i A'),
           $get('Customer'), $get('Phone'), $get('Email'), (string) ($ev['location'] ?? $get('Address')), $get('Service'),
           str_replace("\r", '', $details), $link];
