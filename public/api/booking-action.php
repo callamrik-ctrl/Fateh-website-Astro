@@ -43,6 +43,13 @@ try {
   ba_page('This booking could not be found.', '<p>It may have been deleted from the calendar already.</p>', 'bad');
 }
 if (($ev['status'] ?? '') === 'cancelled') ba_page('This booking was already declined and removed from the calendar.', '', 'warn');
+if (($ev['extendedProperties']['private']['bkStatus'] ?? '') === 'moved') {
+  $to = (string) ($ev['extendedProperties']['private']['bkMovedTo'] ?? '');
+  $toLink = '';
+  try { if ($to !== '') $toLink = bk_action_url($to); } catch (Throwable $e) {}
+  ba_page('This booking was moved to a new time. This old entry stays on the calendar in purple for the record.',
+    $toLink ? '<p><a href="' . ba_h($toLink) . '"><button class="g" type="button">Open the new booking</button></a></p>' : '', 'warn');
+}
 if (($ev['extendedProperties']['private']['bkStatus'] ?? '') === 'declined') {
   ba_page('This booking was cancelled. It stays on the calendar in grey for the record.', '<p>To book this customer again, make a new booking (ask Claude or use the owner booking page).</p>', 'warn');
 }
@@ -131,15 +138,31 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
       [$ns, $ne] = $win;
       if (!bk_window_bookable($ns, true)) ba_page('That time has already passed. Pick another one.', '<p><a href="' . ba_h($self) . '&a=reschedule">Go back</a></p>', 'bad');
       // Overlapping another job is allowed here: the owner picked it on purpose (busy times are marked in the list)
-      $moved = [
+      // The old entry stays (purple, free) as a record; a new green entry is made at the new time with its own link.
+      [$nd, $nt] = bk_when_parts($ns);
+      $newId = 'bk' . bin2hex(random_bytes(10));
+      $oldLink = bk_action_url($id); $newLink = bk_action_url($newId);
+      $base = preg_replace('/^(NEW|CONFIRMED|RESCHEDULED|CANCELLED|MOVED[^:]*):\s*/', '', (string) ($ev['summary'] ?? ''));
+      $priv = $ev['extendedProperties']['private'] ?? [];
+      $desc = str_replace($oldLink, $newLink, (string) ($ev['description'] ?? ''));
+      $desc = preg_replace('/^(Customer:)/m', 'Rescheduled from: ' . $date . ', ' . $time . "\n\n$1", $desc, 1);
+      $newEv = bk_insert_event([
+        'id' => $newId, 'summary' => 'RESCHEDULED: ' . $base, 'location' => $addr, 'description' => $desc,
         'start' => ['dateTime' => $ns->format(DATE_RFC3339), 'timeZone' => BK_TZ],
         'end' => ['dateTime' => $ne->format(DATE_RFC3339), 'timeZone' => BK_TZ],
-      ];
-      bk_patch_event($id, ba_mark($ev, $moved));
-      bk_sheet_log(array_replace($ev, $moved), 'Rescheduled (green)');
-      [$nd, $nt] = bk_when_parts($ns);
+        'colorId' => BK_COLOR_CONFIRMED,
+        'extendedProperties' => ['private' => ['bkStatus' => 'confirmed', 'bkMovedFrom' => $id] + $priv],
+      ]);
+      $newEv += ['id' => $newId, 'description' => $desc, 'location' => $addr, 'start' => ['dateTime' => $ns->format(DATE_RFC3339)], 'end' => ['dateTime' => $ne->format(DATE_RFC3339)]];
+      $newEv['extendedProperties']['private']['bkStatus'] = 'confirmed';
+      $priv['bkStatus'] = 'moved'; $priv['bkMovedTo'] = $newId;
+      bk_patch_event($id, ['colorId' => BK_COLOR_MOVED, 'summary' => 'MOVED → ' . $nd . ', ' . $nt . ': ' . $base,
+                           'transparency' => 'transparent', 'extendedProperties' => ['private' => $priv]]);
+      bk_sheet_log($ev, 'Moved → ' . $nd . ', ' . $nt . ' (purple)');
+      bk_sheet_log($newEv, 'Rescheduled (green)');
       $warn = ba_send($phone, 'rescheduled', [$first, $nd, $nt, $addr]);
-      ba_page('🔁 Moved to ' . $nd . ', ' . $nt . '. The calendar entry is green' . ($warn ? '.' : ' and the customer got the WhatsApp message.'), $warn, 'ok');
+      ba_page('🔁 Moved to ' . $nd . ', ' . $nt . '. New green entry made; the old time stays in purple (free)' . ($warn ? '.' : ' and the customer got the WhatsApp message.'),
+        $warn . '<p><a href="' . ba_h($newLink) . '"><button class="g" type="button">Open the new booking</button></a></p>', 'ok');
     }
   } catch (Throwable $e) {
     error_log('[booking] action ' . $action . ': ' . $e->getMessage());

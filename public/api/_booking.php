@@ -28,6 +28,7 @@ const BK_RATE_LIMIT   = 5;    // bookings per IP per hour
 const BK_SITE         = 'https://fatehplumelec.com';
 const BK_COLOR_NEW       = '5';   // Google Calendar "Banana" (yellow): waiting for owner to confirm
 const BK_COLOR_CONFIRMED = '10';  // Google Calendar "Basil" (green): confirmed, WhatsApp sent
+const BK_COLOR_MOVED     = '3';   // Google Calendar "Grape" (purple): old time of a rescheduled booking, kept for the record, slot free again
 const BK_COLOR_CANCELLED = '8';   // Google Calendar "Graphite" (grey): declined/cancelled, kept for the record, slot free again
 
 // Google Sheet that logs every booking (one row per booking, status kept up to date).
@@ -562,6 +563,12 @@ function bk_get_event(string $eventId): array {
 function bk_patch_event(string $eventId, array $changes): array {
   if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_events.log', 'PATCH ' . json_encode($changes) . "\n", FILE_APPEND); return $changes; }
   return bk_api('PATCH', bk_event_url($eventId), $changes);
+}
+
+/** Insert a full event (used for the new entry when a booking is moved). */
+function bk_insert_event(array $event): array {
+  if (bk_mock()) { @file_put_contents(sys_get_temp_dir() . '/bk_mock_events.log', 'INSERT ' . json_encode($event) . "\n", FILE_APPEND); return $event; }
+  return bk_api('POST', 'https://www.googleapis.com/calendar/v3/calendars/' . rawurlencode(BK_CALENDAR_ID) . '/events', $event);
 }
 
 function bk_delete_event(string $eventId): void {
