@@ -131,6 +131,12 @@ f.addEventListener('submit',async e=>{e.preventDefault();const b=document.getEle
 // ---------------- API ----------------
 ob_check_key();
 
+// Sheet check: tries to read the bookings sheet and reports the exact error (changes nothing)
+if (($_POST['mode'] ?? '') === 'sheetcheck') {
+  try { $r = bk_api('GET', bk_sheet_url(BK_SHEET_TAB . '!A1:A2')); bk_json(['ok' => true, 'sheet' => 'readable', 'a1' => $r['values'][0][0] ?? '']); }
+  catch (Throwable $e) { bk_json(['ok' => false, 'sheet_error' => $e->getMessage()]); }
+}
+
 if (($_POST['mode'] ?? '') === 'day') {
   try { bk_json(['ok' => true, 'date' => (string) ($_POST['date'] ?? ''), 'windows' => ob_day((string) ($_POST['date'] ?? ''))]); }
   catch (Throwable $e) { bk_json(['ok' => false, 'error' => 'Calendar not reachable: ' . $e->getMessage()], 503); }
