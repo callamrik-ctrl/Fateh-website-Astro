@@ -639,10 +639,12 @@ function bk_sheet_url(string $range, string $suffix = ''): string {
 }
 
 /** Row number (1-based) of a booking ID in column A, or 0 if it is not in the sheet. */
-function bk_sheet_row(string $id): int {
+/** [row of this booking ID or 0, last used row] from column A. */
+function bk_sheet_row(string $id): array {
   $r = bk_api('GET', bk_sheet_url(BK_SHEET_TAB . '!A:A'));
-  foreach ($r['values'] ?? [] as $i => $v) if (($v[0] ?? '') === $id) return $i + 1;
-  return 0;
+  $vals = $r['values'] ?? [];
+  foreach ($vals as $i => $v) if (($v[0] ?? '') === $id) return [$i + 1, count($vals)];
+  return [0, count($vals)];
 }
 
 function bk_sheet_now(): string { return (new DateTimeImmutable('now', bk_tz()))->format('Y-m-d H:i'); }
@@ -660,7 +662,8 @@ function bk_sheet_row_from_event(array $ev, string $status): array {
   // Source: "Booked by:" line in the event (owner page / Claude); none = website form; not made by the booking system = manual
   $src = $get('Booked by');
   if ($src === '' ) $src = strpos($id, 'bk') === 0 ? 'Website – by customer' : 'Manual – by owner';
-  elseif (strpos($src, 'Owner (phone') === 0) $src = 'Booked by Claude'; // older owner-page bookings
+  elseif (strpos($src, 'Owner (phone') === 0 || stripos($src, 'Claude') !== false) $src = 'Booked by Claude';
+  else $src = 'Owner page – by owner';
   return [$id, $created, $src,
           $status, bk_sheet_now(), $s->format('D, M j, Y'), $s->format('g:i A') . '–' . $e->format('g:i A'),
           $get('Customer'), $get('Phone'), $get('Email'), (string) ($ev['location'] ?? $get('Address')), $get('Service'),
@@ -675,9 +678,11 @@ function bk_sheet_log(array $ev, string $status): void {
   }
   try {
     $row = bk_sheet_row_from_event($ev, $status);
-    $n = bk_sheet_row($row[0]);
+    [$n, $last] = bk_sheet_row($row[0]);
     if ($n === 0) {
-      bk_api('POST', bk_sheet_url(BK_SHEET_TAB . '!A1', ':append?valueInputOption=RAW&insertDataOption=INSERT_ROWS'), ['values' => [$row]]);
+      // Write on the first empty row under the list (the append API can land above the header when a filter is on)
+      $n = max($last, 1) + 1;
+      bk_api('PUT', bk_sheet_url(BK_SHEET_TAB . "!A$n:N$n", '?valueInputOption=RAW'), ['values' => [$row]]);
     } else {
       bk_api('PUT', bk_sheet_url(BK_SHEET_TAB . "!D$n:G$n", '?valueInputOption=RAW'), ['values' => [array_slice($row, 3, 4)]]);
     }

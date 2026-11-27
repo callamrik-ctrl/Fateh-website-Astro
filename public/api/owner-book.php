@@ -154,7 +154,7 @@ $b = [
   'service' => $t('service', 80), 'details' => $t('details', 2000) ?: '(none given)',
   'lat' => '', 'lng' => '', 'photoCount' => 0,
   // Who made it: Claude passes by=claude; the form page used by hand = owner
-  'source' => (($_POST['by'] ?? '') === 'claude') ? 'Booked by Claude' : 'Owner page – by owner',
+  'source' => (($_POST['by'] ?? '') === 'claude') ? 'Claude' : 'Owner (owner page)',
 ];
 $date = $t('date', 10);
 $startHm = ob_window_start($t('window', 20) ?: $t('start', 5));
