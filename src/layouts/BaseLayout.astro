@@ -32,8 +32,8 @@ const {
   {schemas.map((schema) => <script type="application/ld+json" set:html={schema} />)}
   <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
   <!-- Christmas: Santa replaces the header van until midnight Dec 31, 2026 (Toronto = UTC-5) -->
-  <script is:inline>if (Date.now() < Date.UTC(2027, 0, 1, 5, 0, 0)) { var h = document.documentElement; h.classList.add("season-santa"); var s = new Image(); s.onload = function () { h.classList.add("santa-ready"); }; s.src = "/assets/seasonal/santa-sleigh-reindeer.webp"; }</script>
-  <link rel="stylesheet" href="/styles.css?v=20261128-santa5" />
+  <script is:inline>if (Date.now() < Date.UTC(2027, 0, 1, 5, 0, 0)) { var h = document.documentElement; h.classList.add("season-santa"); var s = new Image(); s.onload = function () { h.classList.add("santa-ready"); }; s.src = "/assets/seasonal/santa-sleigh-reindeer-strip.webp"; }</script>
+  <link rel="stylesheet" href="/styles.css?v=20261128-santa6" />
 </head>
 <body>
   <slot />

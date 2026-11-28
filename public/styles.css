@@ -2019,23 +2019,26 @@ a { text-decoration: none; }
 .credentials-inline .credential { justify-content: center; text-align: center; padding: 10px 8px; }
 .contact-form-actions .button { font-size: 1rem; font-weight: 800; min-height: 48px; }
 
-/* Christmas: Santa's sleigh + reindeer fly left to right in place of the van (animated WebP = galloping loop in place).
+/* Christmas: Santa's sleigh + reindeer fly left to right in place of the van (sprite strip + CSS gallop).
    BaseLayout adds .season-santa to <html> until Jan 1, 2027 00:00 Toronto; after that the van is back. */
 html.season-santa .site-header::before {
   width: clamp(210px, 17vw, 250px);
   aspect-ratio: 480 / 215;
-  background: url("/assets/seasonal/santa-sleigh-reindeer.webp") center / contain no-repeat;
+  /* 20-frame sprite strip; the gallop is a CSS animation so the legs never freeze */
+  background: url("/assets/seasonal/santa-sleigh-reindeer-strip.webp") 0 0 / 2000% 100% no-repeat;
   filter: drop-shadow(0 8px 8px rgba(15, 23, 42, .18));
   opacity: .92;
   transform: translateX(-110%) translateY(-50%);
   animation: none;
   visibility: hidden;
 }
-/* Fly only after the whole animated WebP has downloaded, so the reindeer gallops from the first moment it appears. */
+/* Fly only after the sprite image has downloaded, so the reindeer gallops from the first moment it appears. */
 html.season-santa.santa-ready .site-header::before {
   visibility: visible;
-  animation: headerSantaFly 12s linear .3s infinite;
+  animation: headerSantaFly 12s linear .3s infinite, santaGallop .9s steps(20) infinite;
 }
+/* 20 frames: end at 20/19 x 100% so steps(20) lands exactly on each frame */
+@keyframes santaGallop { from { background-position: 0 0; } to { background-position: 105.2632% 0; } }
 html.season-santa .site-nav > a, html.season-santa .mega-trigger { animation: none; }
 @keyframes headerSantaFly {
   0%   { transform: translateX(-110%) translateY(-50%); opacity: 0; }
@@ -2048,7 +2051,7 @@ html.season-santa .site-nav > a, html.season-santa .mega-trigger { animation: no
 }
 @media (max-width: 760px) {
   html.season-santa .site-header::before { width: 165px; opacity: .95; }
-  html.season-santa.santa-ready .site-header::before { animation-duration: 9s; }
+  html.season-santa.santa-ready .site-header::before { animation-duration: 9s, .9s; }
 }
 @media (prefers-reduced-motion: reduce) {
   html.season-santa .site-header::before { animation: none !important; transform: translateX(40vw) translateY(-50%); opacity: .3; }
