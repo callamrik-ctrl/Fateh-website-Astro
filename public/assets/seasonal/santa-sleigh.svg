@@ -1,4 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 210" role="img" aria-label="Santa in his sleigh pulled by two reindeer">
+  <style>
+    .leg { transform-box: fill-box; transform-origin: 50% 0; animation: gallop .45s ease-in-out infinite alternate; }
+    .leg.b { animation-delay: -.225s; }
+    .bob { animation: bob 1.2s ease-in-out infinite; }
+    .wave { transform-box: fill-box; transform-origin: 0% 100%; animation: wave .8s ease-in-out infinite alternate; }
+    @keyframes gallop { from { transform: rotate(-22deg); } to { transform: rotate(22deg); } }
+    @keyframes bob { 50% { transform: translateY(-3px); } }
+    @keyframes wave { from { transform: rotate(-10deg); } to { transform: rotate(14deg); } }
+    @media (prefers-reduced-motion: reduce) { .leg, .bob, .wave { animation: none; } }
+  </style>
   <!-- Sparkle trail -->
   <g fill="#fbbf24">
     <circle cx="14" cy="150" r="3" opacity=".45"/>
@@ -13,11 +23,11 @@
   <path d="M368 98 C 410 96, 450 92, 492 96" fill="none" stroke="#7c2d12" stroke-width="2.5"/>
 
   <!-- Back reindeer -->
-  <g transform="translate(310 70)">
-    <path d="M10 70 L-6 104" stroke="#5b3a1e" stroke-width="7" stroke-linecap="round"/>
-    <path d="M24 72 L30 106" stroke="#5b3a1e" stroke-width="7" stroke-linecap="round"/>
-    <path d="M70 70 L96 92" stroke="#5b3a1e" stroke-width="7" stroke-linecap="round"/>
-    <path d="M82 66 L104 76" stroke="#5b3a1e" stroke-width="7" stroke-linecap="round"/>
+  <g transform="translate(310 70)"><g class="bob">
+    <path class="leg a" d="M10 70 L-6 104" stroke="#5b3a1e" stroke-width="7" stroke-linecap="round"/>
+    <path class="leg b" d="M24 72 L30 106" stroke="#5b3a1e" stroke-width="7" stroke-linecap="round"/>
+    <path class="leg a" d="M70 70 L96 92" stroke="#5b3a1e" stroke-width="7" stroke-linecap="round"/>
+    <path class="leg b" d="M82 66 L104 76" stroke="#5b3a1e" stroke-width="7" stroke-linecap="round"/>
     <ellipse cx="48" cy="56" rx="44" ry="22" fill="#8b5a2b"/>
     <ellipse cx="46" cy="64" rx="28" ry="9" fill="#c49a6c"/>
     <path d="M4 50 q-12 -6 -10 -16 q8 6 14 8z" fill="#8b5a2b"/>
@@ -27,14 +37,14 @@
     <circle cx="106" cy="8" r="2.6" fill="#1f2937"/>
     <path d="M94 2 q-4 -14 -12 -20 M90 -8 q-8 -2 -12 2 M100 0 q2 -16 10 -22 M105 -10 q8 -2 10 4" stroke="#d6b48a" stroke-width="4" fill="none" stroke-linecap="round"/>
     <rect x="70" y="38" width="22" height="7" rx="3" fill="#b91c1c" transform="rotate(-55 81 41)"/>
-  </g>
+  </g></g>
 
   <!-- Lead reindeer (red nose) -->
-  <g transform="translate(430 64)">
-    <path d="M10 70 L-8 102" stroke="#6b4423" stroke-width="7" stroke-linecap="round"/>
-    <path d="M24 72 L28 108" stroke="#6b4423" stroke-width="7" stroke-linecap="round"/>
-    <path d="M70 70 L98 90" stroke="#6b4423" stroke-width="7" stroke-linecap="round"/>
-    <path d="M82 66 L106 72" stroke="#6b4423" stroke-width="7" stroke-linecap="round"/>
+  <g transform="translate(430 64)"><g class="bob" style="animation-delay:-.6s">
+    <path class="leg a" d="M10 70 L-8 102" stroke="#6b4423" stroke-width="7" stroke-linecap="round"/>
+    <path class="leg b" d="M24 72 L28 108" stroke="#6b4423" stroke-width="7" stroke-linecap="round"/>
+    <path class="leg a" d="M70 70 L98 90" stroke="#6b4423" stroke-width="7" stroke-linecap="round"/>
+    <path class="leg b" d="M82 66 L106 72" stroke="#6b4423" stroke-width="7" stroke-linecap="round"/>
     <ellipse cx="48" cy="56" rx="44" ry="22" fill="#9a6532"/>
     <ellipse cx="46" cy="64" rx="28" ry="9" fill="#d2a978"/>
     <path d="M4 50 q-12 -6 -10 -16 q8 6 14 8z" fill="#9a6532"/>
@@ -46,7 +56,7 @@
     <path d="M94 2 q-4 -14 -12 -20 M90 -8 q-8 -2 -12 2 M100 0 q2 -16 10 -22 M105 -10 q8 -2 10 4" stroke="#e5c79f" stroke-width="4" fill="none" stroke-linecap="round"/>
     <rect x="70" y="38" width="22" height="7" rx="3" fill="#b91c1c" transform="rotate(-55 81 41)"/>
     <circle cx="80" cy="42" r="3.5" fill="#fbbf24"/>
-  </g>
+  </g></g>
 
   <!-- Sleigh -->
   <g>
@@ -68,8 +78,8 @@
     <circle cx="137" cy="14" r="6" fill="#f8fafc"/>
     <rect x="140" y="32" width="42" height="7" rx="3.5" fill="#f8fafc"/>
     <!-- Waving arm -->
-    <path d="M180 66 q16 -10 22 -26" stroke="#dc2626" stroke-width="11" fill="none" stroke-linecap="round"/>
-    <circle cx="203" cy="38" r="6.5" fill="#1f2937"/>
+    <g class="wave"><path d="M180 66 q16 -10 22 -26" stroke="#dc2626" stroke-width="11" fill="none" stroke-linecap="round"/>
+    <circle cx="203" cy="38" r="6.5" fill="#1f2937"/></g>
     <!-- Sleigh body -->
     <path d="M56 92 h150 q14 0 16 -14 q2 -10 -6 -14 q12 -2 14 10 q2 30 -26 40 H90 q-30 0 -34 -22z" fill="#b91c1c"/>
     <path d="M62 100 h138" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
