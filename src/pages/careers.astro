@@ -1,0 +1,352 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+// Same Google Maps key as the booking page (PUBLIC_GOOGLE_MAPS_KEY in Hostinger) for address auto-fill.
+const MAPS_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_KEY || "";
+
+const title = "Careers | Plumbing & Electrical Jobs | Fateh Plumbing & Electric";
+const description = "Apply for plumbing, electrical helper, apprentice and co-op student jobs with Fateh Plumbing & Electric in Brampton and the GTA.";
+const canonical = "https://fatehplumelec.com/careers.html";
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <SiteHeader />
+
+  <main class="ja-wrap">
+    <p class="eyebrow">Careers</p>
+    <h1 class="ja-title">Join the Fateh team</h1>
+    <p class="ja-lead">We are always happy to hear from good plumbers, electricians, helpers and co-op students in Brampton and the GTA. Fill in this short form and your information stays on file. When a spot opens up that fits you, we will call you.</p>
+
+    <form id="ja-form" class="ja-card" novalidate enctype="multipart/form-data">
+      <!-- 1. Role -->
+      <fieldset class="ja-step">
+        <legend><span>1</span> What are you applying for?</legend>
+        <div class="ja-roles" role="radiogroup" aria-label="Applying for">
+          <label class="ja-role"><input type="radio" name="role" value="Plumbing"><span class="ja-role-icon" aria-hidden="true">🔧</span><strong>Plumbing</strong><small>Helper, apprentice or licensed</small></label>
+          <label class="ja-role"><input type="radio" name="role" value="Electrical"><span class="ja-role-icon" aria-hidden="true">⚡</span><strong>Electrical</strong><small>Helper, apprentice or licensed</small></label>
+          <label class="ja-role"><input type="radio" name="role" value="Co-op student"><span class="ja-role-icon" aria-hidden="true">🎓</span><strong>Co-op student</strong><small>School or college placement</small></label>
+        </div>
+        <p class="ja-error" data-err="role"></p>
+      </fieldset>
+
+      <!-- 2. Contact -->
+      <fieldset class="ja-step">
+        <legend><span>2</span> Your details</legend>
+        <label>Full name <input name="name" autocomplete="name" required><span class="ja-error" data-err="name"></span></label>
+        <div class="ja-row">
+          <label>Phone <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="647-555-1234" required><span class="ja-error" data-err="phone"></span></label>
+          <label>Email <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required><span class="ja-error" data-err="email"></span></label>
+        </div>
+        <label>Home address <span class="ja-hint">Start typing and pick your address</span>
+          <div id="ja-place-slot"></div>
+          <input id="ja-address" name="address" autocomplete="street-address" placeholder="123 Main St">
+          <span class="ja-error" data-err="address"></span>
+        </label>
+        <div class="ja-row">
+          <label>City <input id="ja-city" name="city" autocomplete="address-level2"></label>
+          <label>Postal code <input id="ja-postal" name="postal" autocomplete="postal-code" placeholder="L6X 1A1"></label>
+        </div>
+        <p class="ja-note">🔒 Your address is used only for hiring and is never shared.</p>
+      </fieldset>
+
+      <!-- 3. Work -->
+      <fieldset class="ja-step">
+        <legend><span>3</span> About your work</legend>
+        <div class="ja-row">
+          <label>Are you legally entitled to work in Canada?
+            <select name="workAuth" required><option value="">Choose</option><option>Yes</option><option>No</option></select>
+            <span class="ja-error" data-err="workAuth"></span>
+          </label>
+          <label data-for="trade">Are you 18 or older?
+            <select name="adult"><option value="">Choose</option><option>Yes</option><option>No</option></select>
+            <span class="ja-error" data-err="adult"></span>
+          </label>
+        </div>
+        <div class="ja-row">
+          <label>Driver's licence
+            <select name="licence"><option value="">Choose</option><option>G</option><option>G2</option><option>G1</option><option>No licence</option></select>
+          </label>
+          <label>Can you get to job sites on your own?
+            <select name="transport"><option value="">Choose</option><option>Yes, I have a car</option><option>Yes, by transit or a ride</option><option>No</option></select>
+          </label>
+        </div>
+
+        <div data-for="trade">
+          <div class="ja-row">
+            <label>Your level
+              <select name="level">
+                <option value="">Choose</option>
+                <option>Helper / no experience</option>
+                <option>Apprentice – 1st year</option><option>Apprentice – 2nd year</option><option>Apprentice – 3rd year</option><option>Apprentice – 4th year+</option>
+                <option>Licensed (306A plumber)</option><option>Licensed (309A electrician)</option><option>Other</option>
+              </select>
+              <span class="ja-error" data-err="level"></span>
+            </label>
+            <label>Years of experience
+              <select name="years"><option value="">Choose</option><option>None</option><option>Less than 1</option><option>1–2</option><option>3–5</option><option>6–10</option><option>10+</option></select>
+            </label>
+          </div>
+          <label>Type of work you have done
+            <select name="workType"><option value="">Choose</option><option>Residential</option><option>Commercial</option><option>Both</option><option>None yet</option></select>
+          </label>
+        </div>
+
+        <div data-for="coop" hidden>
+          <label>School or college <input name="school" placeholder="e.g. Sheridan College, Brampton high school"><span class="ja-error" data-err="school"></span></label>
+          <div class="ja-row">
+            <label>Program / course <input name="program" placeholder="e.g. Plumbing techniques, OYAP"></label>
+            <label>Teacher or co-op contact <input name="teacher" placeholder="Name and phone or email"></label>
+          </div>
+          <div class="ja-row ja-row-3">
+            <label>Placement starts <input name="placeStart" type="date"></label>
+            <label>Placement ends <input name="placeEnd" type="date"></label>
+            <label>Hours per week <input name="hours" inputmode="numeric" placeholder="e.g. 20"></label>
+          </div>
+        </div>
+
+        <details class="ja-more">
+          <summary>Last job (optional)</summary>
+          <div class="ja-row">
+            <label>Company <input name="employer"></label>
+            <label>Your position <input name="position"></label>
+          </div>
+          <div class="ja-row ja-row-3">
+            <label>From <input name="empFrom" type="month"></label>
+            <label>To <input name="empTo" type="month"></label>
+            <label>Supervisor &amp; phone <input name="supervisor"></label>
+          </div>
+        </details>
+      </fieldset>
+
+      <!-- 4. Availability -->
+      <fieldset class="ja-step">
+        <legend><span>4</span> Availability</legend>
+        <p class="ja-label">Days you can work</p>
+        <div class="ja-chips">
+          <label><input type="checkbox" name="days[]" value="Mon"><span>Mon</span></label>
+          <label><input type="checkbox" name="days[]" value="Tue"><span>Tue</span></label>
+          <label><input type="checkbox" name="days[]" value="Wed"><span>Wed</span></label>
+          <label><input type="checkbox" name="days[]" value="Thu"><span>Thu</span></label>
+          <label><input type="checkbox" name="days[]" value="Fri"><span>Fri</span></label>
+          <label><input type="checkbox" name="days[]" value="Sat"><span>Sat</span></label>
+          <label><input type="checkbox" name="days[]" value="Sun"><span>Sun</span></label>
+        </div>
+        <div class="ja-row ja-row-3">
+          <label>Full or part time
+            <select name="fullPart"><option value="">Choose</option><option>Full time</option><option>Part time</option><option>Either</option></select>
+          </label>
+          <label>When can you start? <input name="startDate" type="date"></label>
+          <label data-for="trade">Expected pay ($/hour) <input name="pay" inputmode="decimal" placeholder="e.g. 22"></label>
+        </div>
+      </fieldset>
+
+      <!-- 5. Finish -->
+      <fieldset class="ja-step">
+        <legend><span>5</span> Almost done</legend>
+        <label>Resume <span class="ja-hint">PDF, Word or a photo · optional · max 5 MB</span>
+          <input name="resume" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,image/*">
+          <span class="ja-error" data-err="resume"></span>
+        </label>
+        <p class="ja-label">Languages you speak</p>
+        <div class="ja-chips">
+          <label><input type="checkbox" name="languages[]" value="English"><span>English</span></label>
+          <label><input type="checkbox" name="languages[]" value="Punjabi"><span>Punjabi</span></label>
+          <label><input type="checkbox" name="languages[]" value="Hindi"><span>Hindi</span></label>
+          <label><input type="checkbox" name="languages[]" value="Other"><span>Other</span></label>
+        </div>
+        <label>How did you hear about us?
+          <select name="heard"><option value="">Choose</option><option>Google</option><option>Friend or family</option><option>Instagram / Facebook / TikTok</option><option>Indeed or job site</option><option>School / co-op office</option><option>Saw our van</option><option>Other</option></select>
+        </label>
+        <label>Anything else we should know? <span class="ja-hint">optional</span>
+          <textarea name="about" rows="3" placeholder="Tools you own, certificates (WHMIS, Working at Heights), the kind of work you enjoy…"></textarea>
+        </label>
+        <label class="ja-consent">
+          <input type="checkbox" name="consent" value="yes">
+          <span>I confirm my answers are true, and I agree that Fateh Plumbing &amp; Electric may keep my information to review this application. It is used only for hiring, kept private and securely deleted after 12 months, or sooner if I ask at info@fatehplumelec.com.</span>
+        </label>
+        <p class="ja-error" data-err="consent"></p>
+      </fieldset>
+
+      <label class="ja-hp" aria-hidden="true">Leave empty <input name="website" tabindex="-1" autocomplete="off"></label>
+      <button class="button ja-submit" type="submit">Send my application</button>
+      <p class="ja-error ja-form-error" id="ja-form-error"></p>
+      <div class="ja-done" id="ja-done" hidden>
+        <strong>✅ Thank you! Your application was sent.</strong>
+        <p>We have saved your information. When a position that fits you opens up, we will call or email you. A confirmation email is on its way.</p>
+      </div>
+    </form>
+
+    <p class="ja-alt">Questions? Call <a href="tel:+16479809211">647-980-9211</a> or email <a href="mailto:info@fatehplumelec.com">info@fatehplumelec.com</a>.</p>
+  </main>
+
+  <SiteFooter />
+
+  <script is:inline define:vars={{ MAPS_KEY }}>
+  (function () {
+    var form = document.getElementById("ja-form");
+    var openedAt = Date.now();
+    var formErr = document.getElementById("ja-form-error");
+    function setErr(name, msg) {
+      form.querySelectorAll('[data-err="' + name + '"]').forEach(function (el) { el.textContent = msg || ""; });
+      var input = form.querySelector('[name="' + name + '"]');
+      if (input) input.setAttribute("aria-invalid", msg ? "true" : "false");
+    }
+
+    // Show the right questions for the chosen role
+    function applyRole() {
+      var role = (form.querySelector('[name="role"]:checked') || {}).value || "";
+      var coop = role === "Co-op student";
+      form.querySelectorAll('[data-for="trade"]').forEach(function (el) { el.hidden = coop; });
+      form.querySelectorAll('[data-for="coop"]').forEach(function (el) { el.hidden = !coop; });
+      form.querySelectorAll(".ja-role").forEach(function (el) { el.classList.toggle("is-on", el.querySelector("input").checked); });
+      if (role) setErr("role", "");
+    }
+    form.querySelectorAll('[name="role"]').forEach(function (r) { r.addEventListener("change", applyRole); });
+    var pre = new URLSearchParams(location.search).get("role");
+    if (pre) { var m = form.querySelector('[name="role"][value="' + ({ plumbing: "Plumbing", electrical: "Electrical", coop: "Co-op student" }[pre] || "") + '"]'); if (m) m.checked = true; }
+    applyRole();
+
+    // ---------- Address auto-fill (Google Places) ----------
+    var plain = document.getElementById("ja-address");
+    function fillFromPlace(place) {
+      var comps = place.addressComponents || [];
+      function get(t) { var c = comps.find(function (x) { return x.types.indexOf(t) !== -1; }); return c ? c.shortText || c.longText : ""; }
+      var line = [get("street_number"), get("route")].filter(Boolean).join(" ");
+      plain.value = place.formattedAddress || line;
+      document.getElementById("ja-city").value = get("locality") || get("sublocality") || get("administrative_area_level_3") || "";
+      var pc = get("postal_code"); if (pc) document.getElementById("ja-postal").value = pc.toUpperCase();
+      setErr("address", "");
+    }
+    if (MAPS_KEY) {
+      var s = document.createElement("script");
+      s.src = "https://maps.googleapis.com/maps/api/js?key=" + encodeURIComponent(MAPS_KEY) + "&v=weekly&loading=async&callback=jaMapsReady";
+      s.async = true;
+      window.jaMapsReady = async function () {
+        try {
+          var lib = await google.maps.importLibrary("places");
+          var el = new lib.PlaceAutocompleteElement({ includedRegionCodes: ["ca"] });
+          el.setAttribute("placeholder", "Start typing your address");
+          el.className = "ja-place";
+          document.getElementById("ja-place-slot").appendChild(el);
+          plain.type = "hidden";
+          el.addEventListener("gmp-select", async function (e) {
+            var place = e.placePrediction.toPlace();
+            await place.fetchFields({ fields: ["addressComponents", "formattedAddress"] });
+            fillFromPlace(place);
+          });
+        } catch (err) { /* keep the plain address box */ }
+      };
+      document.head.appendChild(s);
+    }
+
+    // ---------- Submit ----------
+    var btn = form.querySelector(".ja-submit");
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      formErr.textContent = "";
+      ["role", "name", "phone", "email", "address", "workAuth", "adult", "level", "school", "consent", "resume"].forEach(function (n) { setErr(n, ""); });
+      var data = new FormData(form);
+      var role = data.get("role") || "";
+      var coop = role === "Co-op student";
+      var bad = {};
+      if (!role) bad.role = "Choose what you are applying for.";
+      if (String(data.get("name") || "").trim().length < 3) bad.name = "Enter your full name.";
+      if (String(data.get("phone") || "").replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "").length !== 10) bad.phone = "Enter a 10-digit phone number.";
+      if (!/^\S+@\S+\.\S+$/.test(String(data.get("email") || ""))) bad.email = "Enter a valid email.";
+      if (String(data.get("address") || "").trim().length < 5) bad.address = "Enter your home address.";
+      if (!data.get("workAuth")) bad.workAuth = "Please answer this.";
+      if (!coop && !data.get("adult")) bad.adult = "Please answer this.";
+      if (!coop && !data.get("level")) bad.level = "Choose your level.";
+      if (coop && !String(data.get("school") || "").trim()) bad.school = "Enter your school or college.";
+      if (!data.get("consent")) bad.consent = "Please tick the box to continue.";
+      var f = form.querySelector('[name="resume"]').files[0];
+      if (f && f.size > 5 * 1024 * 1024) bad.resume = "Resume must be under 5 MB.";
+      Object.keys(bad).forEach(function (k) { setErr(k, bad[k]); });
+      if (Object.keys(bad).length) {
+        formErr.textContent = "Please fix the highlighted fields.";
+        var first = form.querySelector('[data-err="' + Object.keys(bad)[0] + '"]');
+        if (first) first.closest("fieldset, label").scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+      data.append("elapsed", String(Math.round((Date.now() - openedAt) / 1000)));
+      btn.disabled = true; btn.textContent = "Sending…";
+      fetch("/api/apply.php", { method: "POST", body: data })
+        .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+        .then(function (res) {
+          if (res.ok) {
+            form.querySelectorAll(".ja-step, .ja-submit").forEach(function (el) { el.hidden = true; });
+            document.getElementById("ja-done").hidden = false;
+            form.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+          }
+          if (res.fields) Object.keys(res.fields).forEach(function (k) { setErr(k, res.fields[k]); });
+          formErr.textContent = res.error || "Could not send your application. Please try again or call 647-980-9211.";
+        })
+        .catch(function () { formErr.textContent = "Could not send your application. Please check your connection or call 647-980-9211."; })
+        .finally(function () { btn.disabled = false; btn.textContent = "Send my application"; });
+    });
+  })();
+  </script>
+</BaseLayout>
+
+<style is:global>
+  .ja-card [hidden] { display: none !important; }
+  .ja-wrap { max-width: 780px; margin: 0 auto; padding: 48px 20px 64px; }
+  .ja-title { margin: 0 0 8px; font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.1; }
+  .ja-lead { margin: 0 0 28px; color: var(--muted); font-size: 1.08rem; }
+  .ja-card { padding: 8px 24px 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
+  .ja-step { border: 0; border-bottom: 1px solid var(--line); margin: 0; padding: 22px 0; min-width: 0; }
+  .ja-step legend { display: flex; align-items: center; gap: 10px; padding: 0; margin-bottom: 14px; font-weight: 800; font-size: 1.1rem; color: var(--ink); }
+  .ja-step legend span { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--brand); color: #fff; font-size: .9rem; }
+  .ja-card label { display: grid; gap: 6px; margin-bottom: 14px; font-weight: 700; font-size: .95rem; color: var(--ink); min-width: 0; }
+  .ja-label { margin: 0 0 8px; font-weight: 700; font-size: .95rem; color: var(--ink); }
+  .ja-card input:not([type="file"]):not([type="checkbox"]):not([type="radio"]), .ja-card select, .ja-card textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); color: var(--ink); font: inherit; font-weight: 400; }
+  .ja-card input:not([type="file"]):not([type="checkbox"]):not([type="radio"]), .ja-card select { height: 50px; margin: 0; }
+  .ja-card input:focus, .ja-card select:focus, .ja-card textarea:focus { outline: 2px solid var(--brand); outline-offset: 1px; border-color: var(--brand); }
+  .ja-card [aria-invalid="true"] { border-color: var(--accent); }
+  .ja-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .ja-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .ja-hint { color: var(--muted); font-weight: 400; font-size: .85rem; }
+  .ja-note { margin: -4px 0 0; color: var(--muted); font-size: .88rem; }
+  .ja-error { color: var(--accent); font-weight: 600; font-size: .88rem; margin: 0; }
+  .ja-error:empty { display: none; }
+  .ja-roles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .ja-card .ja-role { position: relative; display: grid; justify-items: center; gap: 4px; margin: 0; padding: 18px 10px; text-align: center; border: 2px solid var(--line); border-radius: 14px; cursor: pointer; transition: border-color .2s, background .2s, transform .2s; }
+  .ja-role:hover { transform: translateY(-2px); border-color: var(--brand); }
+  .ja-role input { position: absolute; opacity: 0; pointer-events: none; }
+  .ja-role-icon { font-size: 1.9rem; line-height: 1; }
+  .ja-role small { color: var(--muted); font-weight: 400; font-size: .82rem; }
+  .ja-role.is-on { border-color: var(--brand); background: rgba(37, 99, 235, .08); }
+  .ja-role:focus-within { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .ja-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .ja-card .ja-chips label { display: inline-flex; margin: 0; cursor: pointer; }
+  .ja-chips input { position: absolute; opacity: 0; pointer-events: none; }
+  .ja-chips span { padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; font-weight: 600; font-size: .92rem; color: var(--ink); transition: background .15s, border-color .15s; }
+  .ja-chips input:checked + span { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .ja-chips input:focus-visible + span { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .ja-more { margin: 4px 0 0; }
+  .ja-more summary { cursor: pointer; font-weight: 700; color: #2563eb; margin-bottom: 12px; }
+  .ja-card .ja-consent { grid-template-columns: auto 1fr; align-items: start; gap: 10px; font-weight: 400; font-size: .9rem; color: var(--muted); }
+  .ja-consent input { width: 20px; height: 20px; margin-top: 2px; }
+  #ja-place-slot { min-width: 0; max-width: 100%; }
+  .ja-place { display: block; box-sizing: border-box; width: 100%; max-width: 100%; min-width: 0; color-scheme: light; background-color: #fff; border: 1px solid var(--line); border-radius: var(--radius); }
+  .ja-place:focus-within { border-color: var(--brand); outline: 2px solid var(--brand); outline-offset: 1px; }
+  body.theme-dark .ja-place { color-scheme: dark; background-color: var(--white); }
+  .ja-hp { position: absolute; left: -9999px; }
+  .ja-submit { width: 100%; margin-top: 22px; padding: 14px; font-size: 1.05rem; cursor: pointer; }
+  .ja-submit:disabled { opacity: .7; cursor: wait; }
+  .ja-form-error { margin-top: 14px; text-align: center; }
+  .ja-done { margin-top: 18px; padding: 16px; border-radius: var(--radius); background: #ecfdf3; color: #065f46; border: 1px solid #a7f3d0; }
+  .ja-done p { margin: 6px 0 0; }
+  .ja-alt { margin-top: 18px; text-align: center; color: var(--muted); }
+  .ja-alt a { color: #2563eb; font-weight: 700; }
+  @media (max-width: 640px) {
+    .ja-card { padding: 4px 16px 18px; }
+    .ja-row, .ja-row-3 { grid-template-columns: 1fr; }
+    .ja-roles { grid-template-columns: 1fr; }
+    .ja-card .ja-role { grid-template-columns: auto 1fr; justify-items: start; text-align: left; column-gap: 12px; padding: 14px; }
+    .ja-role-icon { grid-row: span 2; align-self: center; }
+  }
+</style>
