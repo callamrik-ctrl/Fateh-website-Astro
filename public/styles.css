@@ -2053,3 +2053,8 @@ html.season-santa .site-nav > a, html.season-santa .mega-trigger { animation: no
 @media (prefers-reduced-motion: reduce) {
   html.season-santa .site-header::before { animation: none !important; transform: translateX(40vw) translateY(-50%); opacity: .3; }
 }
+
+/* Phones/tablets: keep the header van/Santa on the logo row (not the middle of the header),
+   so it never shows inside the open mobile menu. Values = centre of the logo row. */
+@media (max-width: 980px) { .site-header::before { top: 43px; } }
+@media (max-width: 620px) { .site-header::before { top: 39px; } }
