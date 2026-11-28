@@ -2019,29 +2019,29 @@ a { text-decoration: none; }
 .credentials-inline .credential { justify-content: center; text-align: center; padding: 10px 8px; }
 .contact-form-actions .button { font-size: 1rem; font-weight: 800; min-height: 48px; }
 
-/* Christmas: Santa's sleigh flies left to right in place of the van.
+/* Christmas: Santa's sleigh + reindeer fly left to right in place of the van (animated WebP = galloping loop in place).
    BaseLayout adds .season-santa to <html> until Jan 1, 2027 00:00 Toronto; after that the van is back. */
 html.season-santa .site-header::before {
-  width: clamp(230px, 24vw, 360px);
-  aspect-ratio: 600 / 210;
-  background: url("/assets/seasonal/santa-sleigh.svg") center / contain no-repeat;
+  width: clamp(210px, 17vw, 250px);
+  aspect-ratio: 480 / 215;
+  background: url("/assets/seasonal/santa-sleigh-reindeer.webp") center / contain no-repeat;
   filter: drop-shadow(0 8px 8px rgba(15, 23, 42, .18));
-  opacity: .8;
+  opacity: .92;
   transform: translateX(-110%) translateY(-50%);
   animation: headerSantaFly 12s linear 1s infinite;
 }
 html.season-santa .site-nav > a, html.season-santa .mega-trigger { animation: none; }
 @keyframes headerSantaFly {
   0%   { transform: translateX(-110%) translateY(-50%); opacity: 0; }
-  6%   { opacity: .8; }
-  25%  { transform: translateX(22vw) translateY(-62%); }
-  50%  { transform: translateX(48vw) translateY(-44%); }
-  75%  { transform: translateX(74vw) translateY(-60%); }
-  94%  { opacity: .8; }
+  6%   { opacity: .92; }
+  25%  { transform: translateX(22vw) translateY(-58%); }
+  50%  { transform: translateX(48vw) translateY(-46%); }
+  75%  { transform: translateX(74vw) translateY(-56%); }
+  94%  { opacity: .92; }
   100% { transform: translateX(104vw) translateY(-48%); opacity: 0; }
 }
 @media (max-width: 760px) {
-  html.season-santa .site-header::before { width: 190px; opacity: .9; animation-duration: 9s; }
+  html.season-santa .site-header::before { width: 165px; opacity: .95; animation-duration: 9s; }
 }
 @media (prefers-reduced-motion: reduce) {
   html.season-santa .site-header::before { animation: none !important; transform: translateX(40vw) translateY(-50%); opacity: .3; }
