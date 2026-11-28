@@ -2028,7 +2028,13 @@ html.season-santa .site-header::before {
   filter: drop-shadow(0 8px 8px rgba(15, 23, 42, .18));
   opacity: .92;
   transform: translateX(-110%) translateY(-50%);
-  animation: headerSantaFly 12s linear 1s infinite;
+  animation: none;
+  visibility: hidden;
+}
+/* Fly only after the whole animated WebP has downloaded, so the reindeer gallops from the first moment it appears. */
+html.season-santa.santa-ready .site-header::before {
+  visibility: visible;
+  animation: headerSantaFly 12s linear .3s infinite;
 }
 html.season-santa .site-nav > a, html.season-santa .mega-trigger { animation: none; }
 @keyframes headerSantaFly {
@@ -2041,7 +2047,8 @@ html.season-santa .site-nav > a, html.season-santa .mega-trigger { animation: no
   100% { transform: translateX(104vw) translateY(-48%); opacity: 0; }
 }
 @media (max-width: 760px) {
-  html.season-santa .site-header::before { width: 165px; opacity: .95; animation-duration: 9s; }
+  html.season-santa .site-header::before { width: 165px; opacity: .95; }
+  html.season-santa.santa-ready .site-header::before { animation-duration: 9s; }
 }
 @media (prefers-reduced-motion: reduce) {
   html.season-santa .site-header::before { animation: none !important; transform: translateX(40vw) translateY(-50%); opacity: .3; }
